@@ -44,7 +44,8 @@ const App = () => {
   return (
     <div className="App">
       <div className="app-container">
-      <h5 className="connected-load">Connected Load is : 20</h5>
+      <h5 className="connected-load">Connected Load is : 20 KW</h5>
+      <h5 className="max-capacity">Max Charge Capacity is : 11 KW</h5>
         <div className="inputs-container">
           <CustomTextField
             value={numberOfCars}
