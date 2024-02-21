@@ -1,12 +1,12 @@
 
-export const calculateEnergyRecursive = (r, c, n, total, energyArray, m = 0) => {
+export const calculateEnergyRecursive = (r, c, n, total, energyArray, m = 0, maxChargeCapacity = 11) => {
     if(m === (r.length - 1)) {
         return 0;
     } 
-    let current = (r[m + 1] - r[m]) * (c / n); 
+    let current = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity); 
     total += current; 
     energyArray.push(total);
-    total = (r[m + 1] - r[m]) * (c / (n)) + calculateEnergyRecursive(r, c, n-1, total, energyArray, m+1);
+    total = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity) + calculateEnergyRecursive(r, c, n-1, total, energyArray, m+1);
 
     return energyArray;
 }
