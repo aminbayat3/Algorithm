@@ -1,23 +1,27 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
-import { calculateEnergyRecursive, getRandomNumberBetween, sortCarsByHourToFull, getRemainingTimes } from "./app.utils";
+import { calculateReadyTimes, getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired } from "./app.utils";
 import { CONNECTED_LOAD } from "./data";
 import ResultTable from "./components/table-result";
 import PlugInDatePicker from "./components/plug-in-date-picker";
 
+import { selectPlugInTime } from "./store/configuration/configuration.selector";
+
 const App = () => {
   const [numberOfCars, setNumberOfCars] = useState(0);
-  const [carsEnergy, setCarsEnergy] = useState([]);
+  const [tripReadyTimes, setTripReadyTimes] = useState([]);
   const [carsData, setCarsData] = useState([]);
-  const [remainingTime, setRemainingTime] = useState([]);
+  const [energyRequired, setEnergyRequired] = useState([]);
+  const plugInTime = useSelector(selectPlugInTime);
 
   useEffect(() => {
-    console.log('carsEnergy', carsEnergy)
+    console.log('carsEnergy', tripReadyTimes)
     console.log('carsData', carsData)
-    console.log('remainingTime', remainingTime)
-  }, [carsEnergy, carsData, remainingTime]);
+    console.log('energyRequired', energyRequired)
+  }, [tripReadyTimes, carsData, energyRequired]);
 
   const handleNumOfCarsChange = (e) => {
     setNumberOfCars(e.target.value);
@@ -27,18 +31,19 @@ const App = () => {
     if (+numberOfCars > 0) {
       let carsData = [];
 
-      let energyArray = [];
+      let readyTimeArray = [];
       let total = 0;
       
       for(let i = 0; i < +numberOfCars; i++) {
-        carsData.push({name: `Car${i+1}`, hourToFull: getRandomNumberBetween(2, 10)});
+        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, requiredReadyTime: plugInTime.add(getRandomNumberBetween(2, 12), "hour")});
       }
-      const sortedCarsData = sortCarsByHourToFull(carsData);
-      const sortedRemainingTime = getRemainingTimes(sortedCarsData); 
+      const sortedCarsData = sortCarsByRequiredEnergy(carsData);
+      const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
 
       setCarsData(sortedCarsData);
-      setRemainingTime(sortedRemainingTime);
-      setCarsEnergy(calculateEnergyRecursive([0, ...sortedRemainingTime], CONNECTED_LOAD, carsData.length, total, energyArray));
+      setEnergyRequired(sortedEnergyRequired);
+      // setTripReadyTimes(calculateReadyTimes([0, ...sortedEnergyRequired], CONNECTED_LOAD, carsData.length, total, readyTimeArray));
+      setTripReadyTimes(calculateReadyTimes()); // now try the algorithm with some dummy data
     }
   };
 
@@ -62,7 +67,7 @@ const App = () => {
         </div>
       </div>
       <div className="table-container">
-      <ResultTable carsData={carsData} energyArray={carsEnergy} />
+      <ResultTable carsData={carsData} tripReadyTimes={tripReadyTimes} />
       </div>
     </div>
   );

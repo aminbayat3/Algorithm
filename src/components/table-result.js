@@ -8,15 +8,17 @@ import Paper from "@mui/material/Paper";
 import { StyledTableContainer } from "../styles";
 
 
-const ResultTable = ({ carsData, energyArray }) => {
+const ResultTable = ({ carsData, tripReadyTimes }) => {
   return (
     <StyledTableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Car's Name</TableCell>
-            <TableCell align="right">HourToFull</TableCell>
-            <TableCell align="right">Energy&nbsp;(KWh)</TableCell>
+            <TableCell align="right">Energy required</TableCell>
+            <TableCell align="right">Required ready Time</TableCell>
+            <TableCell align="right">Trip ready time</TableCell>
+            <TableCell align="right">Charge level</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,8 +30,10 @@ const ResultTable = ({ carsData, energyArray }) => {
               <TableCell component="th" scope="row">
                 {car.name}
               </TableCell>
-              <TableCell align="right">{car.hourToFull}</TableCell>
-              <TableCell align="right">{energyArray[idx]}</TableCell>
+              <TableCell align="right">{car.energyRequired}</TableCell>
+              <TableCell align="right">{car.requiredReadyTime}</TableCell>
+              {/* <TableCell align="right">{tripReadyTime[idx]}</TableCell>
+              <TableCell align="right">{chargeLevel[idx]}</TableCell> */}
             </TableRow>
           ))}
         </TableBody>

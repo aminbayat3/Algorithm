@@ -1,14 +1,14 @@
 
-export const calculateEnergyRecursive = (r, c, n, total, energyArray, m = 0, maxChargeCapacity = 11) => {
+export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m = 0, maxChargeCapacity = 11) => {
     if(m === (r.length - 1)) {
         return 0;
     } 
     let current = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity); 
     total += current; 
-    energyArray.push(total);
-    total = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity) + calculateEnergyRecursive(r, c, n-1, total, energyArray, m+1);
+    readyTimeArray.push(total);
+    total = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity) + calculateReadyTimes(r, c, n-1, total, readyTimeArray, m+1);
 
-    return energyArray;
+    return readyTimeArray;
 }
 
 export const getRandomNumberBetween = (min, max) => {
@@ -16,11 +16,11 @@ export const getRandomNumberBetween = (min, max) => {
   }
 
 // Here we can use one of the sorting algorithms like quick sort or merge sort, but here I used the built-in javascript method called "sort"
-export const sortCarsByHourToFull = (carsData) => { 
-    return carsData.sort((a, b) => a.hourToFull - b.hourToFull);
+export const sortCarsByRequiredEnergy = (carsData) => { 
+    return carsData.sort((a, b) => a.energyRequired - b.energyRequired);
   }
 
-export const getRemainingTimes = (carsData) => {
-    return carsData.map((car) => car.hourToFull);
+export const getEnergyRequired = (carsData) => {
+    return carsData.map((car) => car.energyRequired);
 }
   
