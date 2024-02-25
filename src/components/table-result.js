@@ -5,7 +5,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { StyledTableContainer } from "./styles";
+import { StyledTableContainer } from "../styles";
 
 
 const ResultTable = ({ carsData, energyArray }) => {

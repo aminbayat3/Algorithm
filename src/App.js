@@ -4,7 +4,8 @@ import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
 import { calculateEnergyRecursive, getRandomNumberBetween, sortCarsByHourToFull, getRemainingTimes } from "./app.utils";
 import { CONNECTED_LOAD } from "./data";
-import ResultTable from "./table-result";
+import ResultTable from "./components/table-result";
+import PlugInDatePicker from "./components/plug-in-date-picker";
 
 const App = () => {
   const [numberOfCars, setNumberOfCars] = useState(0);
@@ -54,6 +55,7 @@ const App = () => {
             label="Number of Cars"
             type="number"
           />
+          <PlugInDatePicker />
           <Button variant="contained" onClick={handleSubmit}>
             Submit
           </Button>
@@ -62,7 +64,6 @@ const App = () => {
       <div className="table-container">
       <ResultTable carsData={carsData} energyArray={carsEnergy} />
       </div>
-      
     </div>
   );
 };

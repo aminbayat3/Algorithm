@@ -1,0 +1,3 @@
+export const CONFIGURATION_ACTION_TYPES = {
+    SET_PLUG_IN: "SET_PLUG_IN"
+}
