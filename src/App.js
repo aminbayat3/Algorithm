@@ -18,7 +18,7 @@ const App = () => {
   const plugInTime = useSelector(selectPlugInTime);
 
   useEffect(() => {
-    console.log('carsEnergy', tripReadyTimes)
+    console.log('tripReadyTimes', tripReadyTimes)
     console.log('carsData', carsData)
     console.log('energyRequired', energyRequired)
   }, [tripReadyTimes, carsData, energyRequired]);
@@ -35,15 +35,16 @@ const App = () => {
       let total = 0;
       
       for(let i = 0; i < +numberOfCars; i++) {
-        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, requiredReadyTime: plugInTime.add(getRandomNumberBetween(2, 12), "hour")});
+        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, expectedReadyTime: plugInTime.add(getRandomNumberBetween(6, 10), "hour")});
       }
       const sortedCarsData = sortCarsByRequiredEnergy(carsData);
       const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      // setTripReadyTimes(calculateReadyTimes([0, ...sortedEnergyRequired], CONNECTED_LOAD, carsData.length, total, readyTimeArray));
-      setTripReadyTimes(calculateReadyTimes()); // now try the algorithm with some dummy data
+      setTripReadyTimes(calculateReadyTimes([0, ...sortedEnergyRequired], CONNECTED_LOAD, carsData.length, total, readyTimeArray));
+      //setTripReadyTimes(calculateReadyTimes([0, 30, 50, 80], CONNECTED_LOAD, 3, total, readyTimeArray)); // now try the algorithm with some dummy data
+      // console.log('maainn', calculateReadyTimes([0, 30, 50, 80], CONNECTED_LOAD, 3, total, readyTimeArray));
     }
   };
 

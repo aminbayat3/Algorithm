@@ -1,13 +1,13 @@
 
-export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m = 0, maxChargeCapacity = 11) => {
+export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m=0, maxChargeCapacity = 11) => {
     if(m === (r.length - 1)) {
         return 0;
     } 
-    let current = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity); 
+    let current =  (r[m + 1] - r[m]) / Math.min((c / n), maxChargeCapacity)
     total += current; 
     readyTimeArray.push(total);
-    total = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity) + calculateReadyTimes(r, c, n-1, total, readyTimeArray, m+1);
-
+    total = (r[m + 1] - r[m]) / Math.min((c / n), maxChargeCapacity) + calculateReadyTimes(r, c, n-1, total, readyTimeArray, m+1);
+   
     return readyTimeArray;
 }
 
@@ -23,4 +23,20 @@ export const sortCarsByRequiredEnergy = (carsData) => {
 export const getEnergyRequired = (carsData) => {
     return carsData.map((car) => car.energyRequired);
 }
+
+export const getTimeDifference = (time1, time2) => {
+  return time1.diff(time2, "minute");
+}
+
+// export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m = 0, maxChargeCapacity = 11) => {
+//   if(m === (r.length - 1)) {
+//       return 0;
+//   } 
+//   let current = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity); 
+//   total += current; 
+//   readyTimeArray.push(total);
+//   total = (r[m + 1] - r[m]) * Math.min((c / n), maxChargeCapacity) + calculateReadyTimes(r, c, n-1, total, readyTimeArray, m+1);
+
+//   return readyTimeArray;
+// }
   
