@@ -13,7 +13,7 @@ import { StyledTableContainer } from "../styles";
 import { getTimeDifference } from "../app.utils";
 
 
-const ResultTable = ({ carsData, tripReadyTimes }) => {
+const ResultTable = ({ carsData, carsReadyTimes }) => {
   const plugInTime = useSelector(selectPlugInTime);
 
   return (
@@ -30,7 +30,7 @@ const ResultTable = ({ carsData, tripReadyTimes }) => {
         </TableHead>
         <TableBody>
           {carsData.map((car, idx) => {
-            const actualReadyTime = plugInTime.add(tripReadyTimes[idx], "hour"); 
+            const actualReadyTime = plugInTime.add(carsReadyTimes[idx], "hour"); 
             const readyTimeDifference = getTimeDifference(car.expectedReadyTime, actualReadyTime);
             const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, plugInTime) / getTimeDifference(actualReadyTime, plugInTime)) * 100);
             return(

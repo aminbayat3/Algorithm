@@ -1,27 +1,30 @@
 import "./App.css";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
-import { calculateReadyTimes, getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired } from "./app.utils";
-import { CONNECTED_LOAD } from "./data";
+import { getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired } from "./app.utils";
+import { CONNECTED_LOAD, MAX_CHARGE_CAPACITY } from "./data";
 import ResultTable from "./components/table-result";
 import PlugInDatePicker from "./components/plug-in-date-picker";
 
+import { calculateReadyTimesStart } from "./store/configuration/configuration.action";
+
 import { selectPlugInTime } from "./store/configuration/configuration.selector";
+import { selectCarsReadyTimes } from "./store/configuration/configuration.selector";
 
 const App = () => {
+  const dispatch = useDispatch();
   const [numberOfCars, setNumberOfCars] = useState(0);
-  const [tripReadyTimes, setTripReadyTimes] = useState([]);
   const [carsData, setCarsData] = useState([]);
   const [energyRequired, setEnergyRequired] = useState([]);
   const plugInTime = useSelector(selectPlugInTime);
+  const readyTimes = useSelector(selectCarsReadyTimes);
 
   useEffect(() => {
-    console.log('tripReadyTimes', tripReadyTimes)
     console.log('carsData', carsData)
     console.log('energyRequired', energyRequired)
-  }, [tripReadyTimes, carsData, energyRequired]);
+  }, [carsData, energyRequired]);
 
   const handleNumOfCarsChange = (e) => {
     setNumberOfCars(e.target.value);
@@ -31,20 +34,18 @@ const App = () => {
     if (+numberOfCars > 0) {
       let carsData = [];
 
-      let readyTimeArray = [];
-      let total = 0;
+      let expectedReadyTimes = [];
+      let hoursToFullCharge = 0;
       
       for(let i = 0; i < +numberOfCars; i++) {
-        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, expectedReadyTime: plugInTime.add(getRandomNumberBetween(6, 10), "hour")});
+        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, expectedReadyTime: plugInTime.add(getRandomNumberBetween(8, 18), "hour")});
       }
       const sortedCarsData = sortCarsByRequiredEnergy(carsData);
       const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      setTripReadyTimes(calculateReadyTimes([0, ...sortedEnergyRequired], CONNECTED_LOAD, carsData.length, total, readyTimeArray));
-      //setTripReadyTimes(calculateReadyTimes([0, 30, 50, 80], CONNECTED_LOAD, 3, total, readyTimeArray)); // now try the algorithm with some dummy data
-      // console.log('maainn', calculateReadyTimes([0, 30, 50, 80], CONNECTED_LOAD, 3, total, readyTimeArray));
+      dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], expectedReadyTimes, connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length, hoursToFullCharge }))
     }
   };
 
@@ -68,7 +69,7 @@ const App = () => {
         </div>
       </div>
       <div className="table-container">
-      <ResultTable carsData={carsData} tripReadyTimes={tripReadyTimes} />
+      <ResultTable carsData={carsData} carsReadyTimes={readyTimes} />
       </div>
     </div>
   );
