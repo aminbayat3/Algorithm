@@ -11,6 +11,18 @@ export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m=0, maxChar
     return readyTimeArray;
 }
 
+export const calculateReadyTimesWithForLoop = (r, c, n,  maxChargeCapacity = 11) => {
+  let total = 0;
+  let readyTimeArray = [];
+  for(let i=0; i < r.length - 1; i++) {
+   total += (r[i+1] - r[i]) / Math.min((c/n), maxChargeCapacity);
+   readyTimeArray.push(total);
+   n--;
+  }
+
+  return readyTimeArray;
+}
+
 export const getRandomNumberBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }

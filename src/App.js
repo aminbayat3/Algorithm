@@ -26,6 +26,10 @@ const App = () => {
     console.log('energyRequired', energyRequired)
   }, [carsData, energyRequired]);
 
+  useEffect(() => {
+    console.log('redytimes', readyTimes)
+  }, [readyTimes]);
+
   const handleNumOfCarsChange = (e) => {
     setNumberOfCars(e.target.value);
   };
@@ -33,9 +37,6 @@ const App = () => {
   const handleSubmit = () => {
     if (+numberOfCars > 0) {
       let carsData = [];
-
-      let expectedReadyTimes = [];
-      let hoursToFullCharge = 0;
       
       for(let i = 0; i < +numberOfCars; i++) {
         carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, expectedReadyTime: plugInTime.add(getRandomNumberBetween(8, 18), "hour")});
@@ -45,7 +46,7 @@ const App = () => {
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], expectedReadyTimes, connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length, hoursToFullCharge }))
+      dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
     }
   };
 
