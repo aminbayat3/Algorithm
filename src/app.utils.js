@@ -23,6 +23,26 @@ export const calculateReadyTimesWithForLoop = (r, c, n,  maxChargeCapacity = 11)
   return readyTimeArray;
 }
 
+export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n, maxChargeCapacity = 11) => {
+  let total = 0;
+  let leftEnergyArray = [r[0]];
+  let readyTimeArray = [];
+  let j = 0;
+
+  for(let i=0; i < n; i++) {
+    const possibleReadyTime = r[i]/Math.min((c/leftEnergyArray.length), maxChargeCapacity);
+    const pluginTimesDiff = pluginTimes[i+1] - pluginTimes[i];
+   if(pluginTimesDiff >= possibleReadyTime) {
+      readyTimeArray.push(possibleReadyTime);
+      leftEnergyArray.shift(); // removing the first element from the array
+   } else {
+    const leftEnergy = r[i] - (pluginTimesDiff * Math.min(c/leftEnergyArray.length, maxChargeCapacity));
+    leftEnergyArray.push(leftEnergy);
+    leftEnergyArray = leftEnergyArray.sort((a, b) => a - b);
+   }
+  }
+}
+
 export const getRandomNumberBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
