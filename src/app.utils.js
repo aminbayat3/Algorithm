@@ -1,4 +1,6 @@
 
+import dayjs from "dayjs";
+
 export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m=0, maxChargeCapacity = 11) => {
     if(m === (r.length - 1)) {
         return 0;
@@ -33,14 +35,15 @@ export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n
   for(let i=0; i < n; i++) {
     leftEnergyArray.push(r[i]);
     if(leftEnergyArray.length > 1) leftEnergyArray = leftEnergyArray.sort((a, b) => a - b);
-    const possibleReadyTime = r[i]/Math.min((c/leftEnergyArray.length), maxChargeCapacity);
-    const pluginTimesDiff = pluginTimes[i+1] - pluginTimes[i];
+    const possibleReadyTime = leftEnergyArray[0]/Math.min((c/leftEnergyArray.length), maxChargeCapacity);
+    const pluginTimesDiff = dayjs(pluginTimes[i+1]).diff(dayjs(pluginTimes[i]), 'hour');
    if(pluginTimesDiff >= possibleReadyTime) {
       readyTimeArray.push(possibleReadyTime);
       leftEnergyArray.shift(); // removing the first element from the array
    } else {
     const leftEnergy = r[i] - (pluginTimesDiff * Math.min(c/leftEnergyArray.length, maxChargeCapacity));
-    leftEnergyArray[i] = leftEnergy;
+    leftEnergyArray.push(leftEnergy);
+    leftEnergyArray.shift();
    }
   }
 }
