@@ -24,12 +24,15 @@ export const calculateReadyTimesWithForLoop = (r, c, n,  maxChargeCapacity = 11)
 }
 
 export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n, maxChargeCapacity = 11) => {
+  debugger;
   let total = 0;
-  let leftEnergyArray = [r[0]];
+  let leftEnergyArray = [];
   let readyTimeArray = [];
   let j = 0;
 
   for(let i=0; i < n; i++) {
+    leftEnergyArray.push(r[i]);
+    if(leftEnergyArray.length > 1) leftEnergyArray = leftEnergyArray.sort((a, b) => a - b);
     const possibleReadyTime = r[i]/Math.min((c/leftEnergyArray.length), maxChargeCapacity);
     const pluginTimesDiff = pluginTimes[i+1] - pluginTimes[i];
    if(pluginTimesDiff >= possibleReadyTime) {
@@ -37,8 +40,7 @@ export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n
       leftEnergyArray.shift(); // removing the first element from the array
    } else {
     const leftEnergy = r[i] - (pluginTimesDiff * Math.min(c/leftEnergyArray.length, maxChargeCapacity));
-    leftEnergyArray.push(leftEnergy);
-    leftEnergyArray = leftEnergyArray.sort((a, b) => a - b);
+    leftEnergyArray[i] = leftEnergy;
    }
   }
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
-import { getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired } from "./app.utils";
+import { getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired, calculateReadyTimesWithDifferentPluginTimes } from "./app.utils";
 import { CONNECTED_LOAD, MAX_CHARGE_CAPACITY } from "./data";
 import ResultTable from "./components/table-result";
 import PlugInDatePicker from "./components/plug-in-date-picker";
@@ -20,6 +20,8 @@ const App = () => {
   const [energyRequired, setEnergyRequired] = useState([]);
   const plugInTime = useSelector(selectPlugInTime);
   const readyTimes = useSelector(selectCarsReadyTimes);
+
+  console.log('plu', plugInTime)
 
   useEffect(() => {
     console.log('carsData', carsData)
@@ -46,7 +48,8 @@ const App = () => {
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
+      // dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
+      console.log('result', calculateReadyTimesWithDifferentPluginTimes([33, 88, 60], ["2024-02-28T08:00:00.000Z", "2024-02-28T12:00:00.000Z", "2024-02-28T18:00:00.000Z"], CONNECTED_LOAD, 3 ));
     }
   };
 
