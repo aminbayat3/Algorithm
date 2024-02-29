@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
-import { getRandomNumberBetween, sortCarsByRequiredEnergy, getEnergyRequired, calculateReadyTimesWithDifferentPluginTimes } from "./app.utils";
+import { getRandomNumberBetween, sortCarsByRequiredEnergy, sortCarsByPluginTime, getPluginTimes, getEnergyRequired, calculateReadyTimesWithDifferentPluginTimes } from "./app.utils";
 import { CONNECTED_LOAD, MAX_CHARGE_CAPACITY } from "./data";
 import ResultTable from "./components/table-result";
 import PlugInDatePicker from "./components/plug-in-date-picker";
 
 import { calculateReadyTimesStart } from "./store/configuration/configuration.action";
+
+import { calculateReadyTimesSuccess } from "./store/configuration/configuration.action";
 
 import { selectPlugInTime } from "./store/configuration/configuration.selector";
 import { selectCarsReadyTimes } from "./store/configuration/configuration.selector";
@@ -20,8 +22,6 @@ const App = () => {
   const [energyRequired, setEnergyRequired] = useState([]);
   const plugInTime = useSelector(selectPlugInTime);
   const readyTimes = useSelector(selectCarsReadyTimes);
-
-  console.log('plu', plugInTime)
 
   useEffect(() => {
     console.log('carsData', carsData)
@@ -41,15 +41,20 @@ const App = () => {
       let carsData = [];
       
       for(let i = 0; i < +numberOfCars; i++) {
-        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, expectedReadyTime: plugInTime.add(getRandomNumberBetween(8, 18), "hour")});
+        const carPlugInTime = plugInTime.add(getRandomNumberBetween(2, 14), 'hour');
+        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, plugInTime: carPlugInTime , expectedReadyTime: carPlugInTime.add(getRandomNumberBetween(3, 12), "hour") });
       }
-      const sortedCarsData = sortCarsByRequiredEnergy(carsData);
+      // const sortedCarsData = sortCarsByRequiredEnergy(carsData);
+      const sortedCarsData = sortCarsByPluginTime(carsData);
       const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
+      const sortedPluginTimes = getPluginTimes(sortedCarsData);
+
+      console.log('pluginTimes', sortedPluginTimes.map(p => p.format('YYYY.MM.DD HH:mm')));
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
       // dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
-      console.log('result', calculateReadyTimesWithDifferentPluginTimes([33, 88, 60], ["2024-02-28T08:00:00.000Z", "2024-02-28T12:00:00.000Z", "2024-02-28T18:00:00.000Z"], CONNECTED_LOAD, 3 ));
+      dispatch(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes(sortedEnergyRequired, sortedPluginTimes, CONNECTED_LOAD, carsData.length)))
     }
   };
 
