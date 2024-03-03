@@ -54,7 +54,8 @@ const App = () => {
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
       // dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
-      dispatch(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes(sortedEnergyRequired, sortedPluginTimes, CONNECTED_LOAD, carsData.length)))
+      // dispatch(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes(sortedEnergyRequired, sortedPluginTimes, CONNECTED_LOAD, carsData.length)))
+      console.log(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes([80, 30, 70], ['2024.03.02 12:00', '2024.03.02 19:00', '2024.03.02 20:00'], CONNECTED_LOAD, 3)));
     }
   };
 

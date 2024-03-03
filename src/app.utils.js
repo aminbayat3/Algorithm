@@ -36,17 +36,18 @@ export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n
     if(leftEnergyArray.length > 1) leftEnergyArray = leftEnergyArray.sort((a, b) => a - b);
     if(i === n-1) break;
     const possibleReadyTime = leftEnergyArray[0]/Math.min((c/leftEnergyArray.length), maxChargeCapacity);
-    const pluginTimesDiff = pluginTimes[i+1].diff(pluginTimes[i], 'hour');
+    const pluginTimesDiff = dayjs(pluginTimes[i+1]).diff(dayjs(pluginTimes[i]), 'hour');
    if(pluginTimesDiff >= possibleReadyTime) {
       readyTimeArray.length > 0 ? readyTimeArray.push(possibleReadyTime + readyTimeArray[readyTimeArray.length-1] + extrahours) : readyTimeArray.push(possibleReadyTime + extrahours);
       extrahours = (pluginTimesDiff - possibleReadyTime);
       if(leftEnergyArray.length > 1) {
+        const leftEnergyFirstElement = leftEnergyArray[0];
         for(let m = 0; m < leftEnergyArray.length; m++) {
-          leftEnergyArray[m] = leftEnergyArray[m] - leftEnergyArray[0];
+          leftEnergyArray[m] = leftEnergyArray[m] - leftEnergyFirstElement;
         }
       }
       leftEnergyArray.shift(); // removing the first element from the array
-   } else {
+   } else if(pluginTimesDiff < possibleReadyTime) { // we can add an or condition here
     const leftEnergy = leftEnergyArray[0] - (pluginTimesDiff * Math.min(c/leftEnergyArray.length, maxChargeCapacity));
     leftEnergyArray.push(leftEnergy);
     extrahours += pluginTimesDiff;
