@@ -25,6 +25,56 @@ export const calculateReadyTimesWithForLoop = (r, c, n,  maxChargeCapacity = 11)
   return readyTimeArray;
 }
 
+const generateWeeklyTimestamps = (startDay, intervalDuration) => {
+  const intervals = [];
+  let currentTime = dayjs(startDay); // Start from the exact date and time provided
+  const endTime = currentTime.add(7, 'day'); // End time is one week from the start time
+
+  while (currentTime.isBefore(endTime)) {
+    const start = currentTime;
+    const end = currentTime.add(intervalDuration, 'minutes');
+    intervals.push({
+      start: start,
+      end: end,
+      energy: 0,
+    });
+    currentTime = end;
+  }
+
+  return intervals;
+}
+
+export const calculateReadyTimesWithSimulation = (r, c, n, plugInTime, intervalDuration, maxChargeCapacity = 11) => {
+  debugger;
+  const intervals = generateWeeklyTimestamps(plugInTime, intervalDuration);
+  let j = 0;
+  let k = n;
+  let total = 0;
+  let readyTimeArray = [];
+
+
+  for(let i = 0; i < intervals.length; i++) {
+    if(j === n) {
+      return readyTimeArray;
+    }
+    if(total >= r[j]) {
+      readyTimeArray.push(intervals[i].end);
+      k--;
+      j++;
+      continue;
+    } 
+    console.log('intervals[i]', intervals[i].end);
+    total += intervalDuration/60 * Math.min(c/k, maxChargeCapacity);
+    intervals[i].energy = total;
+
+    if(intervals[i].energy >= r[j]) {
+      readyTimeArray.push(intervals[i].end.format('YYYY.MM.DD HH:mm'));
+      k--;
+      j++;
+    }
+  }
+}
+
 export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n, maxChargeCapacity = 11) => {
   debugger;
   let leftEnergyArray = [];
