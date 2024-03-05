@@ -57,13 +57,14 @@ export const calculateReadyTimesWithSimulation = (r, c, n, plugInTime, intervalD
     if(j === n) {
       return readyTimeArray;
     }
+
     if(total >= r[j]) {
       readyTimeArray.push(intervals[i].end);
       k--;
       j++;
       continue;
     } 
-    console.log('intervals[i]', intervals[i].end);
+
     total += intervalDuration/60 * Math.min(c/k, maxChargeCapacity);
     intervals[i].energy = total;
 

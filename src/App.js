@@ -10,8 +10,6 @@ import PlugInDatePicker from "./components/plug-in-date-picker";
 
 import { calculateReadyTimesStart } from "./store/configuration/configuration.action";
 
-import { calculateReadyTimesSuccess } from "./store/configuration/configuration.action";
-
 import { selectPlugInTime } from "./store/configuration/configuration.selector";
 import { selectCarsReadyTimes } from "./store/configuration/configuration.selector";
 
@@ -44,18 +42,18 @@ const App = () => {
         const carPlugInTime = plugInTime.add(getRandomNumberBetween(2, 14), 'hour');
         carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, plugInTime: carPlugInTime , expectedReadyTime: carPlugInTime.add(getRandomNumberBetween(3, 12), "hour") });
       }
-      // const sortedCarsData = sortCarsByRequiredEnergy(carsData);
-      const sortedCarsData = sortCarsByPluginTime(carsData);
+      const sortedCarsData = sortCarsByRequiredEnergy(carsData);
+      // const sortedCarsData = sortCarsByPluginTime(carsData);
       const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
-      const sortedPluginTimes = getPluginTimes(sortedCarsData);
+      // const sortedPluginTimes = getPluginTimes(sortedCarsData);
 
-      console.log('pluginTimes', sortedPluginTimes.map(p => p.format('YYYY.MM.DD HH:mm')));
+      // console.log('pluginTimes', sortedPluginTimes.map(p => p.format('YYYY.MM.DD HH:mm')));
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      // dispatch(calculateReadyTimesStart({sortedEnergyRequired:[0, ...sortedEnergyRequired], connectedLoad: CONNECTED_LOAD, maxChargeCapacity: MAX_CHARGE_CAPACITY, numberOfCars: carsData.length }))
+      dispatch(calculateReadyTimesStart({sortedEnergyRequired: sortedEnergyRequired, connectedLoad: CONNECTED_LOAD, numberOfCars: carsData.length, plugInTime: plugInTime.toISOString(), intervalDurationInMinutes: 15, maxChargeCapacity: MAX_CHARGE_CAPACITY }))
       // dispatch(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes(sortedEnergyRequired, sortedPluginTimes, CONNECTED_LOAD, carsData.length)))
-      console.log(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes([80, 30, 70], ['2024.03.02 12:00', '2024.03.02 19:00', '2024.03.02 20:00'], CONNECTED_LOAD, 3)));
+      // console.log(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes([80, 30, 70], ['2024.03.02 12:00', '2024.03.02 19:00', '2024.03.02 20:00'], CONNECTED_LOAD, 3)));
     }
   };
 

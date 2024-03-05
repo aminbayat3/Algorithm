@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 
 import { selectPlugInTime } from "../store/configuration/configuration.selector";
 
@@ -14,6 +15,7 @@ import { getTimeDifference } from "../app.utils";
 
 
 const ResultTable = ({ carsData, carsReadyTimes }) => {
+  const plugInTime = useSelector(selectPlugInTime);
 
   return (
     <StyledTableContainer component={Paper}>
@@ -23,16 +25,16 @@ const ResultTable = ({ carsData, carsReadyTimes }) => {
             <TableCell align="center">Car's Name</TableCell>
             <TableCell align="center">Energy required&nbsp;(KWh)</TableCell>
             <TableCell align="center">Expected ready Time</TableCell>
-            <TableCell align="center">Plug-In Times</TableCell>
+            {/* <TableCell align="center">Plug-In Times</TableCell> */}
             <TableCell align="center">Actual ready time</TableCell>
             <TableCell align="center">Expected Charge level&nbsp;(%)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {carsData.map((car, idx) => {
-            const actualReadyTime = carsData[0].plugInTime.add(carsReadyTimes[idx], "hour"); 
-            const readyTimeDifference = getTimeDifference(car.expectedReadyTime, actualReadyTime);
-            const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, car.plugInTime) / getTimeDifference(actualReadyTime, car.plugInTime)) * 100);
+            // const actualReadyTime = carsData[0].plugInTime.add(dayjs(carsReadyTimes[idx]), "hour");
+            const readyTimeDifference = getTimeDifference(car.expectedReadyTime, dayjs(carsReadyTimes[idx]));
+            const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, plugInTime) / getTimeDifference(dayjs(carsReadyTimes[idx]), plugInTime)) * 100);
             return(
               <TableRow
                 key={car.name}
@@ -43,8 +45,8 @@ const ResultTable = ({ carsData, carsReadyTimes }) => {
                 </TableCell>
                 <TableCell align="center">{car.energyRequired}</TableCell>
                 <TableCell align="center">{car.expectedReadyTime.format('YYYY.MM.DD HH:mm')}</TableCell>
-                <TableCell align="center">{car.plugInTime.format('YYYY.MM.DD HH:mm')}</TableCell>
-                <TableCell align="center">{actualReadyTime.format("YYYY.MM.DD HH:mm")}</TableCell>
+                {/* <TableCell align="center">{car.plugInTime.format('YYYY.MM.DD HH:mm')}</TableCell> */}
+                <TableCell align="center">{dayjs(carsReadyTimes[idx]).format("YYYY.MM.DD HH:mm")}</TableCell>
                 <TableCell align="center" sx={{color: expectedChargeLevel < 100 ? 'red' : 'green', fontWeight: 'bold'}}>{expectedChargeLevel.toFixed(2)}</TableCell>
               </TableRow>
             )
