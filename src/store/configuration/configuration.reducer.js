@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { CONFIGURATION_ACTION_TYPES } from "./configuration.types";
 
 const CONFIGURATION_INITIAL_STATE = {
-    plugInTime: dayjs(Date.now()),
+    startTime: dayjs(Date.now()),
     readyTimes: [],
     error: null,
 }
@@ -11,10 +11,10 @@ export const configurationReducer = (state = CONFIGURATION_INITIAL_STATE, action
     const { type, payload } = action;
 
     switch(type) {
-        case CONFIGURATION_ACTION_TYPES.SET_PLUG_IN: 
+        case CONFIGURATION_ACTION_TYPES.SET_START_TIME: 
             return {
                 ...state,
-                plugInTime: payload,
+                startTime: payload,
             }
         case CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_SUCCESS:
             return {

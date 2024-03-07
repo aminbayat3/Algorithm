@@ -1,7 +1,7 @@
 import { createAction } from "../utils/reducer/reducer.utils";
 import { CONFIGURATION_ACTION_TYPES } from "./configuration.types";
 
-export const setPlugIn = (plugInTime) => createAction(CONFIGURATION_ACTION_TYPES.SET_PLUG_IN, plugInTime);
+export const setStartTime = (startTime) => createAction(CONFIGURATION_ACTION_TYPES.SET_START_TIME, startTime);
 
 export const calculateReadyTimesStart = (carsData) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_START, carsData);
 

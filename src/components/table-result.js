@@ -2,7 +2,7 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 
-import { selectPlugInTime } from "../store/configuration/configuration.selector";
+import { selectStartTime } from "../store/configuration/configuration.selector";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +15,7 @@ import { getTimeDifference } from "../app.utils";
 
 
 const ResultTable = ({ carsData, carsReadyTimes }) => {
-  const plugInTime = useSelector(selectPlugInTime);
+  const startTime = useSelector(selectStartTime);
 
   return (
     <StyledTableContainer component={Paper}>
@@ -34,7 +34,7 @@ const ResultTable = ({ carsData, carsReadyTimes }) => {
           {carsData.map((car, idx) => {
             // const actualReadyTime = carsData[0].plugInTime.add(dayjs(carsReadyTimes[idx]), "hour");
             const readyTimeDifference = getTimeDifference(car.expectedReadyTime, dayjs(carsReadyTimes[idx]));
-            const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, plugInTime) / getTimeDifference(dayjs(carsReadyTimes[idx]), plugInTime)) * 100);
+            const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, startTime) / getTimeDifference(dayjs(carsReadyTimes[idx]), startTime)) * 100);
             return(
               <TableRow
                 key={car.name}

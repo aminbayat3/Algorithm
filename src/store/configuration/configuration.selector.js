@@ -2,9 +2,9 @@ import { createSelector } from "reselect";
 
 export const selectConfigurationReducer = (state) => state.configuration;
 
-export const selectPlugInTime = createSelector(
+export const selectStartTime = createSelector(
     [selectConfigurationReducer],
-    (configuration) => configuration.plugInTime
+    (configuration) => configuration.startTime
 );
 
 export const selectCarsReadyTimes = createSelector(

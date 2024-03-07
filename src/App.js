@@ -3,22 +3,23 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { CustomTextField } from "./styles";
 import Button from "@mui/material/Button";
-import { getRandomNumberBetween, sortCarsByRequiredEnergy, sortCarsByPluginTime, getPluginTimes, getEnergyRequired, calculateReadyTimesWithDifferentPluginTimes } from "./app.utils";
-import { CONNECTED_LOAD, MAX_CHARGE_CAPACITY } from "./data";
+import { getRandomNumberBetween, sortCarsByPluginTime, getEnergyRequired, generateTwoDayTimestamps } from "./app.utils";
+import { CONNECTED_LOAD } from "./data";
 import ResultTable from "./components/table-result";
 import PlugInDatePicker from "./components/plug-in-date-picker";
 
 import { calculateReadyTimesStart } from "./store/configuration/configuration.action";
 
-import { selectPlugInTime } from "./store/configuration/configuration.selector";
+import { selectStartTime } from "./store/configuration/configuration.selector";
 import { selectCarsReadyTimes } from "./store/configuration/configuration.selector";
 
 const App = () => {
   const dispatch = useDispatch();
   const [numberOfCars, setNumberOfCars] = useState(0);
+  const [intervalDuration, setIntervalDuration] = useState(15);
   const [carsData, setCarsData] = useState([]);
   const [energyRequired, setEnergyRequired] = useState([]);
-  const plugInTime = useSelector(selectPlugInTime);
+  const startTime = useSelector(selectStartTime);
   const readyTimes = useSelector(selectCarsReadyTimes);
 
   useEffect(() => {
@@ -34,16 +35,22 @@ const App = () => {
     setNumberOfCars(e.target.value);
   };
 
+  const handleIntervalDurationChange = (e) => {
+    setIntervalDuration(e.target.value);
+  }
+
   const handleSubmit = () => {
     if (+numberOfCars > 0) {
       let carsData = [];
       
       for(let i = 0; i < +numberOfCars; i++) {
-        const carPlugInTime = plugInTime.add(getRandomNumberBetween(2, 14), 'hour');
-        carsData.push({name: `Car${i+1}`, energyRequired: getRandomNumberBetween(1, 9) * 10, plugInTime: carPlugInTime , expectedReadyTime: carPlugInTime.add(getRandomNumberBetween(3, 12), "hour") });
+        const neededEnergy = getRandomNumberBetween(1, 9) * 10;
+        const carPlugInTime = startTime.add(getRandomNumberBetween(2, 14), 'hour');
+        const carPlugoutTime = carPlugInTime.add(getRandomNumberBetween(4, 22), 'hour');
+        carsData.push({name: `Car${i+1}`, connectionLoad: CONNECTED_LOAD, energyRequired: neededEnergy, fullEnergy: neededEnergy + getRandomNumberBetween(2, 8) * 10, plugInTime: carPlugInTime, plugOutTime: carPlugoutTime, maxAcConnectionLoad: getRandomNumberBetween(1, 2.2) * 10, Soc: 0, expectedReadyTime: carPlugoutTime.add(getRandomNumberBetween(2, 5), "hour") });
       }
-      const sortedCarsData = sortCarsByRequiredEnergy(carsData);
-      // const sortedCarsData = sortCarsByPluginTime(carsData);
+      // const sortedCarsData = sortCarsByRequiredEnergy(carsData);
+      const sortedCarsData = sortCarsByPluginTime(carsData);
       const sortedEnergyRequired = getEnergyRequired(sortedCarsData); 
       // const sortedPluginTimes = getPluginTimes(sortedCarsData);
 
@@ -51,23 +58,32 @@ const App = () => {
 
       setCarsData(sortedCarsData);
       setEnergyRequired(sortedEnergyRequired);
-      dispatch(calculateReadyTimesStart({sortedEnergyRequired: sortedEnergyRequired, connectedLoad: CONNECTED_LOAD, numberOfCars: carsData.length, plugInTime: plugInTime.toISOString(), intervalDurationInMinutes: 15, maxChargeCapacity: MAX_CHARGE_CAPACITY }))
+
+      console.log()
+      // dispatch(calculateReadyTimesStart({sortedEnergyRequired: sortedEnergyRequired, numberOfCars: carsData.length, plugInTime: plugInTime.toISOString(), maxChargeCapacity: MAX_CHARGE_CAPACITY }));
       // dispatch(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes(sortedEnergyRequired, sortedPluginTimes, CONNECTED_LOAD, carsData.length)))
       // console.log(calculateReadyTimesSuccess(calculateReadyTimesWithDifferentPluginTimes([80, 30, 70], ['2024.03.02 12:00', '2024.03.02 19:00', '2024.03.02 20:00'], CONNECTED_LOAD, 3)));
     }
   };
-
+ 
   return (
     <div className="App">
       <div className="app-container">
       <h5 className="connected-load">Connected Load is : 20 KW</h5>
-      <h5 className="max-capacity">Max Charge Capacity is : 11 KW</h5>
+      <h5 className="max-capacity">Max AC connection load for each car can be different</h5>
         <div className="inputs-container">
           <CustomTextField
             value={numberOfCars}
             onChange={handleNumOfCarsChange}
             id="outlined-number"
             label="Number of Cars"
+            type="number"
+          />
+          <CustomTextField
+            value={intervalDuration}
+            onChange={handleIntervalDurationChange}
+            id="outlined-number"
+            label="Interval Duration"
             type="number"
           />
           <PlugInDatePicker />

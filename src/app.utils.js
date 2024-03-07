@@ -1,5 +1,6 @@
 
 import dayjs from "dayjs";
+import { CONNECTED_LOAD } from "./data";
 
 export const calculateReadyTimes = (r, c, n, total, readyTimeArray, m=0, maxChargeCapacity = 11) => {
     if(m === (r.length - 1)) {
@@ -25,28 +26,55 @@ export const calculateReadyTimesWithForLoop = (r, c, n,  maxChargeCapacity = 11)
   return readyTimeArray;
 }
 
-const generateWeeklyTimestamps = (startDay, intervalDuration) => {
+export const generateTwoDayTimestamps = (startDay, intervalDuration) => {
   const intervals = [];
   let currentTime = dayjs(startDay); // Start from the exact date and time provided
-  const endTime = currentTime.add(7, 'day'); // End time is one week from the start time
+  const endTime = currentTime.add(2, 'day'); // End time is one week from the start time
+
+  let counter = 1;
 
   while (currentTime.isBefore(endTime)) {
     const start = currentTime;
     const end = currentTime.add(intervalDuration, 'minutes');
     intervals.push({
+      number: counter,
       start: start,
       end: end,
-      energy: 0,
     });
     currentTime = end;
+    counter++;
   }
 
   return intervals;
 }
-
-export const calculateReadyTimesWithSimulation = (r, c, n, plugInTime, intervalDuration, maxChargeCapacity = 11) => {
+// carsStates : {connectedCars: [list of cars], calculateChargeload: () => {15 / 60 * }}
+export const calculateReadyTimesWithSimulation = (carsData, n, startTime, intervalDuration, connectedCars, total = 0) => { // n is number of cars
   debugger;
-  const intervals = generateWeeklyTimestamps(plugInTime, intervalDuration);
+  const intervals = generateTwoDayTimestamps(startTime, intervalDuration);
+
+  let j = 0;
+
+  for(let i = 0; i < intervals.length; i++) {
+    const plugedInCar = carsData.find(car => intervals[i].end > car.plugInTime);
+    const plugedOutCar = carsData.find(car => intervals[i].end > car.plugOutTime);
+    const carNeedMet = carsData.find(car => total >= car.energyRequired);
+    if(connectedCars.some(car => car.name !== plugedInCar.name)) {
+      connectedCars.push(plugedInCar);
+      
+    } else if(true) { // plug out
+ 
+    } else if(true) { // need met
+
+    }
+    // instead of total we need to add to the soc of each connected car based on its maxAcconnectedLoad
+    total += intervalDuration/60 * Math.min(CONNECTED_LOAD/connectedCars.length, );
+  }
+
+}
+
+export const calculateReadyTimesWithSimulationFirstTry = (r, c, n, plugInTime, intervalDuration, maxChargeCapacity = 11) => {
+  debugger;
+  const intervals = generateTwoDayTimestamps(plugInTime, intervalDuration);
   let j = 0;
   let k = n;
   let total = 0;

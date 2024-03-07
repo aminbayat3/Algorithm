@@ -4,16 +4,16 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDateTimePicker } from '@mui/x-date-pickers';
 
-import { setPlugIn } from '../store/configuration/configuration.action';
-import { selectPlugInTime } from '../store/configuration/configuration.selector';
+import { setStartTime } from '../store/configuration/configuration.action';
+import { selectStartTime } from '../store/configuration/configuration.selector';
 
 const PlugInDatePicker = () => {
   const dispatch = useDispatch();
-  const plugInTime = useSelector(selectPlugInTime);
+  const startTime = useSelector(selectStartTime);
 
 
   const onHandleChange = (value) => {
-    dispatch(setPlugIn(value));
+    dispatch(setStartTime(value));
   }
 
   return (
@@ -21,7 +21,7 @@ const PlugInDatePicker = () => {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["MobileTimePicker"]}>
           <DemoItem label="Plug in">
-            <MobileDateTimePicker value={plugInTime} onChange={onHandleChange} defaultValue={plugInTime} />
+            <MobileDateTimePicker value={startTime} onChange={onHandleChange} />
           </DemoItem>
         </DemoContainer>
       </LocalizationProvider>
