@@ -3,7 +3,7 @@ import { CONFIGURATION_ACTION_TYPES } from "./configuration.types";
 
 const CONFIGURATION_INITIAL_STATE = {
     startTime: dayjs(Date.now()),
-    readyTimes: [],
+    carsDataSnapshot: [],
     error: null,
 }
 
@@ -16,12 +16,12 @@ export const configurationReducer = (state = CONFIGURATION_INITIAL_STATE, action
                 ...state,
                 startTime: payload,
             }
-        case CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_SUCCESS:
+        case CONFIGURATION_ACTION_TYPES.CALCULATE_CARS_DATA_SUCCESS:
             return {
                 ...state,
-                readyTimes: payload,
+                carsDataSnapshot: payload,
             }
-        case CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_FAILED:
+        case CONFIGURATION_ACTION_TYPES.CALCULATE_CARS_DATA_FAILED:
             return {
                 ...state,
                 error: payload,

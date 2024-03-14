@@ -11,6 +11,6 @@ const instance = axios.create({
   },
 });
 
-export const readyTimeAsyncRequest = async (data) => {
+export const carsDataAsyncRequest = async (data) => {
     return await instance.get("CarChargingStatus" + mapQueryParams(data));  
 } 

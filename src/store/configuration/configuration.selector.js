@@ -7,7 +7,7 @@ export const selectStartTime = createSelector(
     (configuration) => configuration.startTime
 );
 
-export const selectCarsReadyTimes = createSelector(
+export const selectCarsDataSnapshot = createSelector(
     [selectConfigurationReducer],
-    (configuration) => configuration.readyTimes
+    (configuration) => configuration.carsDataSnapshot
 );

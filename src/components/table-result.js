@@ -14,27 +14,29 @@ import { StyledTableContainer } from "../styles";
 import { getTimeDifference } from "../app.utils";
 
 
-const ResultTable = ({ carsData, carsReadyTimes }) => {
+const ResultTable = ({ carsDataSnapshot }) => {
   const startTime = useSelector(selectStartTime);
 
+  console.log('carsDataSnapshot', carsDataSnapshot)
   return (
     <StyledTableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="center">Car's Name</TableCell>
-            <TableCell align="center">Energy required&nbsp;(KWh)</TableCell>
+            <TableCell align="center">Energy required&nbsp;(KWh)(need)</TableCell>
+            <TableCell align="center">Max Ac Connection Load&nbsp;(KW)</TableCell>
             <TableCell align="center">Expected ready Time</TableCell>
-            {/* <TableCell align="center">Plug-In Times</TableCell> */}
+            <TableCell align="center">Plug-In Times</TableCell>
+            <TableCell align="center">Plug-Out Times</TableCell>
             <TableCell align="center">Actual ready time</TableCell>
             <TableCell align="center">Expected Charge level&nbsp;(%)</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {carsData.map((car, idx) => {
-            // const actualReadyTime = carsData[0].plugInTime.add(dayjs(carsReadyTimes[idx]), "hour");
-            const readyTimeDifference = getTimeDifference(car.expectedReadyTime, dayjs(carsReadyTimes[idx]));
-            const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, startTime) / getTimeDifference(dayjs(carsReadyTimes[idx]), startTime)) * 100);
+          {carsDataSnapshot.map((car, idx) => {
+            // const readyTimeDifference = getTimeDifference(car.expectedReadyTime, dayjs(carsDataSnapshot[idx]));
+            // const expectedChargeLevel = readyTimeDifference > 0 ? 100 : ((getTimeDifference(car.expectedReadyTime, startTime) / getTimeDifference(dayjs(carsReadyTimes[idx]), startTime)) * 100);
             return(
               <TableRow
                 key={car.name}
@@ -44,10 +46,12 @@ const ResultTable = ({ carsData, carsReadyTimes }) => {
                   {car.name}
                 </TableCell>
                 <TableCell align="center">{car.energyRequired}</TableCell>
+                <TableCell align="center">{car.maxAcConnectionLoad}</TableCell>
                 <TableCell align="center">{car.expectedReadyTime.format('YYYY.MM.DD HH:mm')}</TableCell>
-                {/* <TableCell align="center">{car.plugInTime.format('YYYY.MM.DD HH:mm')}</TableCell> */}
-                <TableCell align="center">{dayjs(carsReadyTimes[idx]).format("YYYY.MM.DD HH:mm")}</TableCell>
-                <TableCell align="center" sx={{color: expectedChargeLevel < 100 ? 'red' : 'green', fontWeight: 'bold'}}>{expectedChargeLevel.toFixed(2)}</TableCell>
+                <TableCell align="center">{car.plugInTime.format('YYYY.MM.DD HH:mm')}</TableCell>
+                <TableCell align="center">{car.plugOutTime.format('YYYY.MM.DD HH:mm')}</TableCell>
+                <TableCell align="center">{car.fulfilledTime.format("YYYY.MM.DD HH:mm")}</TableCell>
+                {/* <TableCell align="center" sx={{color: expectedChargeLevel < 100 ? 'red' : 'green', fontWeight: 'bold'}}>{expectedChargeLevel.toFixed(2)}</TableCell> */}
               </TableRow>
             )
           })}

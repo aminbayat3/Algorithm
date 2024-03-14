@@ -3,8 +3,8 @@ import { CONFIGURATION_ACTION_TYPES } from "./configuration.types";
 
 export const setStartTime = (startTime) => createAction(CONFIGURATION_ACTION_TYPES.SET_START_TIME, startTime);
 
-export const calculateReadyTimesStart = (carsData) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_START, carsData);
+export const calculateCarsDataStart = (carsData) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_CARS_DATA_START, carsData);
 
-export const calculateReadyTimesSuccess = (readyTimes) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_SUCCESS, readyTimes); 
+export const calculateCarsDataSuccess = (carsDataSnapshot) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_CARS_DATA_SUCCESS, carsDataSnapshot); 
 
-export const calculateReadyTimesFailed = (error) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_READY_TIME_FAILED, error);
+export const calculateCarsDataFailed = (error) => createAction(CONFIGURATION_ACTION_TYPES.CALCULATE_CARS_DATA_FAILED, error);
