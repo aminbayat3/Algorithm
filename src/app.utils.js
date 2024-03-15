@@ -60,7 +60,7 @@ export const calculateCarsDataSimulation = (carsData, startTime, endTime, interv
     const plugedInCar = carsData.find(car => !car.isPlugedIn && isSameOrAfter(intervals[i].end, car.plugInTime));
     const plugedOutCar = carsData.find(car => !car.isPlugedOut && isSameOrAfter(intervals[i].end, car.plugOutTime));
     const carNeedMet = carsData.find(car => !car.isNeedMet && car.soc >= car.energyRequired);
-    if(plugedInCar) {
+    if(plugedInCar) { 
       plugedInCar.isPlugedIn = true;
       connectedCars.push(plugedInCar);
       break;
@@ -88,7 +88,6 @@ export const calculateCarsDataSimulation = (carsData, startTime, endTime, interv
     let totalCharginLoad = 0;
 
     chargingNeededCars.length > 0 && chargingNeededCars.forEach(car => {
-      console.log('carmaxac', car.maxAcConnectionLoad)
       const minimumChargeLoad =  Math.min(CONNECTED_LOAD/chargingNeededCars.length, car.maxAcConnectionLoad);
       car.soc += intervalDuration/60 * minimumChargeLoad;
       totalCharginLoad +=  minimumChargeLoad;
@@ -107,7 +106,6 @@ export const calculateCarsDataSimulation = (carsData, startTime, endTime, interv
 
   j < intervals.length && calculateCarsDataSimulation(carsData, intervals[j].end, endTime, intervalDuration, connectedCars);
 
-  console.log('carsDataSnapshotttt', carsData)
   return carsData;
 }
 
@@ -188,6 +186,10 @@ export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n
 
 export const getRandomNumberBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export const sortByTime = (events) => {
+  return events.sort((event1, event2) => getTimeDifference(event1.time, event2.time));
 }
 
 // Here we can use one of the sorting algorithms like quick sort or merge sort, but here I used the built-in javascript method called "sort"
