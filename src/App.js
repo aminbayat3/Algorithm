@@ -45,11 +45,11 @@ const App = () => {
         const neededEnergy = getRandomNumberBetween(1, 8) * 10;
         const carPlugInTime = startTime.add(getRandomNumberBetween(2, 14), 'hour');
         const carPlugoutTime = carPlugInTime.add(getRandomNumberBetween(4, 22), 'hour');
-        const car = {name: `Car${i+1}`, fullEnergy: neededEnergy + getRandomNumberBetween(2, 8) * 10, expectedReadyTime: carPlugoutTime.add(getRandomNumberBetween(1, 5), "hour"),  maxAcConnectionLoad: getRandomNumberBetween(1, 2) * 10, soc: 0}; // needed energy should later move to reservaion class not car class
+        const car = {id: `Car${i+1}`, name: `Car${i+1}`, fullEnergy: neededEnergy + getRandomNumberBetween(2, 8) * 10, expectedPlugOutTime: carPlugoutTime.add(getRandomNumberBetween(1, 5), "hour"),  maxAcConnectionLoad: getRandomNumberBetween(1, 2) * 10, soc: 0}; // needed energy should later move to reservaion class not car class
 
-        plugInEvents.push({ time: carPlugInTime, car: car });
-        plugOutEvents.push({ time: carPlugoutTime, car: car});
-        fulfilledEvents.push({ time: null, fulfilledEnergy: neededEnergy, car: car});
+        plugInEvents.push({ time: carPlugInTime, carId: car.id, expectedPlugOutTime: car.expectedPlugOutTime, wallBoxId: `WB${i+1}` });
+        plugOutEvents.push({ time: carPlugoutTime, carId: car.id });
+        fulfilledEvents.push({ time: null, fulfilledEnergy: neededEnergy, carId: car.id});
         //connectionLoad: CONNECTED_LOAD,
         carsData.push(car);
       }
