@@ -47,26 +47,28 @@ const App = () => {
         const carPlugoutTime = carPlugInTime.add(getRandomNumberBetween(4, 22), 'hour');
         // const car = {id: `Car${i+1}`, name: `Car${i+1}`, fullEnergy: neededEnergy + getRandomNumberBetween(2, 8) * 10, expectedPlugOutTime: carPlugoutTime.add(getRandomNumberBetween(1, 2), "hour"),  maxAcConnectionLoad: getRandomNumberBetween(1, 2) * 10, soc: 0}; // needed energy should later move to reservaion class not car class
 
-        const reservation = {id: `Rs${i+1}`, carId: `Car${i+1}`, expi: carPlugInTime, expo: carPlugoutTime, neededEnergy: neededEnergy, priority: 0};
+        const reservation = {id: `Rs${i+1}`, carId: `Car${i+1}`, expi: carPlugInTime.toISOString(), expo: carPlugoutTime.toISOString(), neededEnergy: neededEnergy, priority: 0};
 
-        plugInEvents.push({ time: carPlugInTime, carId: `Car${i+1}`, wallBoxId: `WB${i+1}` });
-        plugOutEvents.push({ time: carPlugoutTime, carId: `Car${i+1}`, wallBoxId: `WB${i+1}` });
-        fulfilledEvents.push({ time: null, carId: `Car${i+1}`, wallBoxId: `WB${i+1}`});
+        // plugInEvents.push({ time: carPlugInTime, carId: `Car${i+1}`, wallBoxId: `WB${i+1}` });
+        // plugOutEvents.push({ time: carPlugoutTime, carId: `Car${i+1}`, wallBoxId: `WB${i+1}` });
+        // fulfilledEvents.push({ time: null, carId: `Car${i+1}`, wallBoxId: `WB${i+1}`});
 
         reservaions.push(reservation);
       }
 
       let endTime = startTime.add(2, 'day');
 
-      const sortedTimes = {
-        sortedPlugInEvents: sortByTime(plugInEvents),
-        sortedPlugOutEvents: sortByTime(plugOutEvents),
-        sortedFulfilledEvents: sortByTime(fulfilledEvents)
-      }
+      // const sortedTimes = {
+      //   sortedPlugInEvents: sortByTime(plugInEvents),
+      //   sortedPlugOutEvents: sortByTime(plugOutEvents),
+      //   sortedFulfilledEvents: sortByTime(fulfilledEvents)
+      // }
 
       setCarsData(carsData);
+
+      console.log('request', { reservaions, startTime: startTime.toISOString(), endTime: endTime.toISOString(), legDuration: intervalDuration, connectionLoad: CONNECTED_LOAD })
       
-      dispatch(calculateCarsDataStart({...sortedTimes, startTime, endTime, intervalDuration, connectedCars, connectionLoad: CONNECTED_LOAD }));
+      dispatch(calculateCarsDataStart({ reservaions, startTime: startTime.toISOString(), endTime: endTime.toISOString(), legDuration: intervalDuration, connectionLoad: CONNECTED_LOAD }));
     }
   };
  

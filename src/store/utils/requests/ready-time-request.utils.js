@@ -11,6 +11,7 @@ const instance = axios.create({
   },
 });
 
-export const carsDataAsyncRequest = async (data) => {
-    return await instance.get("CarChargingStatus" + mapQueryParams(data));  
+export const carsDataAsyncRequest = async (bodyParams) => {
+    // return await instance.get("CarChargingStatus" + mapQueryParams(data));  
+    return await instance.post("CarChargingStatus", JSON.stringify(bodyParams))
 } 
