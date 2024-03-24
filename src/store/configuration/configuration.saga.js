@@ -4,7 +4,7 @@ import { CONFIGURATION_ACTION_TYPES } from './configuration.types';
 
 import { calculateCarsDataSuccess, calculateCarsDataFailed } from './configuration.action';
 
-import { carsDataAsyncRequest } from '../utils/requests/ready-time-request.utils';
+import { carsDataAsyncRequest } from '../utils/requests/requests';
 
 
 export function* getCarsDataAsync(action) {
