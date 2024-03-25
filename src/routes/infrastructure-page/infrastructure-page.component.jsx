@@ -6,7 +6,9 @@ import WallBoxTable from "../../components/wallbox-table/wallbox-table.component
 import { selectWallboxes } from "../../store/wallbox/wallbox.selector";
 
 import { Box } from "@mui/material";
-import { AddWallboxIcon, Heading } from "./infrastructure-page.styles";
+import { StyledWallboxImg, Heading } from "./infrastructure-page.styles";
+
+import wallboxImg from "../../assets/wallbox.png";
 
 const InfrastructurePage = () => {
   const wallboxes = useSelector(selectWallboxes);
@@ -15,17 +17,16 @@ const InfrastructurePage = () => {
     <Box sx={{ padding: "25px" }}>
       <Box sx={{ display: "flex", margin: "10px" }}>
         <Heading variant="h4" component="h1">
-          Add WallBox
+          WallBoxes
         </Heading>
-        <AddWallboxIcon />
+        <img src={wallboxImg} />
       </Box>
       <WallBoxTable wallboxes={wallboxes} />
 
       <Box sx={{ display: "flex", margin: "100px 10px" }}>
         <Heading variant="h4" component="h1">
-          Add Car
+          Cars
         </Heading>
-        <AddWallboxIcon  />
       </Box>
 
       {/* <CustomTextField
