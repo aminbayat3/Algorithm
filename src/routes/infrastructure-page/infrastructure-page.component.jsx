@@ -26,9 +26,11 @@ const defaultInputValues = {
 const InfrastructurePage = () => {
   const [inputValues, setInputValues] = useState(defaultInputValues);
   const infrastructureData = useSelector(selectInfrastructureData);
-  const [tableInputValues, setTableInputValues] = useState({});
+  const [tableWbInputValues, setTableWbInputValues] = useState({});
+  const [tableCarInputValues, setTableCarInputValues] = useState({});
   const dispatch = useDispatch();
-
+  const carsData = [{id: "Car1", name: "Car 1", maxAcConnectionLoad: 11, tankSize: 60 }, {id: "Car2", name: "Car 2", maxAcConnectionLoad: 11, tankSize: 60 }]
+  infrastructureData.cars = carsData
   const { numberOfWB, legSizeInMinutes, connectionLoad, startTime } =
     inputValues;
 
@@ -55,7 +57,24 @@ const InfrastructurePage = () => {
   };
 
   const onHandleUpdate = () => {
-    console.log('Updated values:', tableInputValues);
+    console.log('Updated wb values:', tableWbInputValues);
+    console.log('Updated car values:', tableCarInputValues);
+
+    infrastructureData.cars.forEach(car => {
+      if (tableCarInputValues[car.id]) {
+        let carUpdate = tableCarInputValues[car.id];
+        for (let prop in carUpdate) {
+          // Note: Here we check if the property in updates needs to be reflected in the original car object.
+          if (prop === 'maxAcConnectionLoad') {
+            car.maxAcConnectionLoad = +carUpdate[prop];
+          } else if (prop === 'tankSize') {
+            car.tankSize = +carUpdate[prop];
+          }
+        }
+      }
+    });
+
+    console.log('infrastructuredata', infrastructureData.cars);
   }
 
   return (
@@ -116,7 +135,7 @@ const InfrastructurePage = () => {
         />
       </Box>
       {/* infrastructureData={{wallboxes: [{id: "WB1", name: "WB 1", AcLimit: 11 }, {id: "WB2", name: "WB 2", AcLimit: 11 }]} */}
-      <WallBoxTable setTableInputValues={setTableInputValues} infrastructureData={{wallboxes: [{id: "WB1", name: "WB 1", AcLimit: 11 }, {id: "WB2", name: "WB 2", AcLimit: 11 }]}} />
+      <WallBoxTable setTableWbInputValues={setTableWbInputValues} infrastructureData={{wallboxes: [{id: "WB1", name: "WB 1", AcLimit: 11 }, {id: "WB2", name: "WB 2", AcLimit: 11 }]}} />
 
       <Box sx={{ display: "flex", margin: "100px 10px" }}>
         <Heading variant="h4" component="h1">
@@ -125,7 +144,7 @@ const InfrastructurePage = () => {
         <DirectionsCarFilledIcon sx={{marginLeft: "15px"}} />
       </Box>
       {/* {cars: [{id: "Car1", name: "Car 1", maxAcConnectionLoad: 11, tankSize: 60 }, {id: "Car2", name: "Car 2", maxAcConnectionLoad: 11, tankSize: 60 }]} */}
-      <CarTable setTableInputValues={setTableInputValues} infrastructureData={{cars: [{id: "Car1", name: "Car 1", maxAcConnectionLoad: 11, tankSize: 60 }, {id: "Car2", name: "Car 2", maxAcConnectionLoad: 11, tankSize: 60 }]}} />
+      <CarTable setTableCarInputValues={setTableCarInputValues} infrastructureData={{cars: infrastructureData.cars}} />
       
       <Button
             sx={{ maxWidth: "80px", height: "60px", display:"block", margin: "15px auto", borderRadius: "10px", fontSize: "11px", padding: "0px", fontWeight: "bold"  }}

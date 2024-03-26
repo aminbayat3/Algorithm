@@ -13,9 +13,17 @@ import {
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const CarTable = ({ infrastructureData, setTableInputValues }) => {
-  const handleInputChange = (carId, newValue) => {
-    setTableInputValues((prev) => ({ ...prev, [carId]: newValue }));
+const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
+  const handleInputChange = (carId, target) => {
+    const {name, value} = target;
+
+    setTableCarInputValues(prev => ({
+      ...prev,
+      [carId]: {
+        ...prev[carId],
+        [name]: value
+      }
+    }));
   };
 
   return (
@@ -46,7 +54,7 @@ const CarTable = ({ infrastructureData, setTableInputValues }) => {
                         name="tankSize"
                         sx={{ width: "40px", margin: "5px" }}
                         id={`standard-basic-${car.id}`}
-                        onChange={(e) => handleInputChange(car.id, e.target.value)}
+                        onChange={(e) => handleInputChange(car.id, e.target)}
                         type="number"
                         defaultValue={car.tankSize}
                         variant="standard"
@@ -54,10 +62,10 @@ const CarTable = ({ infrastructureData, setTableInputValues }) => {
                     </TableCell>
                     <TableCell align="center">
                       <TextField
-                        name="AcLimit"
+                        name="maxAcConnectionLoad"
                         sx={{ width: "40px", margin: "5px" }}
                         id={`standard-basic-${car.id}`}
-                        onChange={(e) => handleInputChange(car.id, e.target.value)}
+                        onChange={(e) => handleInputChange(car.id, e.target)}
                         type="number"
                         defaultValue={car.maxAcConnectionLoad}
                         variant="standard"

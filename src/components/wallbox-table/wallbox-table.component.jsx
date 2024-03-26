@@ -17,11 +17,20 @@ import {
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const WallBoxTable = ({ infrastructureData, setTableInputValues }) => {
+const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
 
-  const handleInputChange = (wallboxId, newValue) => {
-    setTableInputValues(prev => ({ ...prev, [wallboxId]: newValue }));
+  const handleInputChange = (wallboxId, target) => {
+    const {name, value} = target;
+
+    setTableWbInputValues(prev => ({
+      ...prev,
+      [wallboxId]: {
+        ...prev[wallboxId],
+        [name]: value
+      }
+    }));
   };
+
   return (
     <Box sx={{ margin: "45px" }}>
       <StyledTableContainer component={Paper}>
@@ -49,7 +58,7 @@ const WallBoxTable = ({ infrastructureData, setTableInputValues }) => {
                         name="AcLimit"
                         sx={{width: "40px", margin: "5px"}}
                         id={`standard-basic-${wallbox.id}`}
-                        onChange={(e) => handleInputChange(wallbox.id, e.target.value)}
+                        onChange={(e) => handleInputChange(wallbox.id, e.target)}
                         type="number"
                         defaultValue={wallbox.AcLimit}
                         variant="standard"
