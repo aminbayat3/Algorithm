@@ -1,7 +1,7 @@
 import { all, call } from 'redux-saga/effects';
 
-import { configurationSaga } from './configuration/configuration.saga';
+import { infrastructureDataSaga } from './infrastructure/infrastructure.saga';
 
 export function* rootSaga() {
-    yield all([call(configurationSaga)]);
+    yield all([call(infrastructureDataSaga)]);
 }

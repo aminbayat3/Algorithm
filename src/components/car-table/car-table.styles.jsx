@@ -3,7 +3,6 @@ import { styled } from "@mui/material/styles";
 import TableRow from "@mui/material/TableRow";
 import TableContainer from "@mui/material/TableContainer";
 import TableCell from "@mui/material/TableCell";
-import Box from "@mui/material/Box";
 
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 

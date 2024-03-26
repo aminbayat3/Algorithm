@@ -2,6 +2,18 @@ import { createAction } from "../utils/reducer/reducer.utils";
 
 import { WALLBOX_ACTION_TYPES } from "./wallbox.types";
 
+export const addWallboxesStart = (wallboxes) => {
+    return createAction(WALLBOX_ACTION_TYPES.ADD_WALLBOXES_START, wallboxes);
+}
+
+export const addWallboxesSuccess = (wallboxes) => {
+    return createAction(WALLBOX_ACTION_TYPES.ADD_WALLBOXES_SUCCESS, wallboxes);
+}
+
+export const addWallboxesFailed = (error) => {
+    return createAction(WALLBOX_ACTION_TYPES.ADD_WALLBOXES_FAILED, error);
+}
+
 export const addWallboxStart = (wallbox) => {
     return createAction(WALLBOX_ACTION_TYPES.ADD_WALLBOX_START, wallbox);
 }

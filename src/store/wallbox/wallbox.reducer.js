@@ -11,6 +11,11 @@ export const wallboxReducer = (state = WALLBOX_INITIAL_STATE, action) => {
     const { type, payload } = action;
 
     switch(type) {
+        case WALLBOX_ACTION_TYPES.ADD_WALLBOXES_SUCCESS: 
+            return {
+                ...state,
+                wallboxes: payload,
+            }
         case WALLBOX_ACTION_TYPES.ADD_WALLBOX_SUCCESS:
             return {
                 ...state,
@@ -22,6 +27,7 @@ export const wallboxReducer = (state = WALLBOX_INITIAL_STATE, action) => {
                 wallboxes: updateEntities(state.wallboxes, payload)
             }
 
+        case WALLBOX_ACTION_TYPES.ADD_WALLBOXES_FAILED:
         case WALLBOX_ACTION_TYPES.ADD_WALLBOX_FAILED:
         case WALLBOX_ACTION_TYPES.UPDATE_WALLBOX_FAILED:
             return {

@@ -8,14 +8,8 @@ export const Heading = styled(Typography)(({theme}) => ({
     fontWeight: "bold",
 }));
 
-// export const StyledWallboxImg = styled.img(({ theme }) => ({
-//     margin: "0 10px",
-//     cursor: "pointer",
-//     color: `${theme.palette.primary.light}`,
-//     fontSize: "27px",
-// }));
 
 export const CustomTextField = styled(TextField)(({ theme }) => ({
-    width: '150px',
-    marginRight: "30px"
+    width: '120px',
+    margin: "30px 30px 0 30px"
 }));
