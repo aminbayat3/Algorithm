@@ -35,7 +35,7 @@ const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues, connec
   return (
     <Box sx={{ margin: "45px", flexGrow: "1" }}>
       <StyledTableContainer component={Paper}>
-        <Table size="small" sx={{ minWidth: 250 }} aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 50 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Time</StyledTableCell>

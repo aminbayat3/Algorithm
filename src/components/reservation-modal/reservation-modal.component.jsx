@@ -19,6 +19,7 @@ import { DateTimePicker as ExpiTime } from "../date-time-picker/date-time-picker
 import { DateTimePicker as ExpoTime } from "../date-time-picker/date-time-picker.component";
 
 import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
+import { selectNumOfReservations } from "../../store/reservation/reservation.selector";
 
 const defaultInputValues = {
   carId: "",
@@ -31,6 +32,7 @@ const defaultInputValues = {
 const ReservationModal = ({ onClose, open }) => {
   const [inputValues, setInputValues] = useState(defaultInputValues);
   const infrastructureData = useSelector(selectInfrastructureData);
+  const numOfReservations = useSelector(selectNumOfReservations);
   const dipatch = useDispatch();
 
   const { carId, expi, expo, need, priority } = inputValues;
@@ -53,8 +55,8 @@ const ReservationModal = ({ onClose, open }) => {
 
   const handleAddReservation = () => {
     const newReservation = {
-        id: "RS1",
-        carId: "carId",
+        id: `RS${numOfReservations}`,
+        carId: carId,
         expi: expi,
         expo: expo,
         neededEnergy: need,
@@ -62,6 +64,7 @@ const ReservationModal = ({ onClose, open }) => {
     }
 
     dipatch(addReservation(newReservation));
+    setInputValues(defaultInputValues);
     onClose();
   }
 

@@ -12,7 +12,7 @@ export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
 }));
 
 export const StyledReservationTableContainer = styled(TableContainer)(({ theme }) => ({
-  width: "90%",
+  width: "100%",
 }));
 
 export const StyledTableRow = styled(TableRow, {

@@ -8,6 +8,7 @@ import ReservationGenerationMethod from "../../components/reservation-generation
 import ReservationTable from "../../components/reservation-table/reservation-table.component";
 import PlusButton from "../../components/plus-button/plus-button.component";
 import ReservationModal from "../../components/reservation-modal/reservation-modal.component";
+import { UpdateButton as GenerateButton } from "../../components/update-button/update-button.component";
 
 import { selectReservations } from "../../store/reservation/reservation.selector";
 import { useOpenClose } from "../../hooks/useModalToggle";
@@ -49,6 +50,10 @@ const ReservationsPage = () => {
     e.preventDefault();
   };
 
+  const onHandleGenerate = () => {
+
+  }
+
   return (
     <Box sx={{ padding: "50px 25px" }}>
       <form
@@ -69,6 +74,7 @@ const ReservationsPage = () => {
           {generationMethod === "manually" ? (
             <PlusButton onClick={onHandleClick} />
           ) : (
+            <>
             <CustomTextField
               value={numOfReservations}
               name="numOfReservations"
@@ -78,8 +84,7 @@ const ReservationsPage = () => {
               type="number"
               variant="standard"
             />
-          )}
-          <Button
+            <Button
             sx={{ width: "70px", height: "45px", marginLeft: "35px" }}
             type="submit"
             variant="contained"
@@ -87,10 +92,14 @@ const ReservationsPage = () => {
           >
             Submit
           </Button>
+            </>
+          )}
         </Box>
       </form>
        <ReservationModal open={isReservationModalOpen} onClose={closeReservationModal} />  
-      <ReservationTable reservations={reservations} tableReservationInputValues={tableReservationInputValues} setTableReservationInputValues={setTableReservationInputValues} />
+      <ReservationTable reservations={reservations} setTableReservationInputValues={setTableReservationInputValues}>
+            <GenerateButton name="Generate" onHandleUpdate={onHandleGenerate} />
+      </ReservationTable>
     </Box>
   );
 };

@@ -25,7 +25,7 @@ const CarTable = ({ infrastructureData, setTableCarInputValues, children }) => {
   return (
     <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
       <StyledTableContainer component={Paper}>
-        <Table size="small" sx={{ minWidth: 250 }} aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 20 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Cars</StyledTableCell>

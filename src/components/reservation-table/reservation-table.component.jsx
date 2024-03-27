@@ -20,7 +20,8 @@ import { DateTimePicker as ExpoTime } from "../date-time-picker/date-time-picker
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const ReservationTable = ({ reservations, setTableReservationInputValues }) => {
+const ReservationTable = ({ reservations, setTableReservationInputValues, children }) => {
+  console.log('reservation', reservations);
   
     const handleInputChange = (reservationId, target) => {
     const { name, value } = target;
@@ -155,6 +156,8 @@ const ReservationTable = ({ reservations, setTableReservationInputValues }) => {
           )}
         </Table>
       </StyledReservationTableContainer>
+      
+      {children}
     </Box>
   );
 };

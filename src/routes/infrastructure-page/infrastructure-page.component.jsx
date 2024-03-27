@@ -5,7 +5,8 @@ import dayjs from "dayjs";
 import WallBoxTable from "../../components/wallbox-table/wallbox-table.component";
 import CarTable from "../../components/car-table/car-table.component";
 import ConnectionLoadTable from "../../components/connection-load-table/connection-load-table";
-import {DateTimePicker as SimulationStartTime}  from "../../components/date-time-picker/date-time-picker.component";
+import { DateTimePicker as SimulationStartTime } from "../../components/date-time-picker/date-time-picker.component";
+import { UpdateButton } from "../../components/update-button/update-button.component";
 
 import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
 import {
@@ -53,8 +54,8 @@ const InfrastructurePage = () => {
   };
 
   const onHandleDateTimeChange = (value) => {
-    setInputValues((prevValue) => ({...prevValue, startTime: value}));
-  }
+    setInputValues((prevValue) => ({ ...prevValue, startTime: value }));
+  };
 
   const onHandleSumbit = (e) => {
     e.preventDefault();
@@ -273,8 +274,14 @@ const InfrastructurePage = () => {
         </Box>
       </Box>
 
-        {/* Tables */}
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      {/* Tables */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
         <WallBoxTable
           setTableWbInputValues={setTableWbInputValues}
           infrastructureData={infrastructureData}
@@ -283,26 +290,7 @@ const InfrastructurePage = () => {
           setTableCarInputValues={setTableCarInputValues}
           infrastructureData={infrastructureData}
         >
-          <Button
-            sx={{
-              maxWidth: "80px",
-              height: "60px",
-              display: "block",
-              margin: "15px auto",
-              borderRadius: "10px",
-              fontSize: "11px",
-              padding: "0px",
-              fontWeight: "bold",
-              position: "absolute",
-              left: "36%"
-            }}
-            type="button"
-            variant="contained"
-            color="secondary"
-            onClick={onHandleUpdate}
-          >
-            Update
-          </Button>
+          <UpdateButton name="Update" onHandleUpdate={onHandleUpdate} />
         </CarTable>
         <ConnectionLoadTable
           setTableCLInputValues={setTableCLInputValues}
