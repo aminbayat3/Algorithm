@@ -227,52 +227,6 @@ const InfrastructurePage = () => {
           </Button>
         </Box>
       </form>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box
-          sx={{
-            display: "flex",
-            margin: "10px",
-            width: "30%",
-            justifyContent: "center",
-          }}
-        >
-          <Heading variant="h4" component="h1">
-            WallBoxes
-          </Heading>
-          <Box
-            component="img"
-            sx={{ width: "25px", height: "25px", margin: "0 10px" }}
-            src={wallboxImg}
-            alt="wallbox img"
-          />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            margin: "10px",
-            width: "32%",
-            justifyContent: "center",
-          }}
-        >
-          <Heading variant="h4" component="h1">
-            Cars
-          </Heading>
-          <DirectionsCarFilledIcon sx={{ marginLeft: "15px" }} />
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            margin: "10px",
-            width: "32%",
-            justifyContent: "center",
-          }}
-        >
-          <Heading variant="h4" component="h1">
-            CL
-          </Heading>
-          <BatteryChargingFullIcon sx={{ marginLeft: "15px" }} />
-        </Box>
-      </Box>
 
       {/* Tables */}
       <Box
@@ -282,21 +236,70 @@ const InfrastructurePage = () => {
           flexWrap: "wrap",
         }}
       >
-        <WallBoxTable
-          setTableWbInputValues={setTableWbInputValues}
-          infrastructureData={infrastructureData}
-        />
-        <CarTable
-          setTableCarInputValues={setTableCarInputValues}
-          infrastructureData={infrastructureData}
-        >
-          <UpdateButton name="Update" onHandleUpdate={onHandleUpdate} />
-        </CarTable>
-        <ConnectionLoadTable
-          setTableCLInputValues={setTableCLInputValues}
-          infrastructureData={infrastructureData}
-          connectionLoad={connectionLoad}
-        />
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{
+              display: "flex",
+              margin: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <Heading variant="h4" component="h1">
+              WallBoxes
+            </Heading>
+            <Box
+              component="img"
+              sx={{ width: "25px", height: "25px", margin: "0 10px" }}
+              src={wallboxImg}
+              alt="wallbox img"
+            />
+          </Box>
+          <WallBoxTable
+            setTableWbInputValues={setTableWbInputValues}
+            infrastructureData={infrastructureData}
+          />
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{
+              display: "flex",
+              margin: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <Heading variant="h4" component="h1">
+              Cars
+            </Heading>
+            <DirectionsCarFilledIcon sx={{ marginLeft: "15px" }} />
+          </Box>
+          <CarTable
+            setTableCarInputValues={setTableCarInputValues}
+            infrastructureData={infrastructureData}
+          >
+            <UpdateButton name="Update" onHandleUpdate={onHandleUpdate} />
+          </CarTable>
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Box
+            sx={{
+              display: "flex",
+              margin: "10px",
+              justifyContent: "center",
+            }}
+          >
+            <Heading variant="h4" component="h1">
+              CL
+            </Heading>
+            <BatteryChargingFullIcon sx={{ marginLeft: "15px" }} />
+          </Box>
+          <ConnectionLoadTable
+            setTableCLInputValues={setTableCLInputValues}
+            infrastructureData={infrastructureData}
+            connectionLoad={connectionLoad}
+          />
+        </Box>
       </Box>
     </Box>
   );

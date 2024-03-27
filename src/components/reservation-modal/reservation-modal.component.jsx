@@ -55,7 +55,7 @@ const ReservationModal = ({ onClose, open }) => {
 
   const handleAddReservation = () => {
     const newReservation = {
-        id: `RS${numOfReservations}`,
+        id: `RS${numOfReservations + 1}`,
         carId: carId,
         expi: expi,
         expo: expo,

@@ -51,7 +51,31 @@ const ReservationsPage = () => {
   };
 
   const onHandleGenerate = () => {
+      console.log("Updated Reservations", tableReservationInputValues);
 
+    //later we need to move it to a function
+    const updatedReservations = reservations.map((reservation) => {
+      if (tableReservationInputValues[reservation.id]) {
+        let reservationUpdate = tableReservationInputValues[reservation.id];
+        // Create a copy of the car object to avoid mutating the original
+        let updatedReservation = { ...reservation };
+        for (let prop in reservationUpdate) {
+          if (prop === "expi") {
+            updatedReservation.expi = reservationUpdate[prop];
+          } else if (prop === "expo") {
+            updatedReservation.expo = reservationUpdate[prop];
+          } else if (prop === "neededEnergy") {
+            updatedReservation.neededEnergy = +reservationUpdate[prop];
+          } else if (prop === "priority") {
+            updatedReservation.priority = +reservationUpdate[prop];
+          }
+        }
+        return updatedReservation;
+      }
+      return reservation;
+    });
+
+    console.log("updatedReservations", updatedReservations);
   }
 
   return (
