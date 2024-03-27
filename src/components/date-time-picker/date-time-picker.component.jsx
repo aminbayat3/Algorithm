@@ -4,14 +4,15 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
 import Box from "@mui/material/Box";
 
-export const DateTimePicker = ({ onHandleDateTimeChange, value, defaultValue, label }) => {
+export const DateTimePicker = ({ onHandleDateTimeChange, value, defaultValue, label, name }) => {
   return (
     <Box sx={{display: "flex", justifyContent: "center"}}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["MobileTimePicker"]}>
           <DemoItem label={label}>
             <MobileDateTimePicker
-              value={value}
+              value={value && value}
+              name={name}
               defaultValue={defaultValue}
               onChange={onHandleDateTimeChange}
             />

@@ -20,8 +20,7 @@ import { DateTimePicker as ExpoTime } from "../date-time-picker/date-time-picker
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const ReservationTable = ({ reservations, tableReservationInputValues, setTableReservationInputValues }) => {
-  const {priority,  } = tableReservationInputValues
+const ReservationTable = ({ reservations, setTableReservationInputValues }) => {
   
     const handleInputChange = (reservationId, target) => {
     const { name, value } = target;
@@ -34,6 +33,16 @@ const ReservationTable = ({ reservations, tableReservationInputValues, setTableR
       },
     }));
   };
+
+  const handleDateTimeChange = (reservationId, value, name) => {
+    setTableReservationInputValues((prev) => ({
+      ...prev,
+      [reservationId]: {
+        ...prev[reservationId],
+        [name]: value,
+      },
+    }));
+  } 
 
   return (
     <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
@@ -74,9 +83,10 @@ const ReservationTable = ({ reservations, tableReservationInputValues, setTableR
                       scope="row"
                     >
                       <ExpiTime
-                        onHandleDateTimeChange={(e) =>
-                          handleInputChange(reservation.id, e.target)
+                        onHandleDateTismeChange={(value) =>
+                          handleDateTimeChange(reservation.id, value, "expi")
                         }
+                        name="expi"
                         label=""
                         defaultValue={reservation.expi}
                       />
@@ -89,9 +99,10 @@ const ReservationTable = ({ reservations, tableReservationInputValues, setTableR
                       scope="row"
                     >
                       <ExpoTime
-                        onHandleDateTimeChange={(e) =>
-                          handleInputChange(reservation.id, e.target)
+                        onHandleDateTimeChange={(value) =>
+                          handleDateTimeChange(reservation.id, value, "expo")
                         }
+                        name="expo"
                         label=""
                         defaultValue={reservation.expo}
                       />
