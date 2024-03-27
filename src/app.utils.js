@@ -51,95 +51,95 @@ const isSameOrAfter = (time1, time2) => {
   return time1.isAfter(time2) || time1.isSame(time2);
 }
 
-// export const calculateCarsDataSimulation = (carsData, startTime, endTime, intervalDuration, connectedCars) => {
-//   const intervals = generateTwoDayTimestamps(startTime, endTime, intervalDuration);
+export const calculateCarsDataSimulation = (carsData, startTime, endTime, intervalDuration, connectedCars) => {
+  const intervals = generateTwoDayTimestamps(startTime, endTime, intervalDuration);
 
-//   let j = 0;
+  let j = 0;
 
-//   for(let i = 0; i < intervals.length; i++) { 
-//     const plugedInCar = carsData.find(car => !car.isPlugedIn && isSameOrAfter(intervals[i].end, car.plugInTime));
-//     const plugedOutCar = carsData.find(car => !car.isPlugedOut && isSameOrAfter(intervals[i].end, car.plugOutTime));
-//     const carNeedMet = carsData.find(car => !car.isNeedMet && car.soc >= car.energyRequired);
-//     if(plugedInCar) { 
-//       plugedInCar.isPlugedIn = true;
-//       connectedCars.push(plugedInCar);
-//       break;
-//     }
-//     if(plugedOutCar) { // plug out
-//       plugedOutCar.isPlugedOut = true;
-//       connectedCars = connectedCars.filter(car => car.name !== plugedOutCar.name);
-//       break;
-//     }
-//      if(carNeedMet) { // need met
-//       carNeedMet.isNeedMet = true;
-//       carNeedMet.fulfilledTime = intervals[i].start;
-//       break;
-//     }
+  for(let i = 0; i < intervals.length; i++) { 
+    const plugedInCar = carsData.find(car => !car.isPlugedIn && isSameOrAfter(intervals[i].end, car.plugInTime));
+    const plugedOutCar = carsData.find(car => !car.isPlugedOut && isSameOrAfter(intervals[i].end, car.plugOutTime));
+    const carNeedMet = carsData.find(car => !car.isNeedMet && car.soc >= car.energyRequired);
+    if(plugedInCar) { 
+      plugedInCar.isPlugedIn = true;
+      connectedCars.push(plugedInCar);
+      break;
+    }
+    if(plugedOutCar) { // plug out
+      plugedOutCar.isPlugedOut = true;
+      connectedCars = connectedCars.filter(car => car.name !== plugedOutCar.name);
+      break;
+    }
+     if(carNeedMet) { // need met
+      carNeedMet.isNeedMet = true;
+      carNeedMet.fulfilledTime = intervals[i].start;
+      break;
+    }
     
-//     const standByCars = connectedCars.map(car => { 
-//       if(car.isNeedMet) return car;
-//     });
+    const standByCars = connectedCars.map(car => { 
+      if(car.isNeedMet) return car;
+    });
 
-//     const chargingNeededCars = connectedCars.map(car => {
-//       if(!car.isNeedMet) return car;
-//     });
+    const chargingNeededCars = connectedCars.map(car => {
+      if(!car.isNeedMet) return car;
+    });
 
-//     // this variable indicates how much of the connection load will be consumed by the cars that their need is not fulfilled, then we check if this amount is less than the total connection load, we can assign the rest to the standBy cars.
-//     let totalCharginLoad = 0;
+    // this variable indicates how much of the connection load will be consumed by the cars that their need is not fulfilled, then we check if this amount is less than the total connection load, we can assign the rest to the standBy cars.
+    let totalCharginLoad = 0;
 
-//     chargingNeededCars.length > 0 && chargingNeededCars.forEach(car => {
-//       const minimumChargeLoad =  Math.min(CONNECTED_LOAD/chargingNeededCars.length, car.maxAcConnectionLoad);
-//       car.soc += intervalDuration/60 * minimumChargeLoad;
-//       totalCharginLoad +=  minimumChargeLoad;
-//     });
+    chargingNeededCars.length > 0 && chargingNeededCars.forEach(car => {
+      const minimumChargeLoad =  Math.min(CONNECTED_LOAD/chargingNeededCars.length, car.maxAcConnectionLoad);
+      car.soc += intervalDuration/60 * minimumChargeLoad;
+      totalCharginLoad +=  minimumChargeLoad;
+    });
 
-//     const chargingLoadDiff = CONNECTED_LOAD - totalCharginLoad;
+    const chargingLoadDiff = CONNECTED_LOAD - totalCharginLoad;
 
-//     if(chargingLoadDiff > 0) {
-//       standByCars.forEach(car => {
-//         car.soc += intervalDuration/60 * Math.min(chargingLoadDiff/standByCars.length, car.maxAcConnectionLoad);
-//       });
-//     }
+    if(chargingLoadDiff > 0) {
+      standByCars.forEach(car => {
+        car.soc += intervalDuration/60 * Math.min(chargingLoadDiff/standByCars.length, car.maxAcConnectionLoad);
+      });
+    }
 
-//     j++;
-//   }
+    j++;
+  }
 
-//   j < intervals.length && calculateCarsDataSimulation(carsData, intervals[j].end, endTime, intervalDuration, connectedCars);
+  j < intervals.length && calculateCarsDataSimulation(carsData, intervals[j].end, endTime, intervalDuration, connectedCars);
 
-//   return carsData;
-// }
+  return carsData;
+}
 
-// export const calculateReadyTimesWithSimulationFirstTry = (r, c, n, plugInTime, intervalDuration, maxChargeCapacity = 11) => {
-//   debugger;
-//   const intervals = generateTwoDayTimestamps(plugInTime, intervalDuration);
-//   let j = 0;
-//   let k = n;
-//   let total = 0;
-//   let readyTimeArray = [];
+export const calculateReadyTimesWithSimulationFirstTry = (r, c, n, plugInTime, intervalDuration, maxChargeCapacity = 11) => {
+  debugger;
+  const intervals = generateTwoDayTimestamps(plugInTime, intervalDuration);
+  let j = 0;
+  let k = n;
+  let total = 0;
+  let readyTimeArray = [];
 
 
-//   for(let i = 0; i < intervals.length; i++) {
-//     if(j === n) {
-//       return readyTimeArray;
-//     }
+  for(let i = 0; i < intervals.length; i++) {
+    if(j === n) {
+      return readyTimeArray;
+    }
 
-//     if(total >= r[j]) {
-//       readyTimeArray.push(intervals[i].end);
-//       k--;
-//       j++;
-//       continue;
-//     } 
+    if(total >= r[j]) {
+      readyTimeArray.push(intervals[i].end);
+      k--;
+      j++;
+      continue;
+    } 
 
-//     total += intervalDuration/60 * Math.min(c/k, maxChargeCapacity);
-//     intervals[i].energy = total;
+    total += intervalDuration/60 * Math.min(c/k, maxChargeCapacity);
+    intervals[i].energy = total;
 
-//     if(intervals[i].energy >= r[j]) {
-//       readyTimeArray.push(intervals[i].end.format('YYYY.MM.DD HH:mm'));
-//       k--;
-//       j++;
-//     }
-//   }
-// }
+    if(intervals[i].energy >= r[j]) {
+      readyTimeArray.push(intervals[i].end.format('YYYY.MM.DD HH:mm'));
+      k--;
+      j++;
+    }
+  }
+}
 
 // export const calculateReadyTimesWithDifferentPluginTimes = (r, pluginTimes, c, n, maxChargeCapacity = 11) => {
 //   debugger;

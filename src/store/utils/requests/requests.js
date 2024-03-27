@@ -16,14 +16,23 @@ export const carsDataAsyncRequest = async (bodyParams) => {
     return await instance.post("CarChargingStatus", JSON.stringify(bodyParams))
 } 
 
+// infrastructure requests
+
 export const getInfrastructureDataAsyncRequest = async () => { 
   return await instance.get("InfrastructureData");
 } 
-
 export const addInfrastructureDataAsyncRequest = async (bodyParams) => { 
   return await instance.post("InfrastructureData", JSON.stringify(bodyParams))
 } 
-
 export const updateInfrastructureDataAsyncRequest = async (bodyParams) => { 
   return await instance.put("InfrastructureData", JSON.stringify(bodyParams))
 } 
+
+//reservation requests
+
+export const getReservationsAsyncRequest = async () => { 
+  return await instance.get("Reservations");
+} 
+export const addReservationsAsyncRequest = async (bodyParams) => {
+  return await instance.post("Reservations", JSON.stringify(bodyParams))
+}

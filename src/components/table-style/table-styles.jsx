@@ -8,7 +8,7 @@ import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 
 
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
-  width: "90%",
+  width: "100%",
 }));
 
 export const StyledTableRow = styled(TableRow, {
@@ -22,6 +22,7 @@ export const StyledTableRow = styled(TableRow, {
     : {
         backgroundColor: `${theme.palette.secondary.light}`,
         color: `${theme.palette.secondary.contrastText}`,
+        height: "20px"
       }),
 }));
 

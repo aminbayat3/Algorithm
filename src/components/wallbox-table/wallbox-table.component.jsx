@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,11 +6,7 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 
 
-import {
-  StyledTableContainer,
-  StyledTableRow,
-  StyledTableCell,
-} from "./wallbox-table.styles";
+import { StyledTableContainer, StyledTableRow, StyledTableCell } from "../table-style/table-styles";
 
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
@@ -32,9 +26,9 @@ const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
   };
 
   return (
-    <Box sx={{ margin: "45px" }}>
+    <Box sx={{ margin: "45px", flexGrow: "1" }}>
       <StyledTableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Wallbox</StyledTableCell>
@@ -50,17 +44,17 @@ const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
                     type={TABLE_ELEMENT_TYPES.BODY}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="center" component="th" scope="row">
+                    <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center" component="th" scope="row">
                       {wallbox.name}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
                       <TextField
-                        name="AcLimit"
+                        name="acLimit"
                         sx={{width: "40px", margin: "5px"}}
                         id={`standard-basic-${wallbox.id}`}
                         onChange={(e) => handleInputChange(wallbox.id, e.target)}
                         type="number"
-                        defaultValue={wallbox.AcLimit}
+                        defaultValue={wallbox.acLimit}
                         variant="standard"
                       />
                     </TableCell>

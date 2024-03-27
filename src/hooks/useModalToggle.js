@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export const useToggle = () => {
-  const [isToggled, setToggled] = useState(false);
+export const useOpenClose = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleOn = () => setToggled(true);
-  const toggleOff = () => setToggled(false);
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
 
-  return { isToggled, toggleOn, toggleOff };
+  return { isOpen, open, close };
 };

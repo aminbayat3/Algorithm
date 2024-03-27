@@ -10,6 +10,6 @@ export const Heading = styled(Typography)(({theme}) => ({
 
 
 export const CustomTextField = styled(TextField)(({ theme }) => ({
-    width: '120px',
-    margin: "30px 30px 0 30px"
+    width: '128px',
+    margin: "0 20px"
 }));

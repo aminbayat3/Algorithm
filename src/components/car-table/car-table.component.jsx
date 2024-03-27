@@ -4,16 +4,12 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import {
-  StyledTableContainer,
-  StyledTableRow,
-  StyledTableCell,
-} from "./car-table.styles";
+import { StyledTableRow, StyledTableCell, StyledTableContainer } from "../table-style/table-styles";
 
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
+const CarTable = ({ infrastructureData, setTableCarInputValues, children }) => {
   const handleInputChange = (carId, target) => {
     const {name, value} = target;
 
@@ -27,9 +23,9 @@ const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
   };
 
   return (
-    <Box sx={{ margin: "45px" }}>
+    <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
       <StyledTableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Cars</StyledTableCell>
@@ -46,10 +42,10 @@ const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
                     type={TABLE_ELEMENT_TYPES.BODY}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell align="center" component="th" scope="row">
+                    <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center" component="th" scope="row">
                       {car.name}
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
                       <TextField
                         name="tankSize"
                         sx={{ width: "40px", margin: "5px" }}
@@ -60,7 +56,7 @@ const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
                         variant="standard"
                       />
                     </TableCell>
-                    <TableCell align="center">
+                    <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
                       <TextField
                         name="maxAcConnectionLoad"
                         sx={{ width: "40px", margin: "5px" }}
@@ -86,6 +82,8 @@ const CarTable = ({ infrastructureData, setTableCarInputValues }) => {
           )}
         </Table>
       </StyledTableContainer>
+
+      {children}
     </Box>
   );
 };

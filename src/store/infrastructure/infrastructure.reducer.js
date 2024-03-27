@@ -6,10 +6,11 @@ const INFRASTRUCTURE_INITIAL_STATE = {
     startTime: dayjs(Date.now()),
     endTime: dayjs(Date.now).add(2, "day"),
     legSizeInMinutes: 15,
-    connectionLoad: 20,
+    connectionLoads: [],
     wallboxes: [],
     cars: [],
   },
+  error: null,
 };
 
 export const infrastructureReducer = (

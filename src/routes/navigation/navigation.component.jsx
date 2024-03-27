@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 import NavbarItems from "./navbar-items.components";
 import ThemeSelectBox from "./theme-select.component";
 
-import { useToggle } from "../../hooks/useModalToggle";
+import { useOpenClose } from "../../hooks/useModalToggle";
 
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
@@ -36,10 +36,10 @@ const Navigation = () => {
   } = useTheme();
 
   const {
-    isToggled: isDrawerOpen,
-    toggleOn: openDrawer,
-    toggleOff: closeDrawer,
-  } = useToggle();
+    isOpen: isDrawerOpen,
+    open: openDrawer,
+    close: closeDrawer,
+  } = useOpenClose();
 
   return (
     <Box sx={{ display: "flex" }}>

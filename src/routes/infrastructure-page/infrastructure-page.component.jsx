@@ -4,16 +4,22 @@ import dayjs from "dayjs";
 
 import WallBoxTable from "../../components/wallbox-table/wallbox-table.component";
 import CarTable from "../../components/car-table/car-table.component";
-import SimulationStartTime from "../../components/plugin-date-picker/plugin-date-picker.component";
+import ConnectionLoadTable from "../../components/connection-load-table/connection-load-table";
+import {DateTimePicker as SimulationStartTime}  from "../../components/date-time-picker/date-time-picker.component";
 
 import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
-import { addInfrastructureDataStart } from "../../store/infrastructure/infrastructure.action";
+import {
+  addInfrastructureDataStart,
+  updateInfrastructureStart,
+} from "../../store/infrastructure/infrastructure.action";
+import { isSameOrBefore } from "../../utils/utils";
 
 import { Box } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Heading, CustomTextField } from "./infrastructure-page.styles";
 
-import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
+import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
+import BatteryChargingFullIcon from "@mui/icons-material/BatteryChargingFull";
 import wallboxImg from "../../assets/wallbox.png";
 
 const defaultInputValues = {
@@ -28,11 +34,15 @@ const InfrastructurePage = () => {
   const infrastructureData = useSelector(selectInfrastructureData);
   const [tableWbInputValues, setTableWbInputValues] = useState({});
   const [tableCarInputValues, setTableCarInputValues] = useState({});
+  const [tableCLInputValues, setTableCLInputValues] = useState({});
   const dispatch = useDispatch();
-  const carsData = [{id: "Car1", name: "Car 1", maxAcConnectionLoad: 11, tankSize: 60 }, {id: "Car2", name: "Car 2", maxAcConnectionLoad: 11, tankSize: 60 }]
-  infrastructureData.cars = carsData
+
   const { numberOfWB, legSizeInMinutes, connectionLoad, startTime } =
     inputValues;
+
+  useEffect(() => {
+    console.log(infrastructureData);
+  }, [infrastructureData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,45 +52,137 @@ const InfrastructurePage = () => {
     });
   };
 
+  const onHandleDateTimeChange = (value) => {
+    setInputValues((prevValue) => ({...prevValue, startTime: value}));
+  }
+
   const onHandleSumbit = (e) => {
     e.preventDefault();
 
+    let clTime = startTime; // connectionLoad Time
+    let endTime = startTime.add(2, "day");
     let wallboxes = [];
     let cars = [];
+    let connectionLoads = [];
 
-    for(let i = 0; i < numberOfWB; i++) {
-      wallboxes.push({id: `WB${i+1}`, name: `WB ${i+1}`, AcLimit: 11, isActive: true});
-      cars.push({id: `Car${i+1}`, name: `Car ${i+1}`, tankSize: 60, maxAcConnectionLoad: 11 });
+    for (let i = 0; i < numberOfWB; i++) {
+      wallboxes.push({
+        id: `WB${i + 1}`,
+        name: `WB ${i + 1}`,
+        acLimit: 11,
+        isActive: true,
+      });
+      cars.push({
+        id: `Car${i + 1}`,
+        name: `Car ${i + 1}`,
+        tankSize: 60,
+        maxAcConnectionLoad: 11,
+      });
     }
 
-    dispatch(addInfrastructureDataStart({...inputValues, wallboxes, cars}));
+    let counter = 1;
+    while (isSameOrBefore(dayjs(clTime), dayjs(endTime))) {
+      connectionLoads.push({
+        id: `CL${counter}`,
+        time: dayjs(clTime),
+        value: connectionLoad,
+      });
+      clTime = dayjs(clTime).add(1, "hour");
+      counter++;
+    }
+
+    dispatch(
+      addInfrastructureDataStart({
+        legDuration: legSizeInMinutes,
+        connectionLoads,
+        startTime,
+        wallboxes,
+        cars,
+        endTime,
+      })
+    );
   };
 
   const onHandleUpdate = () => {
-    console.log('Updated wb values:', tableWbInputValues);
-    console.log('Updated car values:', tableCarInputValues);
+    // console.log("Updated wb values:", tableWbInputValues);
+    // console.log("Updated car values:", tableCarInputValues);
+    // console.log("Updated CL values:", tableCLInputValues);
 
-    infrastructureData.cars.forEach(car => {
+    //later we need to move it to a function
+    const updatedCars = infrastructureData.cars.map((car) => {
       if (tableCarInputValues[car.id]) {
         let carUpdate = tableCarInputValues[car.id];
+        // Create a copy of the car object to avoid mutating the original
+        let updatedCar = { ...car };
         for (let prop in carUpdate) {
-          // Note: Here we check if the property in updates needs to be reflected in the original car object.
-          if (prop === 'maxAcConnectionLoad') {
-            car.maxAcConnectionLoad = +carUpdate[prop];
-          } else if (prop === 'tankSize') {
-            car.tankSize = +carUpdate[prop];
+          if (prop === "maxAcConnectionLoad") {
+            updatedCar.maxAcConnectionLoad = +carUpdate[prop];
+          } else if (prop === "tankSize") {
+            updatedCar.tankSize = +carUpdate[prop];
           }
         }
+        return updatedCar;
       }
+      return car;
     });
 
-    console.log('infrastructuredata', infrastructureData.cars);
-  }
+    // Create a new array of wallboxes with updated properties
+    const updatedWallboxes = infrastructureData.wallboxes.map((wallbox) => {
+      if (tableWbInputValues[wallbox.id]) {
+        let wallboxUpdate = tableWbInputValues[wallbox.id];
+        // Create a copy of the wallbox object to avoid mutating the original
+        let updatedWallbox = { ...wallbox };
+        for (let prop in wallboxUpdate) {
+          if (prop === "acLimit") {
+            updatedWallbox.acLimit = +wallboxUpdate[prop];
+          }
+        }
+        return updatedWallbox;
+      }
+      return wallbox;
+    });
+
+    const updateConnectionLoads = infrastructureData.connectionLoads.map(
+      (cl) => {
+        if (tableCLInputValues[cl.id]) {
+          let clUpdate = tableCLInputValues[cl.id];
+
+          let updatedCl = { ...cl };
+          for (let prop in clUpdate) {
+            if (prop === "value") {
+              updatedCl.value = +clUpdate[prop];
+            }
+          }
+          return updatedCl;
+        }
+        return cl;
+      }
+    );
+
+    // Create a new infrastructureData object with the updated arrays
+    const newInfrastructureData = {
+      ...infrastructureData,
+      cars: updatedCars,
+      wallboxes: updatedWallboxes,
+      connectionLoads: updateConnectionLoads,
+    };
+
+    dispatch(updateInfrastructureStart(newInfrastructureData));
+  };
 
   return (
     <Box sx={{ padding: "25px" }}>
-      <form style={{ display: "flex", marginBottom: "55px" }} onSubmit={onHandleSumbit}>
-        <Box sx={{display: "flex", justifyContent: "center", alignItems: "flex-end"}}>
+      <form
+        style={{ display: "flex", marginBottom: "55px" }}
+        onSubmit={onHandleSumbit}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-end",
+          }}
+        >
           <CustomTextField
             value={numberOfWB}
             name="numberOfWB"
@@ -109,8 +211,9 @@ const InfrastructurePage = () => {
             variant="standard"
           />
           <SimulationStartTime
-            setInputValues={setInputValues}
-            startTime={startTime}
+            onHandleDateTimeChange={onHandleDateTimeChange}
+            label="Start Time"
+            value={startTime}
           />
 
           <Button
@@ -123,31 +226,76 @@ const InfrastructurePage = () => {
           </Button>
         </Box>
       </form>
-      <Box sx={{ display: "flex", margin: "10px" }}>
-        <Heading variant="h4" component="h1">
-          WallBoxes
-        </Heading>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box
-          component="img"
-          sx={{ width: "25px", height: "25px", margin: "0 10px" }}
-          src={wallboxImg}
-          alt="wallbox img"
-        />
+          sx={{
+            display: "flex",
+            margin: "10px",
+            width: "30%",
+            justifyContent: "center",
+          }}
+        >
+          <Heading variant="h4" component="h1">
+            WallBoxes
+          </Heading>
+          <Box
+            component="img"
+            sx={{ width: "25px", height: "25px", margin: "0 10px" }}
+            src={wallboxImg}
+            alt="wallbox img"
+          />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            margin: "10px",
+            width: "32%",
+            justifyContent: "center",
+          }}
+        >
+          <Heading variant="h4" component="h1">
+            Cars
+          </Heading>
+          <DirectionsCarFilledIcon sx={{ marginLeft: "15px" }} />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            margin: "10px",
+            width: "32%",
+            justifyContent: "center",
+          }}
+        >
+          <Heading variant="h4" component="h1">
+            CL
+          </Heading>
+          <BatteryChargingFullIcon sx={{ marginLeft: "15px" }} />
+        </Box>
       </Box>
-      {/* infrastructureData={{wallboxes: [{id: "WB1", name: "WB 1", AcLimit: 11 }, {id: "WB2", name: "WB 2", AcLimit: 11 }]} */}
-      <WallBoxTable setTableWbInputValues={setTableWbInputValues} infrastructureData={{wallboxes: [{id: "WB1", name: "WB 1", AcLimit: 11 }, {id: "WB2", name: "WB 2", AcLimit: 11 }]}} />
 
-      <Box sx={{ display: "flex", margin: "100px 10px" }}>
-        <Heading variant="h4" component="h1">
-          Cars
-        </Heading>
-        <DirectionsCarFilledIcon sx={{marginLeft: "15px"}} />
-      </Box>
-      {/* {cars: [{id: "Car1", name: "Car 1", maxAcConnectionLoad: 11, tankSize: 60 }, {id: "Car2", name: "Car 2", maxAcConnectionLoad: 11, tankSize: 60 }]} */}
-      <CarTable setTableCarInputValues={setTableCarInputValues} infrastructureData={{cars: infrastructureData.cars}} />
-      
-      <Button
-            sx={{ maxWidth: "80px", height: "60px", display:"block", margin: "15px auto", borderRadius: "10px", fontSize: "11px", padding: "0px", fontWeight: "bold"  }}
+        {/* Tables */}
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <WallBoxTable
+          setTableWbInputValues={setTableWbInputValues}
+          infrastructureData={infrastructureData}
+        />
+        <CarTable
+          setTableCarInputValues={setTableCarInputValues}
+          infrastructureData={infrastructureData}
+        >
+          <Button
+            sx={{
+              maxWidth: "80px",
+              height: "60px",
+              display: "block",
+              margin: "15px auto",
+              borderRadius: "10px",
+              fontSize: "11px",
+              padding: "0px",
+              fontWeight: "bold",
+              position: "absolute",
+              left: "36%"
+            }}
             type="button"
             variant="contained"
             color="secondary"
@@ -155,6 +303,13 @@ const InfrastructurePage = () => {
           >
             Update
           </Button>
+        </CarTable>
+        <ConnectionLoadTable
+          setTableCLInputValues={setTableCLInputValues}
+          infrastructureData={infrastructureData}
+          connectionLoad={connectionLoad}
+        />
+      </Box>
     </Box>
   );
 };
