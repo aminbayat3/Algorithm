@@ -11,6 +11,10 @@ export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   width: "100%",
 }));
 
+export const StyledReservationTableContainer = styled(TableContainer)(({ theme }) => ({
+  width: "90%",
+}));
+
 export const StyledTableRow = styled(TableRow, {
   shouldForwardProp: (prop) => prop !== "type",
 })(({ theme, type }) => ({

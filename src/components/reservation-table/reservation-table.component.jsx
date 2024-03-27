@@ -12,7 +12,7 @@ import Select from "@mui/material/Select";
 import {
   StyledTableRow,
   StyledTableCell,
-  StyledTableContainer,
+  StyledReservationTableContainer,
 } from "../table-style/table-styles";
 import { DateTimePicker as ExpiTime } from "../date-time-picker/date-time-picker.component";
 import { DateTimePicker as ExpoTime } from "../date-time-picker/date-time-picker.component";
@@ -37,7 +37,7 @@ const ReservationTable = ({ reservations, tableReservationInputValues, setTableR
 
   return (
     <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
-      <StyledTableContainer component={Paper}>
+      <StyledReservationTableContainer component={Paper}>
         <Table size="small" sx={{ minWidth: 250 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
@@ -143,7 +143,7 @@ const ReservationTable = ({ reservations, tableReservationInputValues, setTableR
             </Typography>
           )}
         </Table>
-      </StyledTableContainer>
+      </StyledReservationTableContainer>
     </Box>
   );
 };
