@@ -26,6 +26,7 @@ export function* getReservationsAsync() {
 
 export function* addReservationsAsync(action) {
   try {
+    console.log("sending", action.payload);
     const response = yield call(addReservationsAsyncRequest, action.payload);
     console.log("response.data", response.data);
     yield put(addReservationsSuccess(response.data));

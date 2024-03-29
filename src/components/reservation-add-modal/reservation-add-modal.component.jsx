@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Box from "@mui/material/Box";
@@ -25,17 +25,17 @@ const defaultInputValues = {
   carId: "",
   expi: null,
   expo: null,
-  need: 40,
+  neededEnergy: 40,
   priority: 0,
 };
 
-const ReservationModal = ({ onClose, open }) => {
+const ReservationAddModal = ({ onClose, open }) => {
   const [inputValues, setInputValues] = useState(defaultInputValues);
   const infrastructureData = useSelector(selectInfrastructureData);
   const numOfReservations = useSelector(selectNumOfReservations);
   const dipatch = useDispatch();
 
-  const { carId, expi, expo, need, priority } = inputValues;
+  const { carId, expi, expo, neededEnergy, priority } = inputValues;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,8 +59,8 @@ const ReservationModal = ({ onClose, open }) => {
         carId: carId,
         expi: expi,
         expo: expo,
-        neededEnergy: need,
-        priority: priority,
+        neededEnergy: +neededEnergy,
+        priority: +priority,
     }
 
     dipatch(addReservation(newReservation));
@@ -119,8 +119,8 @@ const ReservationModal = ({ onClose, open }) => {
                 value={expo}
               />
               <TextField
-                value={need}
-                name="need"
+                value={neededEnergy}
+                name="neededEnergy"
                 sx={{ margin: "15px 0 35px 0" }}
                 onChange={handleChange}
                 id="standard-basic"
@@ -154,4 +154,4 @@ const ReservationModal = ({ onClose, open }) => {
   );
 };
 
-export default ReservationModal;
+export default ReservationAddModal;

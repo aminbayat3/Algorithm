@@ -84,7 +84,7 @@ const ReservationTable = ({ reservations, setTableReservationInputValues, childr
                       scope="row"
                     >
                       <ExpiTime
-                        onHandleDateTismeChange={(value) =>
+                        onHandleDateTimeChange={(value) =>
                           handleDateTimeChange(reservation.id, value, "expi")
                         }
                         name="expi"

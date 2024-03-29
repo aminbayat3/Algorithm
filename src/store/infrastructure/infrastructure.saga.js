@@ -28,6 +28,7 @@ export function* getInfrastructureDataAsync() {
 }
 
 export function* addInfrastructureDataAsync(action) {
+  console.log('sending infrastructure', action.payload);
   try {
     const response = yield call(
       addInfrastructureDataAsyncRequest,

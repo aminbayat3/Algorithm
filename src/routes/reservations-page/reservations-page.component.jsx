@@ -2,57 +2,39 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/material";
-import Button from "@mui/material/Button";
 
 import ReservationGenerationMethod from "../../components/reservation-generation-method/reservation-generation-method.component";
 import ReservationTable from "../../components/reservation-table/reservation-table.component";
 import PlusButton from "../../components/plus-button/plus-button.component";
-import ReservationModal from "../../components/reservation-modal/reservation-modal.component";
+import ReservationAddModal from "../../components/reservation-add-modal/reservation-add-modal.component";
+import ReservationConfigureModal from "../../components/reservation-configure-modal/reservation-configure-modal.component";
 import { UpdateButton as GenerateButton } from "../../components/update-button/update-button.component";
+
+import { addReservationsStart } from "../../store/reservation/reservation.action";
 
 import { selectReservations } from "../../store/reservation/reservation.selector";
 import { useOpenClose } from "../../hooks/useModalToggle";
 
-import { CustomTextField } from "../infrastructure-page/infrastructure-page.styles";
-
-const defaultInputValues = {
-  numOfReservations: 1,
-  generationMethod: "manually",
-};
-
 const ReservationsPage = () => {
-  const [inputValues, setInputValues] = useState(defaultInputValues);
+  const [generationMethod, setGenerationMethod] = useState("manually");
   const [tableReservationInputValues , setTableReservationInputValues] = useState({});
   const reservations = useSelector(selectReservations);
   const dispatch = useDispatch();
 
   const {
-    isOpen: isReservationModalOpen,
-    open: openReservationModal,
-    close: closeReservationModal,
+    isOpen: isReservationAddModalOpen,
+    open: openReservationAddModal,
+    close: closeReservationAddModal,
   } = useOpenClose();
 
-  const { numOfReservations, generationMethod } = inputValues;
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setInputValues({
-      ...inputValues,
-      [name]: value,
-    });
-  };
-
-  const onHandleClick = () => {
-    openReservationModal();
-  }
-
-  const onHandleSumbit = (e) => {
-    e.preventDefault();
-  };
+  const {
+    isOpen: isReservationConfigureModalOpen,
+    open: openReservationConfigureModal,
+    close: closeReservationConfigureModal,
+  } = useOpenClose();
 
   const onHandleGenerate = () => {
-      console.log("Updated Reservations", tableReservationInputValues);
-
+    console.log("update", tableReservationInputValues);
     //later we need to move it to a function
     const updatedReservations = reservations.map((reservation) => {
       if (tableReservationInputValues[reservation.id]) {
@@ -75,15 +57,12 @@ const ReservationsPage = () => {
       return reservation;
     });
 
-    console.log("updatedReservations", updatedReservations);
+    dispatch(addReservationsStart(updatedReservations));
   }
 
   return (
     <Box sx={{ padding: "50px 25px" }}>
-      <form
-        style={{ display: "flex", marginBottom: "55px" }}
-        onSubmit={onHandleSumbit}
-      >
+      <form style={{ display: "flex", marginBottom: "55px" }}>
         <Box
           sx={{
             display: "flex",
@@ -93,39 +72,23 @@ const ReservationsPage = () => {
         >
           <ReservationGenerationMethod
             generationMethod={generationMethod}
-            onChange={handleChange}
+            onChange={(e) => setGenerationMethod(e.target.value)}
           />
           {generationMethod === "manually" ? (
-            <PlusButton onClick={onHandleClick} />
+            <PlusButton name="Add" onClick={() => openReservationAddModal()} />
           ) : (
-            <>
-            <CustomTextField
-              value={numOfReservations}
-              name="numOfReservations"
-              onChange={handleChange}
-              id="standard-basic"
-              label="Number of Reservation"
-              type="number"
-              variant="standard"
-            />
-            <Button
-            sx={{ width: "70px", height: "45px", marginLeft: "35px" }}
-            type="submit"
-            variant="contained"
-            color="primary"
-          >
-            Submit
-          </Button>
-            </>
+            <PlusButton name="Configure" onClick={() => openReservationConfigureModal()} />
           )}
         </Box>
       </form>
-       <ReservationModal open={isReservationModalOpen} onClose={closeReservationModal} />  
+       <ReservationAddModal open={isReservationAddModalOpen} onClose={closeReservationAddModal} />  
+       <ReservationConfigureModal open={isReservationConfigureModalOpen} onClose={closeReservationConfigureModal} />
       <ReservationTable reservations={reservations} setTableReservationInputValues={setTableReservationInputValues}>
-            <GenerateButton name="Generate" onHandleUpdate={onHandleGenerate} />
+            <GenerateButton name={generationMethod === "manually" ? "Generate" : "Update"} onHandleUpdate={onHandleGenerate} />
       </ReservationTable>
     </Box>
   );
 };
 
 export default ReservationsPage;
+          

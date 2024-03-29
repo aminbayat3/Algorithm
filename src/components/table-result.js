@@ -17,7 +17,6 @@ import { getTimeDifference } from "../app.utils";
 const ResultTable = ({ carsDataSnapshot }) => {
   const startTime = useSelector(selectStartTime);
 
-  console.log('carsDataSnapshot', carsDataSnapshot)
   return (
     <StyledTableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
