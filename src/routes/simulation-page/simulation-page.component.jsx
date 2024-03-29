@@ -5,9 +5,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 
+import { SimulationTableHeading } from "../infrastructure-page/infrastructure-page.styles";
 import CommandWallboxTable from "../../components/command-wb-table/command-wb-table.component";
+import NotificationTable from "../../components/notification-table/notification-table.component";
 
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { StyledBox } from "./simulation-page.styles";
+import commandImg from "../../assets/command.png";
 
 const SimulationPage = () => {
   const [lastMessage, setLastMessage] = useState(null);
@@ -111,11 +115,48 @@ const SimulationPage = () => {
               : dayjs(Date.now()).format("D HH:mm")}
           </StyledBox>
         </Grid>
-        <Grid item xs={6}>
-            <CommandWallboxTable wallboxCommands={lastMessage?.CommandToWallBoxes} />      
+        <Grid item xs={4}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box
+              sx={{
+                display: "flex",
+                margin: "10px",
+                justifyContent: "center",
+              }}
+            >
+              <SimulationTableHeading component="h2">
+                Command To Wallboxes
+              </SimulationTableHeading>
+              <Box
+                component="img"
+                sx={{ width: "20px", height: "30px", margin: "0 10px" }}
+                src={commandImg}
+                alt="command img"
+              />
+            </Box>
+            <CommandWallboxTable
+              wallboxCommands={lastMessage?.CommandToWallBoxes}
+            />
+          </Box>
         </Grid>
-        <Grid item xs={6}>
-                {lastMessage?.NotificationToTheUser}
+        <Grid item xs={8}>
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Box
+              sx={{
+                display: "flex",
+                margin: "10px",
+                justifyContent: "center",
+              }}
+            >
+              <SimulationTableHeading component="h2">
+                Notification To User
+              </SimulationTableHeading>
+              <NotificationsActiveIcon sx={{ marginLeft: "15px" }} />
+            </Box>
+            <NotificationTable
+              notificationData={lastMessage?.NotificationToTheUser}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>

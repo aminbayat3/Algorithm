@@ -1,0 +1,3 @@
+export const SIMULATION_ACTION_TYPES = {
+    ADD_MESSAGE: "ADD_MESSAGE",
+}

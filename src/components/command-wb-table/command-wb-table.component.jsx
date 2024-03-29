@@ -15,7 +15,7 @@ const CommandWallboxTable = ({ wallboxCommands }) => {
   return (
     <Box sx={{ margin: "45px", flexGrow: "1" }}>
       <StyledCommandTableContainer component={Paper}>
-        <Table size="small" sx={{ minWidth: 100 }} aria-label="simple table">
+        <Table size="small" sx={{ minWidth: 70 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">WB</StyledTableCell>
@@ -31,10 +31,10 @@ const CommandWallboxTable = ({ wallboxCommands }) => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center" component="th" scope="row">
-                      {command.wallboxId}
+                      {command.WallboxId}
                     </TableCell>
                     <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
-                      {command.currentChargeLoad}
+                      {command.CurrentChargeLoad}
                     </TableCell>
                   </StyledTableRow>
                 );
