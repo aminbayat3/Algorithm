@@ -8,6 +8,7 @@ export const StyledBox = styled(Box)(({ theme }) => ({
     height: "100px",
     margin: "30px auto",
     borderRadius: "20px",
+    fontWeight: "bold",
     ...center,
     backgroundColor: theme.palette.primary.dark,
     color: theme.palette.primary.contrastText

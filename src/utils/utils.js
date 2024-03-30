@@ -32,3 +32,17 @@ export const getRandomDateBetween = (start, end) => {
   const randomDateTime = dayjs(randomMillis);
   return randomDateTime;
 }
+
+export const getNumericPart = (input) => {
+  // Use a regular expression to find the first occurrence of one or more digits in the string
+  const match = input.match(/\d+/);
+
+  // If there's a match, convert it to an integer and return it
+  if (match) {
+    return parseInt(match[0], 10);
+  }
+
+  // If no numeric part is found, you might want to return a default value or throw an error
+  // Here we'll return null to indicate no numeric part was found
+  return null;
+}

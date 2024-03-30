@@ -12,5 +12,10 @@ export const selectNumOfCars = createSelector(
     (infrastructureData) => infrastructureData.cars.length
 );
 
+export const selectWallboxes = createSelector(
+    [selectInfrastructureData],
+    (infrastructureData) => infrastructureData.wallboxes
+)
+
 
 

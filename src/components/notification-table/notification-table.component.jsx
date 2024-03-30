@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -36,10 +38,10 @@ const NotificationTable = ({ notificationData }) => {
                       {data.CarId}
                     </TableCell>
                     <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
-                      {data.NeedAt}
+                      {dayjs(data.NeedAt).format("D HH:mm")}
                     </TableCell>
                     <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
-                      {data.FullAt}
+                      {dayjs(data.FullAt).format("D HH:mm")}
                     </TableCell>
                     <TableCell sx={{ paddingBottom: '4px', paddingTop: '4px' }} align="center">
                       {data.KwhAtExpo}

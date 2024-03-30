@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 
 import Box from "@mui/material/Box";
@@ -9,17 +10,18 @@ import { SimulationTableHeading } from "../infrastructure-page/infrastructure-pa
 import CommandWallboxTable from "../../components/command-wb-table/command-wb-table.component";
 import NotificationTable from "../../components/notification-table/notification-table.component";
 
+import { setSimulationData } from "../../store/simulation/simulation.action";
+
+import { selectSimulationData } from "../../store/simulation/simulation.selector";
+
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { StyledBox } from "./simulation-page.styles";
 import commandImg from "../../assets/command.png";
 
 const SimulationPage = () => {
-  const [lastMessage, setLastMessage] = useState(null);
   const [webSocket, setWebSocket] = useState(null);
-
-  useEffect(() => {
-    console.log("messages", lastMessage);
-  }, [lastMessage]);
+  const simulationData = useSelector(selectSimulationData);
+  const dispatch = useDispatch();
 
   const handleStartSimulation = () => {
     // Prevent multiple connections
@@ -38,8 +40,8 @@ const SimulationPage = () => {
 
     ws.onmessage = (event) => {
       // Handle incoming messages
-      const message = JSON.parse(event.data);
-      setLastMessage(message);
+      const data = JSON.parse(event.data);
+      dispatch(setSimulationData(data));
     };
 
     ws.onerror = (error) => {
@@ -110,8 +112,8 @@ const SimulationPage = () => {
         </Grid>
         <Grid item xs={12}>
           <StyledBox>
-            {lastMessage
-              ? dayjs(lastMessage.LegEndTime).format("D HH:mm")
+            {simulationData.length > 0
+              ? dayjs(simulationData[simulationData.length - 1].LegStartTime).format("D HH:mm")
               : dayjs(Date.now()).format("D HH:mm")}
           </StyledBox>
         </Grid>
@@ -135,7 +137,7 @@ const SimulationPage = () => {
               />
             </Box>
             <CommandWallboxTable
-              wallboxCommands={lastMessage?.CommandToWallBoxes}
+              wallboxCommands={simulationData[simulationData.length - 1]?.CommandToWallBoxes}
             />
           </Box>
         </Grid>
@@ -154,7 +156,7 @@ const SimulationPage = () => {
               <NotificationsActiveIcon sx={{ marginLeft: "15px" }} />
             </Box>
             <NotificationTable
-              notificationData={lastMessage?.NotificationToTheUser}
+              notificationData={simulationData[simulationData.length - 1]?.NotificationToTheUser}
             />
           </Box>
         </Grid>

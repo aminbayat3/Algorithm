@@ -7,6 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 
 
+// later we can have only one component with dynamic width
 export const StyledTableContainer = styled(TableContainer)(({ theme }) => ({
   width: "100%",
 }));

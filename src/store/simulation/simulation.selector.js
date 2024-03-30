@@ -4,5 +4,5 @@ export const selectSimulationReducer = (state) => state.simulation;
 
 export const selectSimulationData = createSelector(
     [selectSimulationReducer],
-    (simulation) => simulation.messages
+    (simulation) => simulation.simulationData
 );

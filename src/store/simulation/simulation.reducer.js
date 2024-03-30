@@ -2,17 +2,17 @@
 import { SIMULATION_ACTION_TYPES } from "./simulation.types";
 
 const SIMULATION_INITIAL_STATE = {
-    messages: [],
+    simulationData: [],
 }
 
 export const simulationReducer = (state = SIMULATION_INITIAL_STATE, action) => {
     const { type, payload } = action;
 
   switch (type) {
-    case SIMULATION_ACTION_TYPES.ADD_MESSAGE:
+    case SIMULATION_ACTION_TYPES.SET_SIMULATION_DATA:
       return {
         ...state,
-        messages: [...state.messages, payload],
+        simulationData: [...state.simulationData, payload],
       };
     default:
       return state;
