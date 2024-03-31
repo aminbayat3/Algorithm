@@ -3,8 +3,8 @@ import { INFRASTRUCTURE_ACTION_TYPES } from "./infrastructure.types";
 
 const INFRASTRUCTURE_INITIAL_STATE = {
   infrastructureData: {
-    startTime: dayjs(Date.now()),
-    endTime: dayjs(Date.now).add(2, "day"),
+    startTime: null,
+    endTime: null,
     legSizeInMinutes: 15,
     connectionLoads: [],
     wallboxes: [],

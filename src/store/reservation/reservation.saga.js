@@ -17,7 +17,6 @@ import {
 export function* getReservationsAsync() {
   try {
     const response = yield call(getReservationsAsyncRequest);
-    console.log("response.data", response.data);
     yield put(getReservationsSuccess(response.data));
   } catch (error) {
     yield put(getReservationsFailed(error));

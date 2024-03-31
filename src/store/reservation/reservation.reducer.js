@@ -1,3 +1,5 @@
+import { convertReservationDatesToDayjs } from "../utils/reducer/reducer.utils";
+
 import { RESERVATION_ACTION_TYPES } from "./reservation.types";
 
 const RESERVATION_INITIAL_STATE = {
@@ -20,12 +22,12 @@ export const ReservationReducer = (
     case RESERVATION_ACTION_TYPES.GET_RESERVATIONS_SUCCESS:
       return {
         ...state,
-        reservations: payload,
+        reservations: convertReservationDatesToDayjs(payload),
       };
-    case RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_START:
+    case RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_SUCCESS:
         return {
             ...state,
-            reservations: payload
+            reservations: convertReservationDatesToDayjs(payload)
         };
 
     case RESERVATION_ACTION_TYPES.GET_RESERVATIONS_FAILED:

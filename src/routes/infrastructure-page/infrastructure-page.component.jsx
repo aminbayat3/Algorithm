@@ -12,6 +12,7 @@ import { selectInfrastructureData } from "../../store/infrastructure/infrastruct
 import {
   addInfrastructureDataStart,
   updateInfrastructureStart,
+  getInfrastructureStart
 } from "../../store/infrastructure/infrastructure.action";
 import { isSameOrBefore } from "../../utils/utils";
 
@@ -25,7 +26,7 @@ import wallboxImg from "../../assets/wallbox.png";
 
 const defaultInputValues = {
   numberOfWB: 1,
-  startTime: dayjs(Date.now()),
+  startTime: dayjs().startOf('day'),
   legSizeInMinutes: 15,
   connectionLoad: 20,
 };
@@ -41,10 +42,6 @@ const InfrastructurePage = () => {
   const { numberOfWB, legSizeInMinutes, connectionLoad, startTime } =
     inputValues;
 
-  useEffect(() => {
-    console.log(infrastructureData);
-  }, [infrastructureData]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputValues({
@@ -52,6 +49,14 @@ const InfrastructurePage = () => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    console.log("infrastructureData", infrastructureData);
+  }, [infrastructureData]);
+
+  useEffect(() => {
+    dispatch(getInfrastructureStart());
+  }, []);
 
   const onHandleDateTimeChange = (value) => {
     setInputValues((prevValue) => ({ ...prevValue, startTime: value }));

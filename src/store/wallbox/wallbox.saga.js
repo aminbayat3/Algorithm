@@ -10,7 +10,6 @@ import { addWallboxesAsyncRequest } from '../utils/requests/requests';
 export function* addWallboxesAsync(action) {
     try {
         const response =  yield call(addWallboxesAsyncRequest, action.payload);
-        console.log('response.data', response.data);
         yield put(addWallboxesSuccess(response.data));
     } catch(error) {
         yield put(addWallboxesFailed(error));

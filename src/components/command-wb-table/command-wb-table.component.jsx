@@ -11,6 +11,7 @@ import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box } from "@mui/material";
 
 const CommandWallboxTable = ({ wallboxCommands }) => {
+  console.log("wallboxCommands", wallboxCommands)
 
   return (
     <Box sx={{ margin: "45px", flexGrow: "1" }}>

@@ -20,7 +20,6 @@ import {
 export function* getInfrastructureDataAsync() {
   try {
     const response = yield call(getInfrastructureDataAsyncRequest);
-    console.log("response.data", response.data);
     yield put(getInfrastructureSuccess(response.data));
   } catch (error) {
     yield put(getInfrastructureFailed(error));
@@ -28,13 +27,12 @@ export function* getInfrastructureDataAsync() {
 }
 
 export function* addInfrastructureDataAsync(action) {
-  console.log('sending infrastructure', action.payload);
   try {
     const response = yield call(
       addInfrastructureDataAsyncRequest,
       action.payload
     );
-    console.log("response.data", response.data);
+    console.log('infrastructure data getting back from backend', response.data);
     yield put(addInfrastructureDataSuccess(response.data));
   } catch (error) {
     yield put(addInfrastructureDataFailed(error));
@@ -47,7 +45,6 @@ export function* updateInfrastructureDataAsync(action) {
       updateInfrastructureDataAsyncRequest,
       action.payload
     );
-    console.log("response.data", response.data);
     yield put(updateInfrastructureSuccess(response.data));
   } catch (error) {
     yield put(updateInfrastructureFailed(error));

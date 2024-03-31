@@ -15,7 +15,12 @@ export const selectNumOfCars = createSelector(
 export const selectWallboxes = createSelector(
     [selectInfrastructureData],
     (infrastructureData) => infrastructureData.wallboxes
-)
+);
+
+export const selectstartTime = createSelector(
+    [selectInfrastructureData],
+    (infrastructureData) => infrastructureData.startTime
+);
 
 
 

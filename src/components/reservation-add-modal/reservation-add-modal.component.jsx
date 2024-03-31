@@ -64,7 +64,6 @@ const ReservationAddModal = ({ onClose, open }) => {
     }
 
     dipatch(addReservation(newReservation));
-    setInputValues(defaultInputValues);
     onClose();
   }
 

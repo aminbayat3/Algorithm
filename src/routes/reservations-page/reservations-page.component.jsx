@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { Box } from "@mui/material";
@@ -10,7 +10,7 @@ import ReservationAddModal from "../../components/reservation-add-modal/reservat
 import ReservationConfigureModal from "../../components/reservation-configure-modal/reservation-configure-modal.component";
 import { UpdateButton as GenerateButton } from "../../components/update-button/update-button.component";
 
-import { addReservationsStart } from "../../store/reservation/reservation.action";
+import { addReservationsStart, getReservationsStart } from "../../store/reservation/reservation.action";
 
 import { selectReservations } from "../../store/reservation/reservation.selector";
 import { useOpenClose } from "../../hooks/useModalToggle";
@@ -20,6 +20,14 @@ const ReservationsPage = () => {
   const [tableReservationInputValues , setTableReservationInputValues] = useState({});
   const reservations = useSelector(selectReservations);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log('reservations get req', reservations);
+  }, [reservations]);
+
+  useEffect(() => {
+    dispatch(getReservationsStart());
+  }, []);
 
   const {
     isOpen: isReservationAddModalOpen,

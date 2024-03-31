@@ -4,8 +4,6 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
@@ -21,7 +19,6 @@ import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
 const ReservationTable = ({ reservations, setTableReservationInputValues, children }) => {
-  console.log('reservation', reservations);
   
     const handleInputChange = (reservationId, target) => {
     const { name, value } = target;

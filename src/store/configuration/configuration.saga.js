@@ -10,7 +10,6 @@ import { carsDataAsyncRequest } from '../utils/requests/requests';
 export function* getCarsDataAsync(action) {
     try {
         const response =  yield call(carsDataAsyncRequest, action.payload);
-        console.log('response.data', response.data);
         yield put(calculateCarsDataSuccess(response.data));
     } catch(error) {
         yield put(calculateCarsDataFailed(error));

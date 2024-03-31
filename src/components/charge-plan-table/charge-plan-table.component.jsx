@@ -7,6 +7,9 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
 
+import { tabelCell } from "../../styles/global.styles";
+import { useTheme } from '@mui/material/styles';
+
 import {
   StyledTableContainer,
   StyledTableRow,
@@ -23,6 +26,7 @@ import { Box } from "@mui/material";
 const ChargePlanTable = ({ simulationData }) => {
   const wallboxes = useSelector(selectWallboxes);
   const reservations = useSelector(selectReservations);
+  const theme = useTheme();
 
   return (
     <Box sx={{ margin: "45px", flexGrow: "1" }}>
@@ -87,47 +91,63 @@ const ChargePlanTable = ({ simulationData }) => {
                       {data.LegNumber}
                     </TableCell>
                     <TableCell
-                      sx={{ paddingBottom: "4px", paddingTop: "4px" }}
+                      sx={{ ...tabelCell }}
                       align="center"
                     >
                       {dayjs(data.LegStartTime).format("D HH:mm")}
                     </TableCell>
                     <TableCell
-                      sx={{ paddingBottom: "4px", paddingTop: "4px" }}
+                      sx={{ ...tabelCell }}
                       align="center"
                     >
                       {dayjs(data.LegEndTime).format("D HH:mm")}
                     </TableCell>
                     <TableCell
-                      sx={{ paddingBottom: "4px", paddingTop: "4px" }}
+                      sx={{ ...tabelCell }}
                       align="center"
                     >
                       {data.PowerSchedule.ConnectionLoad}
                     </TableCell>
                     {wallboxes?.map((wb) => {
-                      data.PowerSchedule.WbData.map((wallboxData) => {
-                        if (wallboxData.WallboxId === wb.id) {
-                          console.log("CurrentChargeLoad", wallboxData.CurrentChargeLoad);
-                          console.log("Soc", wallboxData.Soc)
-                          console.log("&&&&&&&&&&&&&&&&&&&&&&&&")
-                          return (
-                            <>
-                              <TableCell
-                                sx={{ paddingBottom: "4px", paddingTop: "4px" }}
-                                align="center"
-                              >
-                                {wallboxData.CurrentChargeLoad}
-                              </TableCell>
-                              <TableCell
-                                sx={{ paddingBottom: "4px", paddingTop: "4px" }}
-                                align="center"
-                              >
-                                {wallboxData.Soc}
-                              </TableCell>
-                            </>
-                          );
-                        }
-                      });
+                      if(data.PowerSchedule.WbData.length > 0) {
+                        return data.PowerSchedule.WbData.map(({ WallboxId, IsNeed, IsFull, CurrentChargeLoad, Soc }) => {
+                          if (WallboxId === wb.id) { 
+                            return (
+                              <>
+                                <TableCell
+                                  sx={(IsNeed && !IsFull) ? ({ ...tabelCell, backgroundColor: theme.palette.info.main, color: theme.palette.info.contrastText  }) : IsFull ? {...tabelCell, backgroundColor: theme.palette.error.main, color: theme.palette.error.contrastText} : {...tabelCell}}
+                                  align="center"
+                                >
+                                  {(IsNeed && !IsFull) ? `s:${CurrentChargeLoad.toFixed(1)}` : IsFull ? `f:${CurrentChargeLoad.toFixed(1)}` : CurrentChargeLoad.toFixed(1) }
+                                </TableCell>
+                                <TableCell
+                                  sx={{ ...tabelCell }}
+                                  align="center"
+                                >
+                                  {Soc.toFixed(1)}
+                                </TableCell>
+                              </>
+                            );
+                          }
+                        });
+                      }
+                        return (
+                          <>
+                          <TableCell
+                            sx={{ ...tabelCell }}
+                            align="center"
+                          >
+                            {0}
+                          </TableCell>
+                          <TableCell
+                            sx={{ ...tabelCell }}
+                            align="center"
+                          >
+                            {0}
+                          </TableCell>
+                        </>
+                        )
+                      
                     })}
                   </StyledTableRow>
                 );

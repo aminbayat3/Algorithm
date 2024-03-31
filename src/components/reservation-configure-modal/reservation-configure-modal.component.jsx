@@ -15,7 +15,7 @@ import { getRandomDateBetween, generateRandomInteger } from "../../utils/utils";
 
 import { addReservationsStart } from "../../store/reservation/reservation.action";
 
-import { selectNumOfCars } from "../../store/infrastructure/infrastructure.selector";
+import { selectNumOfCars, selectstartTime } from "../../store/infrastructure/infrastructure.selector";
 
 import { CustomDateTimeRangePicker as ExpiDateTimeRangePicker } from "../../components/date-time-range-picker/date-time-range-picker.component";
 import { CustomDateTimeRangePicker as ExpoDateTimeRangePicker } from "../../components/date-time-range-picker/date-time-range-picker.component";
@@ -23,8 +23,9 @@ import { CustomDateTimeRangePicker as ExpoDateTimeRangePicker } from "../../comp
 
 const ReservationConfigureModal = ({ onClose, open }) => {
   const [numOfReservations, setNumOfReservations] = useState(0);
-  const [expiRange, setExpiRange] = useState([dayjs(Date.now()), dayjs(Date.now()).add(8, "hour")]);
-  const [expoRange, setExpoRange] = useState([dayjs(Date.now()).add(8, "hour"), dayjs(Date.now()).add(16, "hour")]);
+  const startTime = useSelector(selectstartTime);
+  const [expiRange, setExpiRange] = useState([dayjs(startTime).add(5, "hour"), dayjs(startTime).add(12, "hour")]);
+  const [expoRange, setExpoRange] = useState([dayjs(startTime).add(1, "day"), dayjs(startTime).add(1, "day").add(8, "hour")]);
   const numOfCars = useSelector(selectNumOfCars);
   const dipatch = useDispatch();
 
