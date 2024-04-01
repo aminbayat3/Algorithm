@@ -21,10 +21,6 @@ const ReservationsPage = () => {
   const reservations = useSelector(selectReservations);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('reservations get req', reservations);
-  }, [reservations]);
-
   const {
     isOpen: isReservationAddModalOpen,
     open: openReservationAddModal,

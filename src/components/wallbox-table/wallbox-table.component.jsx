@@ -11,7 +11,7 @@ import { StyledTableContainer, StyledTableRow, StyledTableCell } from "../table-
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
+const WallBoxTable = ({ wallboxes, setTableWbInputValues }) => {
 
   const handleInputChange = (wallboxId, target) => {
     const {name, value} = target;
@@ -35,9 +35,9 @@ const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
               <StyledTableCell align="center">AC-Limit</StyledTableCell>
             </StyledTableRow>
           </TableHead>
-          {infrastructureData.wallboxes.length > 0 ? (
+          {wallboxes.length > 0 ? (
             <TableBody>
-              {infrastructureData.wallboxes.map((wallbox, idx) => {
+              {wallboxes.map((wallbox, idx) => {
                 return (
                   <StyledTableRow
                     key={wallbox.id}

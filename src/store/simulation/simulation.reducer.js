@@ -14,6 +14,11 @@ export const simulationReducer = (state = SIMULATION_INITIAL_STATE, action) => {
         ...state,
         simulationData: [...state.simulationData, payload],
       };
+      case SIMULATION_ACTION_TYPES.EMPTY_SIMULATION_DATA:
+        return {
+          ...state,
+          simulationData: [],
+        }
     default:
       return state;
   }

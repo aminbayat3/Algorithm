@@ -12,3 +12,5 @@ export const addInfrastructureDataFailed = (error) => createAction(INFRASTRUCTUR
 export const updateInfrastructureStart = (infrastructureData) => createAction(INFRASTRUCTURE_ACTION_TYPES.UPDATE_INFRASTRUCTURE_DATA_START, infrastructureData);
 export const updateInfrastructureSuccess = (infrastructureData) => createAction(INFRASTRUCTURE_ACTION_TYPES.UPDATE_INFRASTRUCTURE_DATA_SUCCESS, infrastructureData);
 export const updateInfrastructureFailed = (error) => createAction(INFRASTRUCTURE_ACTION_TYPES.UPDATE_INFRASTRUCTURE_DATA_FAILED, error);
+
+export const setInfratructureData = (data) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_INFRASTRUCTURE_DATA, data);

@@ -20,6 +20,11 @@ export const infrastructureReducer = (
   const { type, payload } = action;
 
   switch (type) {
+    case INFRASTRUCTURE_ACTION_TYPES.SET_INFRASTRUCTURE_DATA:
+      return {
+        ...state,
+        infrastructureData: payload,
+      }
     case INFRASTRUCTURE_ACTION_TYPES.GET_INFRASTRUCTURE_DATA_SUCCESS:
       return {
         ...state,

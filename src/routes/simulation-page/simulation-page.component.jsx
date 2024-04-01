@@ -10,7 +10,7 @@ import { SimulationTableHeading } from "../infrastructure-page/infrastructure-pa
 import CommandWallboxTable from "../../components/command-wb-table/command-wb-table.component";
 import NotificationTable from "../../components/notification-table/notification-table.component";
 
-import { setSimulationData } from "../../store/simulation/simulation.action";
+import { setSimulationData, emptySimulationData } from "../../store/simulation/simulation.action";
 
 import { selectSimulationData } from "../../store/simulation/simulation.selector";
 
@@ -56,6 +56,7 @@ const SimulationPage = () => {
 
   // Function to close WebSocket connection
   const disconnectWebSocket = () => {
+    dispatch(emptySimulationData());
     if (webSocket) {
       webSocket.close();
       setWebSocket(null);
@@ -66,7 +67,7 @@ const SimulationPage = () => {
     <Box sx={{ flexGrow: 1 }}>
       <Grid container rowSpacing={4} columnSpacing={2}>
         <Grid item xs={12}>
-          {webSocket ? (
+          {simulationData.length > 0 ? (
             <Button
               sx={{
                 width: "200px",

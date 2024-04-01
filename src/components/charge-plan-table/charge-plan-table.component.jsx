@@ -79,7 +79,7 @@ const ChargePlanTable = ({ simulationData }) => {
             </StyledTableRow>
           </TableHead>
           <TableBody>
-            {simulationData?.length > 0 &&
+            {reservations && simulationData?.length > 0 &&
               simulationData.map((data, idx) => {
                 return (
                   <StyledTableRow
@@ -108,7 +108,7 @@ const ChargePlanTable = ({ simulationData }) => {
                     >
                       {data.PowerSchedule.ConnectionLoad}
                     </TableCell>
-                    {wallboxes?.map((wb) => {
+                    {reservations && wallboxes?.map((wb) => {
                       if(data.PowerSchedule.WbData.length > 0) {
                         return data.PowerSchedule.WbData.map(({ WallboxId, IsNeed, IsFull, CurrentChargeLoad, Soc }) => {
                           if (WallboxId === wb.id) { 

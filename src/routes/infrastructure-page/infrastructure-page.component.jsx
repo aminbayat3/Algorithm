@@ -256,7 +256,7 @@ const InfrastructurePage = () => {
           </Box>
           <WallBoxTable
             setTableWbInputValues={setTableWbInputValues}
-            infrastructureData={infrastructureData}
+            wallboxes={infrastructureData.wallboxes}
           />
         </Box>
 
