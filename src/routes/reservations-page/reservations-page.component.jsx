@@ -10,7 +10,7 @@ import ReservationAddModal from "../../components/reservation-add-modal/reservat
 import ReservationConfigureModal from "../../components/reservation-configure-modal/reservation-configure-modal.component";
 import { UpdateButton as GenerateButton } from "../../components/update-button/update-button.component";
 
-import { addReservationsStart, getReservationsStart } from "../../store/reservation/reservation.action";
+import { addReservationsStart } from "../../store/reservation/reservation.action";
 
 import { selectReservations } from "../../store/reservation/reservation.selector";
 import { useOpenClose } from "../../hooks/useModalToggle";
@@ -24,10 +24,6 @@ const ReservationsPage = () => {
   useEffect(() => {
     console.log('reservations get req', reservations);
   }, [reservations]);
-
-  useEffect(() => {
-    dispatch(getReservationsStart());
-  }, []);
 
   const {
     isOpen: isReservationAddModalOpen,
@@ -58,6 +54,8 @@ const ReservationsPage = () => {
             updatedReservation.neededEnergy = +reservationUpdate[prop];
           } else if (prop === "priority") {
             updatedReservation.priority = +reservationUpdate[prop];
+          } else if(prop === "carId") {
+            updatedReservation.carId = reservationUpdate[prop];
           }
         }
         return updatedReservation;

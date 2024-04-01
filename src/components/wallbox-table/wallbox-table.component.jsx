@@ -26,7 +26,7 @@ const WallBoxTable = ({ infrastructureData, setTableWbInputValues }) => {
   };
 
   return (
-    <Box sx={{ margin: "45px", flexGrow: "1" }}>
+    <Box sx={{ margin: "45px" }}>
       <StyledTableContainer component={Paper}>
         <Table size="small" sx={{ minWidth: 100 }} aria-label="simple table">
           <TableHead>

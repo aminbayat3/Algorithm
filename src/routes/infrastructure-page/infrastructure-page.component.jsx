@@ -11,8 +11,7 @@ import { UpdateButton } from "../../components/update-button/update-button.compo
 import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
 import {
   addInfrastructureDataStart,
-  updateInfrastructureStart,
-  getInfrastructureStart
+  updateInfrastructureStart
 } from "../../store/infrastructure/infrastructure.action";
 import { isSameOrBefore } from "../../utils/utils";
 
@@ -53,10 +52,6 @@ const InfrastructurePage = () => {
   useEffect(() => {
     console.log("infrastructureData", infrastructureData);
   }, [infrastructureData]);
-
-  useEffect(() => {
-    dispatch(getInfrastructureStart());
-  }, []);
 
   const onHandleDateTimeChange = (value) => {
     setInputValues((prevValue) => ({ ...prevValue, startTime: value }));
@@ -241,7 +236,7 @@ const InfrastructurePage = () => {
           flexWrap: "wrap",
         }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
           <Box
             sx={{
               display: "flex",
@@ -265,7 +260,7 @@ const InfrastructurePage = () => {
           />
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
           <Box
             sx={{
               display: "flex",
@@ -286,7 +281,7 @@ const InfrastructurePage = () => {
           </CarTable>
         </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
           <Box
             sx={{
               display: "flex",

@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -15,12 +17,19 @@ import {
 import { DateTimePicker as ExpiTime } from "../date-time-picker/date-time-picker.component";
 import { DateTimePicker as ExpoTime } from "../date-time-picker/date-time-picker.component";
 
+import { selectCars } from "../../store/infrastructure/infrastructure.selector";
+
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const ReservationTable = ({ reservations, setTableReservationInputValues, children }) => {
-  
-    const handleInputChange = (reservationId, target) => {
+const ReservationTable = ({
+  reservations,
+  setTableReservationInputValues,
+  children,
+}) => {
+  const cars = useSelector(selectCars);
+
+  const handleInputChange = (reservationId, target) => {
     const { name, value } = target;
 
     setTableReservationInputValues((prev) => ({
@@ -40,7 +49,7 @@ const ReservationTable = ({ reservations, setTableReservationInputValues, childr
         [name]: value,
       },
     }));
-  } 
+  };
 
   return (
     <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
@@ -72,7 +81,23 @@ const ReservationTable = ({ reservations, setTableReservationInputValues, childr
                       component="th"
                       scope="row"
                     >
-                      {reservation.carId}
+                      <Select
+                        autoFocus
+                        defaultValue={reservation.carId}
+                        onChange={(e) =>
+                          handleInputChange(reservation.id, e.target)}
+                        label=""
+                        name="carId"
+                        inputProps={{ id: "car-select" }}
+                      >
+                        {cars.map((car) => {
+                          return (
+                            <MenuItem key={car.id} value={car.id}>
+                              {car.name}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
                     </TableCell>
                     <TableCell
                       sx={{ paddingBottom: "4px", paddingTop: "4px" }}
@@ -126,17 +151,19 @@ const ReservationTable = ({ reservations, setTableReservationInputValues, childr
                       sx={{ paddingBottom: "4px", paddingTop: "4px" }}
                       align="center"
                     >
-                        <Select
-                          labelId="priority-select-label"
-                          id="priority-select"
-                          name="priority"
-                          defaultValue={reservation.priority}
-                          label="Priority"
-                          onChange={(e) => handleInputChange(reservation.id, e.target)}
-                        >
-                          <MenuItem value={0}>Low</MenuItem>
-                          <MenuItem value={1}>High</MenuItem>
-                        </Select>
+                      <Select
+                        labelId="priority-select-label"
+                        id="priority-select"
+                        name="priority"
+                        defaultValue={reservation.priority}
+                        label="Priority"
+                        onChange={(e) =>
+                          handleInputChange(reservation.id, e.target)
+                        }
+                      >
+                        <MenuItem value={0}>Low</MenuItem>
+                        <MenuItem value={1}>High</MenuItem>
+                      </Select>
                     </TableCell>
                   </StyledTableRow>
                 );
@@ -153,7 +180,7 @@ const ReservationTable = ({ reservations, setTableReservationInputValues, childr
           )}
         </Table>
       </StyledReservationTableContainer>
-      
+
       {children}
     </Box>
   );

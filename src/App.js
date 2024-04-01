@@ -1,7 +1,11 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Route, Routes } from "react-router-dom";
 
 import { selectThemeKey } from './store/theme/theme.selector';
+
+import { getInfrastructureStart } from './store/infrastructure/infrastructure.action';
+import { getReservationsStart } from './store/reservation/reservation.action';
 
 import WelcomePage from './routes/welcome-page/welcome-page.component';
 import InfrastructurePage from './routes/infrastructure-page/infrastructure-page.component';
@@ -16,6 +20,13 @@ import { THEME_DATA } from './constants/theme-names.constant';
 
 const App = () => {
   const themeKey = useSelector(selectThemeKey);
+  const dispatch = useDispatch();
+
+  // load reservations and infrastructure data
+  useEffect(() => {
+    dispatch(getInfrastructureStart());
+    dispatch(getReservationsStart());
+  }, []);
 
   return (
     <ThemeProvider theme={THEME_DATA[themeKey].value}>

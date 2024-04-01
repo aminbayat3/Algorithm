@@ -7,6 +7,11 @@ export const selectInfrastructureData = createSelector(
     (infrastructure) => infrastructure.infrastructureData
 );
 
+export const selectCars = createSelector(
+    [selectInfrastructureData],
+    (infrastructureData) => infrastructureData.cars
+);
+
 export const selectNumOfCars = createSelector(
     [selectInfrastructureData],
     (infrastructureData) => infrastructureData.cars.length
