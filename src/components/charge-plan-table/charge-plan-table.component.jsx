@@ -22,6 +22,7 @@ import { selectReservations } from "../../store/reservation/reservation.selector
 import { getNumericPart } from "../../utils/utils";
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box } from "@mui/material";
+import { Fragment } from "react";
 
 const ChargePlanTable = ({ simulationData }) => {
   const wallboxes = useSelector(selectWallboxes);
@@ -37,13 +38,14 @@ const ChargePlanTable = ({ simulationData }) => {
               <StyledTableCell colSpan={4} align="center">
                 Leg Data
               </StyledTableCell>
-              {wallboxes?.map((wb) => {
+              {wallboxes?.map((wb, idx) => {
                 const correspondingReservation = reservations.find(
                   (reservation) =>
                     getNumericPart(reservation.carId) === getNumericPart(wb.id)
                 );
                 return (
                   <StyledTableCell
+                    key={`wallbox-need-${idx}`}
                     sx={{ maxWidth: "80px", border: "solid 1px brown" }}
                     colSpan={2}
                     align="center"
@@ -60,8 +62,8 @@ const ChargePlanTable = ({ simulationData }) => {
               <StyledTableCell align="center">Start</StyledTableCell>
               <StyledTableCell align="center">End</StyledTableCell>
               <StyledTableCell align="center">CL</StyledTableCell>
-              {wallboxes?.map((_) => (
-                <>
+              {wallboxes?.map((_, idx) => (
+                <Fragment key={`wallbox-data-${idx}`}>
                   <StyledTableCell
                     sx={{ maxWidth: "40px", border: "solid 1px brown" }}
                     align="center"
@@ -74,16 +76,17 @@ const ChargePlanTable = ({ simulationData }) => {
                   >
                     Soc
                   </StyledTableCell>
-                </>
+                </Fragment>
               ))}
             </StyledTableRow>
           </TableHead>
           <TableBody>
             {reservations && simulationData?.length > 0 &&
               simulationData.map((data, idx) => {
+                console.log(`simulation-${idx}`, data);
                 return (
                   <StyledTableRow
-                    key={`command-${idx}`}
+                    key={`charge-plan-command-${idx}`}
                     type={TABLE_ELEMENT_TYPES.BODY}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
@@ -108,12 +111,12 @@ const ChargePlanTable = ({ simulationData }) => {
                     >
                       {data.PowerSchedule.ConnectionLoad}
                     </TableCell>
-                    {reservations && wallboxes?.map((wb) => {
+                    {reservations && wallboxes?.map((wb, index) => {
                       if(data.PowerSchedule.WbData.length > 0) {
-                        return data.PowerSchedule.WbData.map(({ WallboxId, IsNeed, IsFull, CurrentChargeLoad, Soc }) => {
+                        return data.PowerSchedule.WbData.map(({ WallboxId, IsNeed, IsFull, CurrentChargeLoad, Soc }, wbIndex) => {
                           if (WallboxId === wb.id) { 
                             return (
-                              <>
+                              <Fragment key={`charge-plan-wb-data-${index}-${idx}-${wbIndex}`}>
                                 <TableCell
                                   sx={(IsNeed && !IsFull) ? ({ ...tabelCell, backgroundColor: theme.palette.info.main, color: theme.palette.info.contrastText  }) : IsFull ? {...tabelCell, backgroundColor: theme.palette.error.main, color: theme.palette.error.contrastText} : {...tabelCell}}
                                   align="center"
@@ -126,13 +129,13 @@ const ChargePlanTable = ({ simulationData }) => {
                                 >
                                   {Soc.toFixed(1)}
                                 </TableCell>
-                              </>
+                              </Fragment>
                             );
                           }
                         });
                       }
                         return (
-                          <>
+                          <Fragment key={`charge-plan-wb-data-${index}-${idx}}`}>
                           <TableCell
                             sx={{ ...tabelCell }}
                             align="center"
@@ -145,7 +148,7 @@ const ChargePlanTable = ({ simulationData }) => {
                           >
                             {0}
                           </TableCell>
-                        </>
+                        </Fragment>
                         )
                       
                     })}
