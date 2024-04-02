@@ -60,7 +60,7 @@ const InfrastructurePage = () => {
   const onHandleSumbit = (e) => {
     e.preventDefault();
 
-    let clTime = startTime; // connectionLoad Time
+    let clTime = dayjs(startTime); // connectionLoad Time
     let endTime = startTime.add(2, "day");
     let wallboxes = [];
     let cars = [];
@@ -159,6 +159,8 @@ const InfrastructurePage = () => {
         return cl;
       }
     );
+
+    console.log('updateConnectionload', updateConnectionLoads);
 
     // Create a new infrastructureData object with the updated arrays
     const newInfrastructureData = {

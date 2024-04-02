@@ -68,7 +68,7 @@ const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues, connec
                     id={`standard-basic-${cl.id}`}
                     onChange={(e) => handleInputChange(cl.id, e.target)}
                     type="number"
-                    defaultValue={connectionLoad}
+                    defaultValue={cl.value}
                     variant="standard"
                   />
                 </TableCell>
