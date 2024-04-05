@@ -170,7 +170,7 @@ const InfrastructurePage = () => {
       connectionLoads: updateConnectionLoads,
     };
 
-    dispatch(updateInfrastructureStart(newInfrastructureData));
+    dispatch(addInfrastructureDataStart(newInfrastructureData));
   };
 
   return (

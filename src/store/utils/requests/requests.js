@@ -33,6 +33,7 @@ export const updateInfrastructureDataAsyncRequest = async (bodyParams) => {
 export const getReservationsAsyncRequest = async () => { 
   return await instance.get("Reservations");
 } 
-export const addReservationsAsyncRequest = async (bodyParams) => {
-  return await instance.post("Reservations", JSON.stringify(bodyParams))
+export const addReservationsAsyncRequest = async ({reservations, infrastructureData}) => {
+  const { startTime, endTime, legDuration } = infrastructureData;
+  return await instance.post("Reservations", JSON.stringify({reservations, startTime, endTime, legDuration}))
 }

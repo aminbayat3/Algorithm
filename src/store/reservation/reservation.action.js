@@ -7,6 +7,6 @@ export const getReservationsStart = () => createAction(RESERVATION_ACTION_TYPES.
 export const getReservationsSuccess = (reservations) => createAction(RESERVATION_ACTION_TYPES.GET_RESERVATIONS_SUCCESS, reservations);
 export const getReservationsFailed = (error) => createAction(RESERVATION_ACTION_TYPES.GET_RESERVATIONS_FAILED, error);
 
-export const addReservationsStart = (reservations) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_START, reservations);
+export const addReservationsStart = (reservations, infrastructureData) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_START, {reservations, infrastructureData});
 export const addReservationsSuccess = (reservations) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_SUCCESS, reservations);
 export const addReservationsFailed = (error) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_FAILED, error);

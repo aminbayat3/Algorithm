@@ -14,10 +14,12 @@ import { addReservationsStart } from "../../store/reservation/reservation.action
 
 import { selectReservations } from "../../store/reservation/reservation.selector";
 import { useOpenClose } from "../../hooks/useModalToggle";
+import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
 
 const ReservationsPage = () => {
   const [generationMethod, setGenerationMethod] = useState("manually");
   const [tableReservationInputValues , setTableReservationInputValues] = useState({});
+  const {startTime, endTime, legSizeInMinutes} = useSelector(selectInfrastructureData);
   const reservations = useSelector(selectReservations);
   const dispatch = useDispatch();
 
@@ -59,7 +61,7 @@ const ReservationsPage = () => {
       return reservation;
     });
 
-    dispatch(addReservationsStart(updatedReservations));
+    dispatch(addReservationsStart(updatedReservations, {startTime, endTime, legDuration: legSizeInMinutes}));
   }
 
   return (
