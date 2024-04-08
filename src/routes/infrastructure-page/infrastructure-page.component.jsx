@@ -10,8 +10,7 @@ import { UpdateButton } from "../../components/update-button/update-button.compo
 
 import { selectInfrastructureData } from "../../store/infrastructure/infrastructure.selector";
 import {
-  addInfrastructureDataStart,
-  updateInfrastructureStart
+  addInfrastructureDataStart  
 } from "../../store/infrastructure/infrastructure.action";
 import { isSameOrBefore } from "../../utils/utils";
 
@@ -170,7 +169,7 @@ const InfrastructurePage = () => {
       connectionLoads: updateConnectionLoads,
     };
 
-    dispatch(updateInfrastructureStart(newInfrastructureData));
+    dispatch(addInfrastructureDataStart(newInfrastructureData));
   };
 
   return (
