@@ -36,3 +36,8 @@ export const getReservationsAsyncRequest = async () => {
 export const addReservationsAsyncRequest = async (bodyParams) => {
   return await instance.post("Reservations", JSON.stringify(bodyParams))
 }
+
+export const deleteReservationAsyncRequest = async (id) => {
+  console.log('id', id)
+  return await instance.delete(`Reservations/${id}`);
+}

@@ -7,11 +7,14 @@ import {
   addReservationsFailed,
   getReservationsSuccess,
   getReservationsFailed,
+  deleteReservationSuccess,
+  deleteReservationFailed,
 } from "./reservation.action";
 
 import {
   addReservationsAsyncRequest,
   getReservationsAsyncRequest,
+  deleteReservationAsyncRequest
 } from "../utils/requests/requests";
 
 export function* getReservationsAsync() {
@@ -34,6 +37,15 @@ export function* addReservationsAsync(action) {
   }
 }
 
+export function* deleteReservationAsync(action) {
+  try {
+    const response = yield call(deleteReservationAsyncRequest, action.payload);
+    yield put(deleteReservationSuccess(response.data));
+  } catch (error) {
+    yield put(deleteReservationFailed(error));
+  }
+}
+
 export function* onGetReservationsStart() {
     yield takeLatest(
       RESERVATION_ACTION_TYPES.GET_RESERVATIONS_START,
@@ -48,9 +60,17 @@ export function* onAddReservationsStart() {
   );
 }
 
+export function* onDeleteReservationStart() {
+  yield takeLatest(
+    RESERVATION_ACTION_TYPES.DELETE_RESERVATION_START,
+    deleteReservationAsync
+  );
+}
+
 export function* reservationSaga() {
   yield all([
     call(onAddReservationsStart),
     call(onGetReservationsStart),
+    call(onDeleteReservationStart),
   ]);
 }

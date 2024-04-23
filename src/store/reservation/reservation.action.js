@@ -10,3 +10,7 @@ export const getReservationsFailed = (error) => createAction(RESERVATION_ACTION_
 export const addReservationsStart = (reservations) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_START, reservations);
 export const addReservationsSuccess = (reservations) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_SUCCESS, reservations);
 export const addReservationsFailed = (error) => createAction(RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_FAILED, error);
+
+export const deleteReservationStart = (reservationId) => createAction(RESERVATION_ACTION_TYPES.DELETE_RESERVATION_START, reservationId);
+export const deleteReservationSuccess = (reservations) => createAction(RESERVATION_ACTION_TYPES.DELETE_RESERVATION_SUCCESS, reservations);
+export const deleteReservationFailed = (error) => createAction(RESERVATION_ACTION_TYPES.DELETE_RESERVATION_FAILED, error); 
