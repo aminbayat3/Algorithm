@@ -16,10 +16,9 @@ import {
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box } from "@mui/material";
 
-const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues, connectionLoad }) => {
+const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues }) => {
   const { connectionLoads } = infrastructureData;
   
-
   const handleInputChange = (clId, target) => {
     const { name, value } = target;
 
