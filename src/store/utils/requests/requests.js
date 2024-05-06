@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { mapQueryParams } from '../api-manager.utils';
 
-const baseUrl = "https://localhost:7019/api/";
-
+const baseUrl = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7019/api/';
 const instance = axios.create({
   baseURL: baseUrl,
   timeout: 100000,
