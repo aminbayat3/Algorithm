@@ -31,7 +31,7 @@ const SimulationPage = () => {
     }
 
     // Initialize WebSocket connection
-    const ws = new WebSocket("wss://localhost:7019/ws");
+    const ws = new WebSocket("wss://qualitychargingbackend.azurewebsites.net/ws");
 
     ws.onopen = () => {
       console.log("WebSocket Connected");
