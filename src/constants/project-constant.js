@@ -1,5 +1,5 @@
 export const PROJECT_INFO = {
-    version: "1.0.0",
+    version: "1.1.0",
     name: "Quality Charging",
     releaseDate: "2024-04-02",
 };
