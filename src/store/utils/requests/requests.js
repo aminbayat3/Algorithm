@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { mapQueryParams } from '../api-manager.utils';
 
-const baseUrl = process.env.REACT_APP_API_BASE_URL || 'https://localhost:7019/api/';
+const baseUrl = "https://qualitychargingbackend.azurewebsites.net/api/";
 const instance = axios.create({
   baseURL: baseUrl,
   timeout: 100000,
