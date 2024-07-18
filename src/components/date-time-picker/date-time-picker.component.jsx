@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 
 export const DateTimePicker = ({ onHandleDateTimeChange, value, defaultValue, label, name }) => {
   return (
-    <Box sx={{display: "flex", justifyContent: "center"}}>
+    <Box sx={{display: "flex", justifyContent: "center", margin: "0 20px"}}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["MobileTimePicker"]}>
           <DemoItem label={label}>

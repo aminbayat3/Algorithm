@@ -27,5 +27,10 @@ export const selectstartTime = createSelector(
     (infrastructureData) => infrastructureData.startTime
 );
 
+export const selectNumOfBadges = createSelector(
+    [selectInfrastructureReducer],
+    (infrastructure) => infrastructure.numOfBadges
+)
+
 
 

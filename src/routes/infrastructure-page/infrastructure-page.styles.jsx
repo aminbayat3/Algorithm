@@ -18,5 +18,5 @@ export const SimulationTableHeading = styled(Typography)(( { theme }) => ({
 
 export const CustomTextField = styled(TextField)(({ theme }) => ({
     width: '128px',
-    margin: "0 20px"
+    margin: "0 35px"
 }));

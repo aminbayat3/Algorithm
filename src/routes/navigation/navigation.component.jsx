@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 
@@ -6,8 +7,11 @@ import ThemeSelectBox from "./theme-select.component";
 
 import { useOpenClose } from "../../hooks/useModalToggle";
 
+import { useNavigate, useLocation } from "react-router-dom";
+
+import { selectNumOfBadges } from "../../store/infrastructure/infrastructure.selector";
+
 import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,8 +20,12 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { BadgeImage } from "./navigation.styles";
 
+import badge from "../../assets/badge.png";
 import qualityCharging from "../../assets/qualityCharging.png";
+
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 import {
   DRAWER_WIDTH,
@@ -30,6 +38,10 @@ import {
 } from "./navigation.styles";
 
 const Navigation = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const numOfBadges = useSelector(selectNumOfBadges);
+
   const {
     palette: { primary },
     spacing,
@@ -41,13 +53,25 @@ const Navigation = () => {
     close: closeDrawer,
   } = useOpenClose();
 
+  const navigateToProfilePage = () => {
+    const currentPath = location.pathname;
+
+    navigate(`${currentPath}/profile`);
+  }
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={isDrawerOpen}>
-        <Toolbar>
-          <Grid container spacing={1}>
-            <Box sx={{ p: spacing(1), margin: "auto 0" }}>
+        <Toolbar id="drawer">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Box sx={{ p: spacing(1), margin: "auto 0", display: "flex" }}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
@@ -60,26 +84,37 @@ const Navigation = () => {
               >
                 <MenuIcon />
               </IconButton>
+
+              <LogoContainerBox>
+                <LogoImage src={qualityCharging} alt="logo" />
+              </LogoContainerBox>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                Quality Charging
+              </Typography>
             </Box>
-            <Grid item xs={10}>
+            <Box sx={{ display: "flex", alignItems: 'center' }}>
               <Box sx={{ display: "flex" }}>
-                <LogoContainerBox>
-                  <LogoImage src={qualityCharging} alt="logo" />
-                </LogoContainerBox>
                 <Typography
-                  variant="h6"
+                  variant="subtitle2"
                   noWrap
                   component="div"
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sx={{ marginTop: "2px", display: "flex", alignItems: "center" }}
                 >
-                  Quality Charging
+                  {numOfBadges}
                 </Typography>
+                <BadgeImage src={badge} alt="badge" />
               </Box>
-            </Grid>
-            <ModeIconGrid item xs={1}>
+
               <ThemeSelectBox />
-            </ModeIconGrid>
-          </Grid>
+
+              <ManageAccountsIcon onClick={navigateToProfilePage} sx={{ margin: "0 20px", cursor: "pointer" }} />
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer

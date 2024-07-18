@@ -14,3 +14,5 @@ export const updateInfrastructureSuccess = (infrastructureData) => createAction(
 export const updateInfrastructureFailed = (error) => createAction(INFRASTRUCTURE_ACTION_TYPES.UPDATE_INFRASTRUCTURE_DATA_FAILED, error);
 
 export const setInfratructureData = (data) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_INFRASTRUCTURE_DATA, data);
+
+export const setNumberOfBadges = (numberOfBadges) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_NUMBER_OF_BADGES, numberOfBadges);

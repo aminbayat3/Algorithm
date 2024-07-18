@@ -22,7 +22,7 @@ const ThemeSelectBox = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ margin: "0 20px" }}>
       <FormControl sx={{ m: 1, minWidth: 120 }}>
         <SelectTheme
           value={themeKey}

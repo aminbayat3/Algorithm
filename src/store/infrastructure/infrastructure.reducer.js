@@ -11,6 +11,7 @@ const INFRASTRUCTURE_INITIAL_STATE = {
     cars: [],
   },
   error: null,
+  numOfBadges : 0,
 };
 
 export const infrastructureReducer = (
@@ -40,6 +41,11 @@ export const infrastructureReducer = (
             ...state,
             infrastructureData: payload,
         }
+    case INFRASTRUCTURE_ACTION_TYPES.SET_NUMBER_OF_BADGES:
+      return {
+        ...state,
+        numOfBadges: state.numOfBadges + payload,
+      }
 
     case INFRASTRUCTURE_ACTION_TYPES.ADD_INFRASTRUCTURE_DATA_FAILED:
     case INFRASTRUCTURE_ACTION_TYPES.GET_INFRASTRUCTURE_DATA_FAILED:

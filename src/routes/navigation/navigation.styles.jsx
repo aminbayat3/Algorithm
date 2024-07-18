@@ -62,6 +62,11 @@ export const LogoImage = styled("img")(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
+export const BadgeImage = styled("img")(({ theme }) => ({
+  width: "22px",
+  margin: theme.spacing(1),
+}));
+
 export const ModeIconGrid = styled(Grid)(center);
 
 export const NavbarLink = styled(Link)(({ theme }) => ({

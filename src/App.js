@@ -13,6 +13,7 @@ import ReservationsPage from './routes/reservations-page/reservations-page.compo
 import SimulationPage from './routes/simulation-page/simulation-page.component';
 import ChargePlanPage from './routes/charge-plan-page/charge-plan-page.component';
 import Navigation from './routes/navigation/navigation.component';
+import ProfilePage from './routes/profile-page/profile-page.component';
 
 
 import { ThemeProvider } from "@mui/material";
@@ -35,6 +36,7 @@ const App = () => {
 
         <Route path='/app' element={<Navigation /> }>
           <Route index element={<InfrastructurePage />}></Route>
+          <Route path='profile' element={<ProfilePage />}></Route>
           <Route path="reservations" element={<ReservationsPage />}></Route>
           <Route path="simulation" element={<SimulationPage />}></Route>
           <Route path="chargePlan" element={<ChargePlanPage />}></Route>
