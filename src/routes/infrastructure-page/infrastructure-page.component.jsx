@@ -15,7 +15,6 @@ import { setNumberOfBadges } from "../../store/infrastructure/infrastructure.act
 
 import {
   addInfrastructureDataStart,
-  updateInfrastructureStart,
 } from "../../store/infrastructure/infrastructure.action";
 import { isSameOrBefore } from "../../utils/utils";
 

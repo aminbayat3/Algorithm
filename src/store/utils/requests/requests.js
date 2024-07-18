@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { mapQueryParams } from '../api-manager.utils';
 
-const baseUrl = "https://localhost:7019/api/";
-
+const baseUrl = "https://qualitychargingbackend.azurewebsites.net/api";
 const instance = axios.create({
   baseURL: baseUrl,
   timeout: 100000,
@@ -36,4 +35,9 @@ export const getReservationsAsyncRequest = async () => {
 export const addReservationsAsyncRequest = async ({reservations, infrastructureData}) => {
   const { startTime, endTime, legDuration } = infrastructureData;
   return await instance.post("Reservations", JSON.stringify({reservations, startTime, endTime, legDuration}))
+}
+
+export const deleteReservationAsyncRequest = async (id) => {
+  console.log('id', id)
+  return await instance.delete(`Reservations/${id}`);
 }

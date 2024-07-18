@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,6 +8,8 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+
+import { deleteReservationStart } from "../../store/reservation/reservation.action";
 
 import {
   StyledTableRow,
@@ -22,12 +24,15 @@ import { selectCars } from "../../store/infrastructure/infrastructure.selector";
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 const ReservationTable = ({
   reservations,
   setTableReservationInputValues,
   children,
 }) => {
   const cars = useSelector(selectCars);
+  const dispatch = useDispatch();
 
   const handleInputChange = (reservationId, target) => {
     const { name, value } = target;
@@ -51,6 +56,10 @@ const ReservationTable = ({
     }));
   };
 
+  const onHandleReservationDelete = (reservationId) => {
+    dispatch(deleteReservationStart(reservationId));
+  }
+
   return (
     <Box sx={{ margin: "45px", flexGrow: "1", position: "relative" }}>
       <StyledReservationTableContainer component={Paper}>
@@ -64,6 +73,7 @@ const ReservationTable = ({
               <StyledTableCell align="center">
                 Priority&nbsp;(0 or 1)
               </StyledTableCell>
+              <StyledTableCell align="center">Delete</StyledTableCell>
             </StyledTableRow>
           </TableHead>
           {reservations.length > 0 ? (
@@ -85,7 +95,8 @@ const ReservationTable = ({
                         autoFocus
                         defaultValue={reservation.carId}
                         onChange={(e) =>
-                          handleInputChange(reservation.id, e.target)}
+                          handleInputChange(reservation.id, e.target)
+                        }
                         label=""
                         name="carId"
                         inputProps={{ id: "car-select" }}
@@ -164,6 +175,12 @@ const ReservationTable = ({
                         <MenuItem value={0}>Low</MenuItem>
                         <MenuItem value={1}>High</MenuItem>
                       </Select>
+                    </TableCell>
+                    <TableCell
+                      sx={{ paddingBottom: "4px", paddingTop: "4px" }}
+                      align="center"
+                    >
+                      <DeleteForeverIcon sx={{cursor: "pointer"}} onClick={() => onHandleReservationDelete(reservation.id)} />
                     </TableCell>
                   </StyledTableRow>
                 );

@@ -15,27 +15,34 @@ export const ReservationReducer = (
 
   switch (type) {
     case RESERVATION_ACTION_TYPES.ADD_RESERVATION:
-        return {
-            ...state,
-            reservations: [...state.reservations, payload]
-        }
+      return {
+        ...state,
+        reservations: [...state.reservations, payload],
+      };
     case RESERVATION_ACTION_TYPES.GET_RESERVATIONS_SUCCESS:
       return {
         ...state,
         reservations: convertReservationDatesToDayjs(payload),
       };
     case RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_SUCCESS:
-        return {
-            ...state,
-            reservations: convertReservationDatesToDayjs(payload)
-        };
+      return {
+        ...state,
+        reservations: convertReservationDatesToDayjs(payload),
+      };
+
+    case RESERVATION_ACTION_TYPES.DELETE_RESERVATION_SUCCESS:
+      return {
+        ...state,
+        reservations: convertReservationDatesToDayjs(payload),
+      };
 
     case RESERVATION_ACTION_TYPES.GET_RESERVATIONS_FAILED:
     case RESERVATION_ACTION_TYPES.ADD_RESERVATIONS_FAILED:
-        return {
-            ...state,
-            error: payload,
-        }
+    case RESERVATION_ACTION_TYPES.DELETE_RESERVATION_FAILED:
+      return {
+        ...state,
+        error: payload,
+      };
 
     default:
       return state;

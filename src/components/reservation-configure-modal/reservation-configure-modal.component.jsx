@@ -25,9 +25,9 @@ const ReservationConfigureModal = ({ onClose, open }) => {
   const [numOfReservations, setNumOfReservations] = useState(0);
   const startTime = useSelector(selectstartTime);
   const [expiRange, setExpiRange] = useState([dayjs(startTime).add(5, "hour"), dayjs(startTime).add(12, "hour")]);
-  const [expoRange, setExpoRange] = useState([dayjs(startTime).add(1, "day"), dayjs(startTime).add(1, "day").add(8, "hour")]);
-  const numOfCars = useSelector(selectNumOfCars);
+  const [expoRange, setExpoRange] = useState([dayjs(startTime).add(1, 'day').set('hour', 16).set('minute', 0).set('second', 0), dayjs(startTime).add(1, 'day').set('hour', 20).set('minute', 0).set('second', 0)]);
   const dipatch = useDispatch();
+  const numOfCars = useSelector(selectNumOfCars);
 
     //later we can handle the change for both of these inputs in one handler
     const handleExpiDateTimeChange = (value) => {
@@ -44,10 +44,10 @@ const ReservationConfigureModal = ({ onClose, open }) => {
     for(let i = 0; i < numOfReservations; i++) {
         const randomReservation = {
             id: `RS${i+1}`,
-            carId: `Car${generateRandomInteger(1, numOfCars)}`,
+            carId: `Car${i + 1}`,
             expi: getRandomDateBetween(expiRange[0], expiRange[1]),
             expo: getRandomDateBetween(expoRange[0], expoRange[1]),
-            neededEnergy: generateRandomInteger(20, 80),
+            neededEnergy: generateRandomInteger(10, 60),
             priority: generateRandomInteger(0, 1),
         }  
 
@@ -88,6 +88,9 @@ const ReservationConfigureModal = ({ onClose, open }) => {
                 label="Number of Reservation"
                 type="number"
                 variant="standard"
+                inputProps={{
+                  max: numOfCars
+                }}
               />
               <ExpiDateTimeRangePicker
                 onHandleDateTimeChange={handleExpiDateTimeChange}
