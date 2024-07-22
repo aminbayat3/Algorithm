@@ -1,3 +1,4 @@
+import { create } from "@mui/material/styles/createTransitions";
 import { createAction } from "../utils/reducer/reducer.utils";
 import { INFRASTRUCTURE_ACTION_TYPES } from "./infrastructure.types";
 
@@ -16,3 +17,9 @@ export const updateInfrastructureFailed = (error) => createAction(INFRASTRUCTURE
 export const setInfratructureData = (data) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_INFRASTRUCTURE_DATA, data);
 
 export const setNumberOfBadges = (numberOfBadges) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_NUMBER_OF_BADGES, numberOfBadges);
+
+export const setChosenElement = (data) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_CHOSEN_ELEMENT, data);
+
+export const setIsSuccessful = (data) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_IS_SUCCESSFUL, data);
+
+export const setShowDiscount = (boolean) => createAction(INFRASTRUCTURE_ACTION_TYPES.SET_SHOW_DISCOUNT, boolean);

@@ -1,0 +1,206 @@
+$red-color: rgb(255, 22, 22);
+$yellow-color: rgb(255, 223, 79);
+$purple-color: rgb(184, 36, 184);
+$white-color: #fff;
+$pink-color: #f09;
+$borderW: 0.2rem;
+$numOfBlobs: 4;
+//Centeralizing
+@mixin centeralize() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin center-one() {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin center-two() {
+  display: flex;
+  align-items: center;
+}
+
+@mixin footer-text() {
+  font-size: 2.5rem;
+  font-weight: 100;
+  letter-spacing: 0.1rem;
+  color: rgb(255, 22, 22);
+  text-shadow: 0 0.1rem 0.3rem rgb(255, 251, 0);
+}
+
+@mixin amount-text() {
+  width: 70%;
+  height: 40%;
+  @include centeralize();
+  background: linear-gradient(
+    rgb(255, 157, 0),
+    rgb(255, 217, 0),
+    rgb(255, 157, 0)
+  );
+  border-radius: 1rem;
+  color: $red-color;
+  font-size: 2rem;
+}
+
+@mixin coin-amount() {
+  width: 3rem;
+  height: 2.2rem;
+  text-align: center;
+}
+
+@mixin flourish() {
+  width: 10rem;
+  height: 10rem;
+  position: absolute;
+}
+
+.shop__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  max-width: 430px;
+  min-width: 300px;
+  background: linear-gradient(to bottom, #ff4d9a, #7b0036, #ae014c, #ff5aa1);
+  border-radius: 1.5rem;
+  box-shadow: 0.1rem 0.1rem 0.5rem 0.3rem rgb(131, 6, 125);
+  transition: box-shadow 0.7s ease;
+  cursor: pointer;
+  z-index: 1;
+  overflow: hidden;
+  margin: 70px 25px 40px 25px;
+
+  &:hover {
+    box-shadow: 0.3rem 0.3rem 0.5rem 0.3rem #ff328b;
+  }
+
+  .card__title {
+    @include centeralize();
+    font-weight: 700;
+    color: $white-color;
+    text-shadow: 0 0 0.62rem $pink-color;
+    padding: 0.8rem 0.62rem;
+    background-color: rgba(43, 1, 45, 0.5);
+    font-size: 1.9rem;
+    pointer-events: none;
+  }
+
+  .card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .card__badge {
+      @include centeralize();
+      font-size: 1.5rem;
+      width: 170px;
+      height: 35px;
+      transform: rotate(-42deg);
+      transform-origin: 45% 225%;
+      background: $yellow-color;
+      pointer-events: none;
+    }
+  }
+
+  .card__img__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95%;
+
+    .card__amount {
+      font-size: 42px;
+      font-weight: 500;
+      color: $yellow-color;
+      margin-right: 5px;
+    }
+  }
+
+  .card__info {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(0, 0, 0);
+    text-align: center;
+    opacity: 0.7;
+    border: 0.3rem solid #ff549e;
+    box-shadow: 0.1rem 0.1rem 0.4rem #ff3d91 inset,
+      -0.1rem -0.1rem 0.4rem #ff388e inset;
+    transition: all 0.3s ease;
+    margin: 10px;
+    z-index: 5;
+
+    &:hover {
+      box-shadow: 0.4rem 0.4rem 0.7rem #ff28b4 inset,
+        -0.4rem -0.4rem 0.7rem #ff28b4 inset;
+    }
+  }
+
+  .sign {
+    color: white;
+    font-size: 19px;
+    font-weight: bolder;
+    z-index: 6;
+    text-shadow: -0.2rem 0.2rem 0.4rem #ff4e9b;
+    pointer-events: none;
+  }
+
+  .card__description {
+    position: absolute;
+    width: 100%;
+    height: 82%;
+    z-index: 8;
+    background-color: rgba(43, 1, 45, 0.8);
+    display: flex;
+    flex-direction: column;
+
+    .decription__text__container {
+      width: 100%;
+      height: 71%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .description__text {
+        font-size: 20px;
+        pointer-events: none;
+        text-align: center;
+        color: $white-color;
+        text-shadow: 0 0 0.6rem $pink-color;
+        font-style: italic;
+        padding: 10px;
+      }
+    }
+
+    .x-sign {
+      z-index: 15;
+      width: 40px;
+      color: white;
+      background-color: rgb(0, 0, 0);
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border: 0.3rem solid #b70f58;
+      box-shadow: 0.1rem 0.1rem 0.4rem #93154c inset,
+        -0.1rem -0.1rem 0.4rem #791641 inset;
+      transition: all 0.3s ease;
+      border-radius: 50%;
+      font-size: 20px;
+      color: $white-color;
+      text-shadow: 0 0 0.6rem $pink-color;
+      margin: 10px;
+
+      &:hover {
+        box-shadow: 0.4rem 0.4rem 0.7rem #a91173 inset,
+          -0.4rem -0.4rem 0.7rem #8d0c60 inset;
+      }
+    }
+  }
+}

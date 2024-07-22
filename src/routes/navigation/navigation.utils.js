@@ -2,6 +2,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
+import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 
 
 export const NAV_ITEMS_TYPES = {
@@ -9,6 +10,7 @@ export const NAV_ITEMS_TYPES = {
     RESERVATIONS: "Reservations",
     SIMULATION: "Simulation",
     CHARGE_PLAN: "Charge Plan",
+    SHOP: "Shop"
 }
 
 export const NAV_ITEMS = [
@@ -31,5 +33,10 @@ export const NAV_ITEMS = [
         title: NAV_ITEMS_TYPES.CHARGE_PLAN,
         icon: LanguageOutlinedIcon,
         route: "/app/chargePlan",
+    },
+    {
+        title: NAV_ITEMS_TYPES.SHOP,
+        icon: ShoppingBasketIcon,
+        route: "/app/shop",
     }
 ]

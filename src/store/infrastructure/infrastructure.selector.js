@@ -32,5 +32,21 @@ export const selectNumOfBadges = createSelector(
     (infrastructure) => infrastructure.numOfBadges
 )
 
+export const selectChosenElement = createSelector(
+    [selectInfrastructureReducer],
+    (infrastructure) => infrastructure.chosenElement
+)
+
+export const selectIsSuccessful = createSelector(
+    [selectInfrastructureReducer],
+    (infrastructure) => infrastructure.isSuccessful
+)
+
+export const selectShowDiscount = createSelector(
+    [selectInfrastructureReducer],
+    (infrastructure) => infrastructure.showDiscount
+)
+
+
 
 

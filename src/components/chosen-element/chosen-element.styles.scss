@@ -1,0 +1,58 @@
+$pink-color: #f09;
+$yellow-color: rgb(255, 223, 79);
+
+.x-sign {
+  z-index: 15;
+  width: 40px;
+  color: white;
+  background-color: rgb(0, 0, 0);
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 0.3rem solid #b70f58;
+  box-shadow: 0.1rem 0.1rem 0.4rem #93154c inset,
+    -0.1rem -0.1rem 0.4rem #791641 inset;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  font-size: 20px;
+  color: white;
+  text-shadow: 0 0 0.6rem $pink-color;
+  margin: 10px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0.4rem 0.4rem 0.7rem #a91173 inset,
+      -0.4rem -0.4rem 0.7rem #8d0c60 inset;
+  }
+}
+
+.shop__card {
+  
+  .card__button {
+    width: 35%;
+    height: 60px;
+    background-color: #7c0f3e;
+    border: 2px solid #ff006f;
+    border-radius: 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+
+    &:hover { 
+        background-color: #ff006f;
+    }
+
+    .card__amount {
+      font-size: 40px;
+      font-weight: 500;
+      color: $yellow-color;
+      margin-right: 5px;
+    }
+  }
+}

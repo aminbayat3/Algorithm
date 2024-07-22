@@ -12,6 +12,9 @@ const INFRASTRUCTURE_INITIAL_STATE = {
   },
   error: null,
   numOfBadges : 0,
+  chosenElement: null,
+  isSuccessful: null,
+  showDiscount: false,
 };
 
 export const infrastructureReducer = (
@@ -46,6 +49,24 @@ export const infrastructureReducer = (
         ...state,
         numOfBadges: state.numOfBadges + payload,
       }
+
+      case INFRASTRUCTURE_ACTION_TYPES.SET_CHOSEN_ELEMENT: 
+        return {
+          ...state,
+          chosenElement: payload,
+        }
+
+      case INFRASTRUCTURE_ACTION_TYPES.SET_IS_SUCCESSFUL: 
+        return {
+          ...state,
+          isSuccessful: payload,
+        }
+
+      case INFRASTRUCTURE_ACTION_TYPES.SET_SHOW_DISCOUNT:
+        return {
+          ...state,
+          showDiscount: payload,
+        }
 
     case INFRASTRUCTURE_ACTION_TYPES.ADD_INFRASTRUCTURE_DATA_FAILED:
     case INFRASTRUCTURE_ACTION_TYPES.GET_INFRASTRUCTURE_DATA_FAILED:

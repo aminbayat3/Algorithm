@@ -16,7 +16,7 @@ import {
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box } from "@mui/material";
 
-const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues }) => {
+const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues, id }) => {
   const { connectionLoads } = infrastructureData;
   
   const handleInputChange = (clId, target) => {
@@ -32,13 +32,13 @@ const ConnectionLoadTable = ({ infrastructureData, setTableCLInputValues }) => {
   };
 
   return (
-    <Box sx={{ margin: "45px", flexGrow: "1" }}>
-      <StyledTableContainer component={Paper}>
+    <Box sx={{ margin: "45px", flexGrow: "1", maxHeight: "45vh" }}>
+      <StyledTableContainer component={Paper} sx={{maxHeight: "100%", overflow:"auto"}}>
         <Table size="small" sx={{ minWidth: 50 }} aria-label="simple table">
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Time</StyledTableCell>
-              <StyledTableCell align="center">ConnectionLoad</StyledTableCell>
+              <StyledTableCell id={id} align="center">ConnectionLoad</StyledTableCell>
             </StyledTableRow>
           </TableHead>
           <TableBody>

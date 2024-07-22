@@ -9,7 +9,7 @@ import { useOpenClose } from "../../hooks/useModalToggle";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
-import { selectNumOfBadges } from "../../store/infrastructure/infrastructure.selector";
+import { selectNumOfBadges, selectShowDiscount } from "../../store/infrastructure/infrastructure.selector";
 
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -26,6 +26,10 @@ import badge from "../../assets/badge.png";
 import qualityCharging from "../../assets/qualityCharging.png";
 
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import { selectChosenElement } from "../../store/infrastructure/infrastructure.selector";
+import { selectIsSuccessful } from "../../store/infrastructure/infrastructure.selector";
+
+import "./navigation.styles.scss";
 
 import {
   DRAWER_WIDTH,
@@ -41,6 +45,8 @@ const Navigation = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const numOfBadges = useSelector(selectNumOfBadges);
+  const chosenElement = useSelector(selectChosenElement);
+  const showDiscount = useSelector(selectShowDiscount);
 
   const {
     palette: { primary },
@@ -57,12 +63,33 @@ const Navigation = () => {
     const currentPath = location.pathname;
 
     navigate(`${currentPath}/profile`);
-  }
+  };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", position: "relative" }}>
       <CssBaseline />
       <AppBar position="fixed" open={isDrawerOpen}>
+       {showDiscount && (
+        <div
+        className="discount"
+          style={{
+            width: "120px",
+            height: "40px",
+            background: "linear-gradient(to right, #fff700, #ffcc00, #ff9900, #ffcc00, #fff700)",
+            boxShadow: "0.1rem 0.1rem 0.3rem 0.1rem #997a00",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "absolute",
+            zIndex: 20,
+            borderRadius: "15px",
+            right: "70px",
+            top: "99px"
+          }}
+        >
+          {`${chosenElement.discount}% Off!`}
+        </div>
+       )} 
         <Toolbar id="drawer">
           <Box
             sx={{
@@ -97,13 +124,17 @@ const Navigation = () => {
                 Quality Charging
               </Typography>
             </Box>
-            <Box sx={{ display: "flex", alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex" }}>
                 <Typography
                   variant="subtitle2"
                   noWrap
                   component="div"
-                  sx={{ marginTop: "2px", display: "flex", alignItems: "center" }}
+                  sx={{
+                    marginTop: "2px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 >
                   {numOfBadges}
                 </Typography>
@@ -112,7 +143,10 @@ const Navigation = () => {
 
               <ThemeSelectBox />
 
-              <ManageAccountsIcon onClick={navigateToProfilePage} sx={{ margin: "0 20px", cursor: "pointer" }} />
+              <ManageAccountsIcon
+                onClick={navigateToProfilePage}
+                sx={{ margin: "0 20px", cursor: "pointer" }}
+              />
             </Box>
           </Box>
         </Toolbar>

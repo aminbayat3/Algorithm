@@ -9,7 +9,8 @@ import { StyledTableRow, StyledTableCell, StyledTableContainer } from "../table-
 import { TABLE_ELEMENT_TYPES } from "../../constants/project-constant";
 import { Box, Typography } from "@mui/material";
 
-const CarTable = ({ infrastructureData, setTableCarInputValues, children }) => {
+const CarTable = ({ infrastructureData, setTableCarInputValues, children, idCar, idTank }) => {
+  
   const handleInputChange = (carId, target) => {
     const {name, value} = target;
 
@@ -29,8 +30,8 @@ const CarTable = ({ infrastructureData, setTableCarInputValues, children }) => {
           <TableHead>
             <StyledTableRow type={TABLE_ELEMENT_TYPES.TITLE}>
               <StyledTableCell align="center">Cars</StyledTableCell>
-              <StyledTableCell align="center">Tanksize</StyledTableCell>
-              <StyledTableCell align="center">AC-Limit</StyledTableCell>
+              <StyledTableCell id={idTank} align="center">Tanksize</StyledTableCell>
+              <StyledTableCell id={idCar} align="center">AC-Limit</StyledTableCell>
             </StyledTableRow>
           </TableHead>
           {infrastructureData.cars.length > 0 ? (

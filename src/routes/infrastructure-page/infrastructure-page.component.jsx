@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import dayjs from "dayjs";
 import ReactJoyride, { STATUS } from "react-joyride";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
 
 import WallBoxTable from "../../components/wallbox-table/wallbox-table.component";
 import CarTable from "../../components/car-table/car-table.component";
@@ -13,16 +15,15 @@ import { selectInfrastructureData } from "../../store/infrastructure/infrastruct
 
 import { setNumberOfBadges } from "../../store/infrastructure/infrastructure.action";
 
-import {
-  addInfrastructureDataStart,
-} from "../../store/infrastructure/infrastructure.action";
+import { addInfrastructureDataStart } from "../../store/infrastructure/infrastructure.action";
 import { isSameOrBefore } from "../../utils/utils";
 
-import { Box } from "@mui/material";
+import { Box, useStepContext } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Heading, CustomTextField } from "./infrastructure-page.styles";
 import CustomTooltip from "../../components/custom-tool-tip/custom-tool-tip";
 import TutorialStep from "../../components/tutorial-steps/tutorial-step.component";
+import FortuneWheel from "../../components/fortune-wheel/fortune-wheel.component";
 
 import DirectionsCarFilledIcon from "@mui/icons-material/DirectionsCarFilled";
 import BatteryChargingFullIcon from "@mui/icons-material/BatteryChargingFull";
@@ -30,17 +31,38 @@ import wallboxImg from "../../assets/wallbox.png";
 import catOne from "../../assets/cat1.png";
 import catTwo from "../../assets/cat2.png";
 import catThree from "../../assets/cat3.png";
+import catFour from "../../assets/cat4.png";
+import catFive from "../../assets/cat5.png";
 import progressbarOne from "../../assets/progress-bar-one.png";
 import progressbarTwo from "../../assets/progress-bar-two.png";
 import progressbarThree from "../../assets/progress-bar-three.png";
+import progressbarFour from "../../assets/progress-bar-four.png";
+import progressbarFive from "../../assets/progress-bar-five.png";
+import progressbarSix from "../../assets/progress-bar-six.png";
+import progressbarSeven from "../../assets/progress-bar-seven.png";
+import progressbarEight from "../../assets/progress-bar-eight.png";
 
-import { TUTORIAL_TEXT_INTRODUCTION, TUTORIAL_TEXT_WALLBOX_NUMBER, TUTORIAL_TEXT_TASK_ONE_DONE, TUTORIAL_TEXT_LEG_DURATION } from "../../utils/tutorial-texts";
+import {
+  TUTORIAL_TEXT_INTRODUCTION,
+  TUTORIAL_TEXT_WALLBOX_NUMBER,
+  TUTORIAL_TEXT_TASK_ONE_DONE,
+  TUTORIAL_TEXT_LEG_DURATION,
+  TUTORIAL_TEXT_TASK_TWO_DONE,
+  TUTORIAL_TEXT_CONNECTION_LOAD,
+  TUTORIAL_TEXT_TASK_THREE_DONE,
+  TUTORIAL_TEXT_START_TIME,
+  TUTORIAL_TEXT_AC_LIMIT,
+  TUTORIAL_TEXT_TANK_SIZE,
+  TUTORIAL_TEXT_CONNECTION_LOADS,
+  TUTORIAL_TEXT_CAR_AC_LIMIT,
+  TUTORIAL_TEXT_CONGRATULATIONS,
+} from "../../utils/tutorial-texts";
 
 const defaultInputValues = {
-  numberOfWB: 1,
+  numberOfWB: null,
   startTime: dayjs().startOf("day"),
-  legSizeInMinutes: 15,
-  connectionLoad: 20,
+  legSizeInMinutes: null,
+  connectionLoad: null,
 };
 
 const InfrastructurePage = () => {
@@ -52,7 +74,24 @@ const InfrastructurePage = () => {
 
   // react tour
   const [stepIndex, setStepIndex] = useState(0);
-  const [taskStatuses, setTaskStatuses] = useState([{isTaskDone: false}, {isTaskDone: false}, {isTaskDone: false}, {isTaskDone: false}, {isTaskDone: false}, {isTaskDone: false}]);
+  const [taskStatuses, setTaskStatuses] = useState([
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+    { isTaskDone: false },
+  ]);
+  const [isTutorialCompleted, setIsTutorialCompleted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const { width, height } = useWindowSize();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [spinCount, setSpinCount] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -69,49 +108,193 @@ const InfrastructurePage = () => {
   const [steps] = useState([
     {
       target: "body",
-      content: <TutorialStep guidImage={catOne} tutorialText={TUTORIAL_TEXT_INTRODUCTION} progressBarImage={progressbarOne} />,
+      content: (
+        <TutorialStep
+          guidImage={catOne}
+          tutorialText={TUTORIAL_TEXT_INTRODUCTION}
+          progressBarImage={progressbarOne}
+        />
+      ),
       placement: "bottom",
       requiresCompletion: false,
     },
     {
       target: "#numberOfWB",
-      content: <TutorialStep guidImage={catTwo} tutorialText={TUTORIAL_TEXT_WALLBOX_NUMBER} progressBarImage={progressbarTwo} />,
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_WALLBOX_NUMBER}
+          progressBarImage={progressbarOne}
+        />
+      ),
       placement: "bottom",
       requiresCompletion: true,
     },
     {
       target: "body",
-      content: <TutorialStep guidImage={catTwo} tutorialText={TUTORIAL_TEXT_TASK_ONE_DONE} progressBarImage={progressbarTwo} />,
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_TASK_ONE_DONE}
+          progressBarImage={progressbarTwo}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#legSize",
+      content: (
+        <TutorialStep
+          guidImage={catThree}
+          tutorialText={TUTORIAL_TEXT_LEG_DURATION}
+          progressBarImage={progressbarTwo}
+        />
+      ),
       placement: "bottom",
       requiresCompletion: true,
     },
     {
-      target: "#legSize",
-      content: <TutorialStep guidImage={catThree} tutorialText={TUTORIAL_TEXT_LEG_DURATION} progressBarImage={progressbarThree} />,
+      target: "body",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_TASK_TWO_DONE}
+          progressBarImage={progressbarThree}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#connectionLoad",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_CONNECTION_LOAD}
+          progressBarImage={progressbarThree}
+        />
+      ),
       placement: "bottom",
       requiresCompletion: true,
     },
     {
-      target: "#legSize",
-      content: <TutorialStep guidImage={catTwo} tutorialText={TUTORIAL_TEXT_LEG_DURATION} progressBarImage={progressbarThree} />,
+      target: "body",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_TASK_THREE_DONE}
+          progressBarImage={progressbarFour}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#startTime",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_START_TIME}
+          progressBarImage={progressbarFour}
+        />
+      ),
       placement: "bottom",
       requiresCompletion: true,
     },
     {
-      target: "#legSize",
-      content: <TutorialStep guidImage={catTwo} tutorialText={TUTORIAL_TEXT_LEG_DURATION} progressBarImage={progressbarThree} />,
+      target: "body",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_TASK_THREE_DONE}
+          progressBarImage={progressbarFour}
+        />
+      ),
       placement: "bottom",
-      requiresCompletion: true,
+      requiresCompletion: false,
+    },
+    {
+      target: "#WbACLimit",
+      content: (
+        <TutorialStep
+          guidImage={catFour}
+          tutorialText={TUTORIAL_TEXT_AC_LIMIT}
+          progressBarImage={progressbarFour}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#TankSize",
+      content: (
+        <TutorialStep
+          guidImage={catThree}
+          tutorialText={TUTORIAL_TEXT_TANK_SIZE}
+          progressBarImage={progressbarFive}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#CarACLimit",
+      content: (
+        <TutorialStep
+          guidImage={catTwo}
+          tutorialText={TUTORIAL_TEXT_CAR_AC_LIMIT}
+          progressBarImage={progressbarSix}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "#connectionLoads",
+      content: (
+        <TutorialStep
+          guidImage={catOne}
+          tutorialText={TUTORIAL_TEXT_CONNECTION_LOADS}
+          progressBarImage={progressbarSeven}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
+    },
+    {
+      target: "body",
+      content: (
+        <TutorialStep
+          guidImage={catFive}
+          tutorialText={TUTORIAL_TEXT_CONGRATULATIONS}
+          progressBarImage={progressbarEight}
+        />
+      ),
+      placement: "bottom",
+      requiresCompletion: false,
     },
   ]);
 
   const goToNextStep = () => {
-    if(steps[stepIndex].requiresCompletion) {
+    if (steps[stepIndex].requiresCompletion) {
       stopTour();
-    } else {
+    } else if (stepIndex === (steps.length - 2)) {
+      setIsTutorialCompleted(true);
+      dispatch(setNumberOfBadges(2));
       setStepIndex((prevIndex) => prevIndex + 1);
     }
-  }
+    else if(stepIndex === (steps.length - 1)) {
+      stopTour();
+      setIsTutorialCompleted(false);
+      setIsFinished(true);
+      setIsModalOpen(true);
+    }
+    else {
+      console.log("hittting");
+      setStepIndex((prevIndex) => prevIndex + 1);
+    }
+  };
 
   const { numberOfWB, legSizeInMinutes, connectionLoad, startTime } =
     inputValues;
@@ -124,20 +307,38 @@ const InfrastructurePage = () => {
     });
 
     //handling the tour steps
-    const currentIndex = stepIndex;
-    startTour();
-    setTaskStatuses(prevStatuses => {
-      return prevStatuses.map((task, idx) => {
-        return idx === currentIndex ? ({...task, isTaskDone: true}) : task
+    if (value && (stepIndex > 0 && !taskStatuses[stepIndex - 1].isTaskDone) && !isTutorialCompleted) {
+      const currentIndex = stepIndex;
+      startTour();
+      setTaskStatuses((prevStatuses) => {
+        return prevStatuses.map((task, idx) => {
+          return idx === currentIndex ? { ...task, isTaskDone: true } : task;
+        });
       });
-    });
 
-    dispatch(setNumberOfBadges(2));
-    setStepIndex((prevIndex) => prevIndex + 1);
+      dispatch(setNumberOfBadges(2));
+      setStepIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   const onHandleDateTimeChange = (value) => {
     setInputValues((prevValue) => ({ ...prevValue, startTime: value }));
+  };
+
+  const onHandleDateTimeAccept = (value) => {
+    //handling the tour steps
+    if (value && (stepIndex && !taskStatuses[stepIndex - 1].isTaskDone) && !isTutorialCompleted) {
+      const currentIndex = stepIndex;
+      startTour();
+      setTaskStatuses((prevStatuses) => {
+        return prevStatuses.map((task, idx) => {
+          return idx === currentIndex ? { ...task, isTaskDone: true } : task;
+        });
+      });
+
+      dispatch(setNumberOfBadges(2));
+      setStepIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   const onHandleSumbit = (e) => {
@@ -255,7 +456,9 @@ const InfrastructurePage = () => {
   };
 
   return (
-    <Box sx={{ padding: "25px", minWidth: "100vh" }}>
+    <Box sx={{ padding: "25px", minWidth: "100vh", position: 'relative' }}>
+      {isFinished && (spinCount < 3) && <FortuneWheel isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setSpinCount={setSpinCount} /> }
+      {isTutorialCompleted && <Confetti width={width} height={height} />}
       <ReactJoyride
         steps={steps}
         stepIndex={stepIndex}
@@ -269,7 +472,11 @@ const InfrastructurePage = () => {
           },
         }}
         tooltipComponent={(props) => (
-          <CustomTooltip {...props} stopTour={stopTour} goToNextStep={goToNextStep} />
+          <CustomTooltip
+            {...props}
+            stopTour={stopTour}
+            goToNextStep={goToNextStep}
+          />
         )}
         callback={(data) => {
           const { status } = data;
@@ -314,13 +521,15 @@ const InfrastructurePage = () => {
             value={connectionLoad}
             name="connectionLoad"
             onChange={handleChange}
-            
+            id="connectionLoad"
             label="connection load"
             type="number"
             variant="standard"
           />
           <SimulationStartTime
+            id="startTime"
             onHandleDateTimeChange={onHandleDateTimeChange}
+            onHandleDateTimeAccept={onHandleDateTimeAccept}
             label="Start Time"
             value={startTime}
           />
@@ -364,6 +573,7 @@ const InfrastructurePage = () => {
             />
           </Box>
           <WallBoxTable
+            id="WbACLimit"
             setTableWbInputValues={setTableWbInputValues}
             wallboxes={infrastructureData.wallboxes}
           />
@@ -383,6 +593,8 @@ const InfrastructurePage = () => {
             <DirectionsCarFilledIcon sx={{ marginLeft: "15px" }} />
           </Box>
           <CarTable
+            idCar="CarACLimit"
+            idTank="TankSize"
             setTableCarInputValues={setTableCarInputValues}
             infrastructureData={infrastructureData}
           >
@@ -404,6 +616,7 @@ const InfrastructurePage = () => {
             <BatteryChargingFullIcon sx={{ marginLeft: "15px" }} />
           </Box>
           <ConnectionLoadTable
+            id="connectionLoads"
             setTableCLInputValues={setTableCLInputValues}
             infrastructureData={infrastructureData}
             connectionLoad={connectionLoad}
